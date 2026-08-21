@@ -95,6 +95,19 @@ a{color:inherit;text-decoration:none}
              linear-gradient(180deg,transparent 0,#000 2.5%,#000 97.5%,transparent 100%);
   mask-composite:intersect}
 
+/* ★넓은 화면에서 좌우 빈 면 제거 (2026-08-21 오너: "오른쪽이 비어 있어")
+   화면이 그림보다 **가로로 길 때만** 꽉 채운다. 그때는 세로만 잘리고 글씨는 위쪽에 몰려 있어 안전하다.
+   반대로 화면이 세로로 길면 cover 가 **가로를 자르고 글씨가 사라진다** — 그래서 조건부다.
+   글씨 실측 범위(원본 기준): 세로 10.4~61% · 가로 6.2~94.9%.
+   그림 비율 1.607 이고 히어로 높이가 74svh 이므로, 컨테이너가 그림보다 넓어지는 조건은
+   대략 화면비 ≥ 1.607×0.74 ≈ 1.19 다. 여유를 둬 1.25(5/4)부터 적용한다. */
+@media (min-aspect-ratio: 5/4){
+  .hero>.slide.slide-motto .over{display:block}
+  .hero>.slide.slide-motto .over>img{position:absolute;inset:0;
+    width:100%;height:100%;max-width:none;max-height:none;
+    object-fit:cover;object-position:center 30%}
+}
+
 /* 6장 × 6초 = 36초. 다음 장이 나타나기 시작한 뒤에 사라지게 겹쳐 두었다 —
    겹치지 않으면 장 사이에 검은 화면이 한 순간 번쩍인다. */
 @keyframes heroFade{
@@ -132,7 +145,7 @@ a{color:inherit;text-decoration:none}
    13px 한 줄은 딱 붙어 시작해서, 같은 x 에 놓여도 눈에는 교단명이 튀어나와 보인다.
    그래서 px 로 맞추는 대신 **칩(테두리 있는 작은 상자)** 으로 바꿨다 — 상자 변이 기준선을 만들어 주므로
    삐져나옴이 사라지고, 교회명과의 위계도 크기·명도로 분명해진다. */
-.kicker{display:inline-block;font-size:12px;letter-spacing:.02em;color:#EFE3BE;font-weight:700;
+.kicker{display:inline-block;font-size:clamp(11px,2.7vw,12.5px);letter-spacing:.02em;line-height:1.5;color:#EFE3BE;font-weight:700;
   margin:0 0 14px;padding:5px 12px;border:1px solid rgba(239,227,190,.42);border-radius:999px;
   background:rgba(10,18,32,.28)}
 /* ★위계 (2026-08-21 오너: "균형적으로 좀 세련되게")
@@ -143,10 +156,11 @@ a{color:inherit;text-decoration:none}
    대신 clamp 하한을 낮춰 대개 한 줄로 떨어지게 하고, 접히더라도 균형 있게 접히게 한다. */
 .hero h1{margin:0;font-size:clamp(24px,6.1vw,60px);line-height:1.14;font-weight:800;
   letter-spacing:-.035em;text-wrap:balance}
-.hero .sub{margin:14px 0 0;font-size:clamp(14px,3.5vw,18px);color:#E6F1F6;font-weight:600;letter-spacing:.01em}
-.hero .verse{margin:18px 0 0;font-size:clamp(13px,3.1vw,17px);line-height:1.7;color:#DCEAF1;
-  font-weight:400;max-width:38em}
-.hero .ref{margin:7px 0 0;font-size:clamp(11.5px,2.6vw,13px);color:#BFD6E1;font-weight:600;letter-spacing:.04em}
+.hero .verse{margin:16px 0 0;font-size:clamp(13px,3.1vw,17px);line-height:1.75;color:#DCEAF1;
+  font-weight:400;max-width:40em}
+/* 출처는 구절 **같은 줄**에 이어 붙인다(딴 줄로 떼지 않는다). 줄이 좁으면 자연스럽게 넘어간다. */
+.hero .verse .ref{margin-left:.5em;font-size:.85em;color:#BFD6E1;font-weight:600;letter-spacing:.03em;
+  white-space:nowrap}
 .times{margin:26px 0 0;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:15px;color:#F2EDE3}
 .times b{color:#fff;font-weight:700}
 .cta{margin:26px 0 0;display:flex;flex-wrap:wrap;gap:10px}
