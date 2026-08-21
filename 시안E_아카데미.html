@@ -281,6 +281,19 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
 .stamp{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:#8A5B00;
   background:#FFF6DE;border:1px solid #EBD79B;border-radius:999px;padding:5px 12px}
 .updated{font-size:13.5px;color:var(--mute)}
+/* ── 오늘의 통독 ── */
+.today{padding:22px 22px 14px;background:linear-gradient(180deg,#F1F8FC,#E8F2F9);
+  border-bottom:1px solid var(--line)}
+.td-label{margin:0;font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--gold)}
+.td-day{margin:6px 0 0;font-size:clamp(22px,5vw,30px);font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.td-ref{margin:4px 0 0;font-size:clamp(15px,3.6vw,18px);color:#3C4655;font-weight:600}
+.td-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 22px;
+  border-top:1px solid var(--line)}
+.td-nav button{appearance:none;border:1px solid #C6DEEC;background:#fff;color:var(--navy);
+  padding:9px 16px;border-radius:999px;font:inherit;font-size:14.5px;font-weight:700;cursor:pointer}
+.td-nav button:hover{background:#EAF4FA}
+.td-nav span{font-size:14px;color:var(--mute)}
+
 /* ── 준비 중 패널 ── */
 .ready{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
   padding:clamp(38px,8vw,64px) 20px;background:linear-gradient(180deg,#EDF5FA,#E3EFF7);
@@ -353,16 +366,34 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
       <span class="st">영상 준비 중</span></div></div>
   </div>
 
-  <div class="series fade">
-    <div class="head"><b>성경통독 365 &mdash; 어? 성경이 읽어지네</b>
-      <span>생터성경사역원 &middot; 하루 한 편 &middot; 1년 1독</span></div>
-    <div class="video"><iframe src="https://www.youtube.com/embed/lLcvMF68a7g" title="1년 1독 어? 성경! Day 234"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-    <div class="eps">
-      <div class="ep"><span class="no">오늘</span><span>Day 234 &middot; 매일 새 회차가 올라옵니다</span>
-      <span class="st"><a href="https://www.youtube.com/channel/UCD0aYL334AT347vJiXFMdPg" target="_blank" rel="noopener">전체 회차 보기 &rarr;</a></span></div>
+  <div class="series fade" id="tongdok">
+    <div class="head"><b>성경통독 365</b>
+      <span>어! 성경이 읽어지네 &middot; 하루 한 회차 &middot; 생터성경사역원 강의</span></div>
+
+    <div class="today">
+      <p class="td-label">오늘의 통독</p>
+      <p class="td-day" id="td-day">불러오는 중…</p>
+      <p class="td-ref" id="td-ref"></p>
     </div>
+    <div class="video" style="border-radius:0" id="td-video-wrap">
+      <iframe id="td-video" src="about:blank" title="오늘의 통독 강의" loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div class="ready" id="td-fallback" hidden>
+      <span class="dot"></span>
+      <b id="td-fb-title">오늘 회차를 불러오지 못했습니다</b>
+      <span><a id="td-fb-link" href="https://www.youtube.com/playlist?list=PLN0CvF5J-mpCg0_mjw8a0yT6LHErhrvxZ"
+        target="_blank" rel="noopener"><b>재생목록에서 보기 &nearr;</b></a></span>
+    </div>
+
+    <div class="td-nav">
+      <button type="button" id="td-prev">&larr; 어제</button>
+      <span id="td-pos"></span>
+      <button type="button" id="td-next">내일 &rarr;</button>
+    </div>
+    <p class="note" style="padding:0 22px 20px">
+      강의 영상은 <b>생터성경사역원</b>이 만들고 공개한 것입니다. 큰샘교회는 옮겨 싣지 않고 연결만 합니다.</p>
   </div>
 
   <p class="note">
@@ -396,6 +427,60 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
   },{threshold:.12});
   document.querySelectorAll('.fade').forEach(function(el){io.observe(el)});
+})();
+
+/* 오늘의 통독 — 회차 = 그날의 **연중 일수(KST)** 다.
+   근거: 2026-08-22 가 연중 234일째이고 그날 회차가 Day 234 였다(오너 확인).
+
+   ★윤년 함정: 2028 년은 366일이라 2월 29일 이후 하루씩 밀린다.
+     통독표는 365회차뿐이므로 **2월 29일은 전날 회차(59일차)를 유지**하고,
+     3월 1일부터 다시 맞춘다. 그래야 12월 31일이 365일차로 떨어진다.
+     (이 처리를 안 하면 윤년마다 한 회차가 통째로 밀려 그 해 내내 어긋난다.)
+
+   ★시간대를 KST 로 고정한다 — 브라우저 시간대에 맡기면 해외에서 보는 성도에게 다른 회차가 뜬다.
+     교회 통독은 한국 날짜 기준이다. */
+function 오늘회차(기준시각){
+  var d = 기준시각 || new Date();
+  var kst = new Date(d.toLocaleString('en-US', {timeZone:'Asia/Seoul'}));
+  var 연 = kst.getFullYear();
+  var 첫날 = new Date(연, 0, 1);
+  var 연중 = Math.floor((new Date(연, kst.getMonth(), kst.getDate()) - 첫날) / 86400000) + 1;
+  var 윤년 = (연 % 4 === 0 && 연 % 100 !== 0) || (연 % 400 === 0);
+  if (윤년 && 연중 > 59) 연중 -= 1;      /* 2/29 는 59일차 유지 · 그 뒤로 한 칸씩 당긴다 */
+  return Math.min(365, Math.max(1, 연중));
+}
+
+(function(){
+  var 표=null, 덮=null, 현재=오늘회차();
+  function 그리기(){
+    var r = 표 && 표.회차 && 표.회차[현재-1];
+    var 날 = document.getElementById('td-day'), 참 = document.getElementById('td-ref');
+    var 틀 = document.getElementById('td-video-wrap'), 폴 = document.getElementById('td-fallback');
+    var 위치 = document.getElementById('td-pos');
+    if(위치) 위치.textContent = 현재 + ' / 365';
+    if(!r){ if(날) 날.textContent='오늘 회차를 불러오지 못했습니다';
+            if(틀) 틀.hidden=true; if(폴) 폴.hidden=false; return; }
+    if(날) 날.textContent = r.일 + '일차';
+    if(참) 참.textContent = r.범위 || '';
+    var id = (덮 && 덮.덮어쓰기 && 덮.덮어쓰기[String(r.일)]) || r.영상;   /* 덮어쓰기가 이긴다 */
+    var 프레임 = document.getElementById('td-video');
+    if(id && 프레임){
+      프레임.src = 'https://www.youtube.com/embed/' + id;
+      if(틀) 틀.hidden=false; if(폴) 폴.hidden=true;
+    } else {
+      /* ★영상이 없으면 빈 iframe 을 두지 않는다 — 방문자에게는 고장으로 보인다. */
+      if(틀) 틀.hidden=true;
+      if(폴){ 폴.hidden=false; document.getElementById('td-fb-title').textContent='이 회차 영상은 준비 중입니다'; }
+    }
+  }
+  function 이동(n){ 현재 = ((현재-1+n)%365+365)%365 + 1; 그리기(); }
+  var p=document.getElementById('td-prev'), x=document.getElementById('td-next');
+  if(p) p.addEventListener('click', function(){이동(-1)});
+  if(x) x.addEventListener('click', function(){이동(1)});
+  Promise.all([
+    fetch('통독_365.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
+    fetch('통독_영상_덮어쓰기.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})
+  ]).then(function(v){ 표=v[0]; 덮=v[1]; 그리기(); });
 })();
 </script>
 </body>
