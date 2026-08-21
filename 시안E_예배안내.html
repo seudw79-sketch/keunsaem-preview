@@ -260,6 +260,15 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
 .stamp{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:#8A5B00;
   background:#FFF6DE;border:1px solid #EBD79B;border-radius:999px;padding:5px 12px}
 .updated{font-size:13.5px;color:var(--mute)}
+/* ── 준비 중 패널 ── */
+.ready{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:clamp(38px,8vw,64px) 20px;background:linear-gradient(180deg,#EDF5FA,#E3EFF7);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+.ready b{font-size:17px;color:var(--navy);letter-spacing:-.02em}
+.ready span:last-child{font-size:14px;color:var(--mute)}
+.ready .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 0 6px rgba(45,123,140,.14)}
+
 /* ── 아카데미 ── */
 .series{border:1px solid var(--line);border-radius:var(--r);background:var(--paper);overflow:hidden;margin:0 0 16px}
 .series>.head{padding:20px 22px;border-bottom:1px solid var(--line)}

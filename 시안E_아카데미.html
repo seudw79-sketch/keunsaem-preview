@@ -260,6 +260,15 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
 .stamp{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:#8A5B00;
   background:#FFF6DE;border:1px solid #EBD79B;border-radius:999px;padding:5px 12px}
 .updated{font-size:13.5px;color:var(--mute)}
+/* ── 준비 중 패널 ── */
+.ready{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:clamp(38px,8vw,64px) 20px;background:linear-gradient(180deg,#EDF5FA,#E3EFF7);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+.ready b{font-size:17px;color:var(--navy);letter-spacing:-.02em}
+.ready span:last-child{font-size:14px;color:var(--mute)}
+.ready .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 0 6px rgba(45,123,140,.14)}
+
 /* ── 아카데미 ── */
 .series{border:1px solid var(--line);border-radius:var(--r);background:var(--paper);overflow:hidden;margin:0 0 16px}
 .series>.head{padding:20px 22px;border-bottom:1px solid var(--line)}
@@ -299,9 +308,16 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
   <div class="series fade">
     <div class="head"><b>어? 성경이 읽어지네</b>
       <span>주일 성경공부 교재 강의 &middot; 담임목사 직강</span></div>
-    <div class="video" style="border-radius:0">
-      <iframe src="about:blank" title="강의 영상 자리" loading="lazy"
-        style="background:#0D1420"></iframe>
+    <!-- ★빈 iframe(about:blank)을 두지 않는다 — 방문자에게는 **고장 난 플레이어**로 보인다.
+         자리표시는 "비어 있다"가 아니라 "아직 안 올렸다"로 읽혀야 한다.
+         영상 주소가 오면 이 div 를 아래 한 줄로 바꾸면 끝이다:
+         <div class="video"><iframe src="https://www.youtube.com/embed/영상ID" title="…"
+           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div> -->
+    <div class="ready">
+      <span class="dot"></span>
+      <b>강의 영상을 준비하고 있습니다</b>
+      <span>영상이 올라오면 이 자리에서 바로 보실 수 있습니다.</span>
     </div>
     <div class="eps">
       <div class="ep"><span class="no">1강</span><span>회차 제목이 들어갑니다</span>
