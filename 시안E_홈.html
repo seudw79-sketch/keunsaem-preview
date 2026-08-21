@@ -131,7 +131,10 @@ a{color:inherit;text-decoration:none}
 }
 /* ★2026-08-21 오너: "왜 배경이 그라데이션이야?" → 3단 그라데이션을 걷고 **단색 스크림 하나**로.
    사진 위 흰 글자라 가독은 지켜야 하므로 완전 투명으로 두지 않고 고른 농도 한 겹만 덮는다. */
-.hero::after{content:"";position:absolute;inset:0;background:rgba(12,32,44,.50);
+/* ★2026-08-21 오너 확정: 사진 장의 글씨를 전부 뺐다("그냥 다 지우고 깔끔하게 사진만").
+   덮을 글씨가 없으니 스크림도 거의 필요 없다 — 사진이 살도록 아주 옅게만 남긴다.
+   0 으로 두지 않는 이유는 상단 sticky 내비와 사진이 맞닿는 자리의 대비 때문이다. */
+.hero::after{content:"";position:absolute;inset:0;background:rgba(12,32,44,.10);
   opacity:0;animation:overlayFade 36s linear infinite}
 /* 스크림을 단색 한 겹으로 줄인 대신, 밝은 사진 위에서도 글자가 읽히도록 **그림자**로만 보완한다.
    (그라데이션을 다시 넣지 않기 위한 처리다 — 오너가 그라데이션을 거슬려 했다) */
@@ -354,13 +357,6 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
       <source srcset="사진/web/c4b.webp" type="image/webp">
       <img src="사진/web/c4b.jpg" alt="골목길을 걸으며 전하는 발걸음" loading="lazy" decoding="async">
     </picture>
-  </div>
-  <div class="wrap">
-    <p class="kicker">2026년 표어</p>
-    <h1>아는 신앙에서 사는 믿음으로</h1>
-    <p class="sub">모든 성도가 말씀으로 살아내는 교회</p>
-    <p class="verse">&ldquo;너희는 말씀을 행하는 자가 되고 듣기만 하여 자신을 속이는 자가 되지 말라&rdquo;
-      <span class="ref">야고보서 1:22</span></p>
   </div>
 </section>
 
