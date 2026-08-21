@@ -95,18 +95,11 @@ a{color:inherit;text-decoration:none}
              linear-gradient(180deg,transparent 0,#000 2.5%,#000 97.5%,transparent 100%);
   mask-composite:intersect}
 
-/* ★넓은 화면에서 좌우 빈 면 제거 (2026-08-21 오너: "오른쪽이 비어 있어")
-   화면이 그림보다 **가로로 길 때만** 꽉 채운다. 그때는 세로만 잘리고 글씨는 위쪽에 몰려 있어 안전하다.
-   반대로 화면이 세로로 길면 cover 가 **가로를 자르고 글씨가 사라진다** — 그래서 조건부다.
-   글씨 실측 범위(원본 기준): 세로 10.4~61% · 가로 6.2~94.9%.
-   그림 비율 1.607 이고 히어로 높이가 74svh 이므로, 컨테이너가 그림보다 넓어지는 조건은
-   대략 화면비 ≥ 1.607×0.74 ≈ 1.19 다. 여유를 둬 1.25(5/4)부터 적용한다. */
-@media (min-aspect-ratio: 5/4){
-  .hero>.slide.slide-motto .over{display:block}
-  .hero>.slide.slide-motto .over>img{position:absolute;inset:0;
-    width:100%;height:100%;max-width:none;max-height:none;
-    object-fit:cover;object-position:center 30%}
-}
+/* ★표어 장은 **원본을 통째로, 비율 그대로** 보여준다 (2026-08-21 오너 확정).
+   오너: "표어가 가로로만 넓혀졌고 위아래 너무 좁아. 원래 표어는 아래 그림들이 이쁘다."
+   ⇒ 확대·크롭 조항은 폐기했다. 늘리지도 자르지도 않는다 —
+     하늘부터 마을 일러스트까지 전부 보이고, 남는 자리는 흐림층이 받는다.
+     좌우가 비어 보이는 문제는 **대칭이면 자연스럽다**는 판단이다. */
 
 /* 6장 × 6초 = 36초. 다음 장이 나타나기 시작한 뒤에 사라지게 겹쳐 두었다 —
    겹치지 않으면 장 사이에 검은 화면이 한 순간 번쩍인다. */
