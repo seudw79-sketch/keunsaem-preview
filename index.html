@@ -62,34 +62,58 @@ a{color:inherit;text-decoration:none}
 /* ★히어로 = 활동 사진 슬라이드 (2026-08-21 오너: "여러 큰샘교회 사진을 올려서 활동적인 모습")
    외부 라이브러리 없이 **CSS 애니메이션만** 쓴다. 슬라이드마다 시작 시각을 밀어 두면
    JS 없이도 잔잔한 크로스페이드가 돈다 — 스크립트가 죽어도 사진은 계속 바뀐다. */
-.hero>picture{position:absolute;inset:0;display:block;opacity:0;
+.hero>.slide{position:absolute;inset:0;display:block;opacity:0;
   animation:heroFade 36s linear infinite}
-.hero>picture>img,.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-/* ★표어 장만 cover 가 아니라 contain 이다.
-   활동 사진은 잘려도 되지만 **표어는 글씨가 본체**라 잘리면 아무 의미가 없다(360px 에서 실제로 잘렸다).
-   히어로 바탕을 표어와 같은 하늘색으로 두어 남는 자리가 이어져 보이게 했다. */
-.hero>picture:nth-of-type(1)>img{object-fit:contain}
+.hero>.slide picture,.hero>.slide>img{position:absolute;inset:0;display:block}
+.hero>.slide picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ★표어 장 — 「흐림 밑깔기」 (2026-08-21 오너: "표어만 정사각형이고 옆이 구분되어 보인다")
+   앞선 판은 contain + 단색 채움이었는데, 표어 배경이 **균일한 단색이 아니라 질감·그라데이션**이라
+   flat 색으로는 이어 붙지 않고 **직선 경계**가 보였다. 그래서 두 겹으로 바꿨다:
+     아래층 = 같은 그림을 cover 로 꽉 채우고 강하게 흐린다 → 화면 전체가 표어의 색·질감이 된다
+     위층   = 표어 원본을 또렷하게, 다만 **박스를 그림 크기와 같게** 만든다
+   ★위층에 object-fit:contain 을 쓰지 않는 이유: contain 은 박스가 화면 전체라 **가장자리 마스크가
+     그림 가장자리에 걸리지 않는다.** 그림과 박스를 일치시켜야 페더가 실제 경계에 걸린다. */
+.slide-motto .under{width:100%;height:100%;object-fit:cover;
+  filter:blur(34px);transform:scale(1.14)}      /* 살짝 키워 흐림 가장자리 번짐을 막는다 */
+.slide-motto .over{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+/* ★선택자 특이도 주의: 위의 `.hero>.slide picture>img`(cover) 가 (0,2,2) 라
+   `.slide-motto .over img` (0,2,1) 로는 **밀린다.** 넓은 화면에서는 비율이 비슷해 안 보이다가
+   360px 에서 표어가 잘려서 드러났다. 그래서 같은 뿌리에서 더 구체적으로 적는다. */
+.hero>.slide.slide-motto .over>img{position:static;inset:auto;width:auto;height:auto;
+  max-width:100%;max-height:100%;object-fit:initial;
+  /* 가장자리만 서서히 투명 — 또렷한 층과 흐린 층 사이의 선을 지운다.
+     3% 만 먹인다: 표어 글씨가 오른쪽 94% 지점까지 가므로 더 넓게 먹이면 글자가 흐려진다. */
+  /* ★마스크는 **한 겹만** 쓴다. 두 겹을 -webkit-mask-composite:source-in 으로 합쳤더니
+     가장자리만이 아니라 **그림 전체 알파가 깎여** 표어가 통째로 옅어졌다(실측).
+     한 겹으로도 네 변이 다 페더된다 — 사각형 모서리를 둥글게 깎는 대신 상하좌우를 함께 잡는다. */
+  /* ★가장자리만 페더한다. 축별 그라데이션 두 겹을 **표준 mask-composite:intersect** 로 합친다.
+     -webkit-mask-composite:source-in 을 함께 쓰면 전면 알파가 깎여 표어가 통째로 옅어진다(실측).
+     방사형 한 겹도 안 된다 — 그림이 가로로 길어 오른쪽 글자가 페이드 구간에 들어간다(실측).
+     페더 폭 2.5%: 표어 글씨가 가로 94% 지점까지 가므로 그보다 바깥만 건드린다. */
+  mask-image:linear-gradient(90deg,transparent 0,#000 2.5%,#000 97.5%,transparent 100%),
+             linear-gradient(180deg,transparent 0,#000 2.5%,#000 97.5%,transparent 100%);
+  mask-composite:intersect}
+
 /* 6장 × 6초 = 36초. 다음 장이 나타나기 시작한 뒤에 사라지게 겹쳐 두었다 —
    겹치지 않으면 장 사이에 검은 화면이 한 순간 번쩍인다. */
 @keyframes heroFade{
   0%{opacity:0} 2.5%{opacity:1} 16.7%{opacity:1} 19.5%{opacity:0} 100%{opacity:0}
 }
-/* ★표어 장(1번)에서는 얹는 글자와 스크림을 **뺀다** — 이미지에 이미 표어 글씨가 있어 겹치면 지저분하다.
-   그래서 글자층과 스크림에 같은 리듬의 역위상 애니메이션을 걸었다. */
+/* ★표어 장(1번)에서는 얹는 글자와 스크림을 **뺀다** — 이미지에 이미 표어 글씨가 있어 겹치면 지저분하다. */
 @keyframes overlayFade{
   0%{opacity:0} 17%{opacity:0} 21%{opacity:1} 97%{opacity:1} 100%{opacity:0}
 }
-/* 첫 장은 지연 없이 바로 보인다(빈 화면으로 시작하지 않게) */
-.hero>picture:nth-of-type(1){animation-delay:0s}
-.hero>picture:nth-of-type(2){animation-delay:6s}
-.hero>picture:nth-of-type(3){animation-delay:12s}
-.hero>picture:nth-of-type(4){animation-delay:18s}
-.hero>picture:nth-of-type(5){animation-delay:24s}
-.hero>picture:nth-of-type(6){animation-delay:30s}
+.hero>.slide:nth-of-type(1){animation-delay:0s}
+.hero>.slide:nth-of-type(2){animation-delay:6s}
+.hero>.slide:nth-of-type(3){animation-delay:12s}
+.hero>.slide:nth-of-type(4){animation-delay:18s}
+.hero>.slide:nth-of-type(5){animation-delay:24s}
+.hero>.slide:nth-of-type(6){animation-delay:30s}
 @media(prefers-reduced-motion:reduce){
   /* 움직임을 원치 않는 분에게는 표어 장만 고정으로 보여 준다(글자·스크림 없이). */
-  .hero>picture{animation:none;opacity:0}
-  .hero>picture:nth-of-type(1){opacity:1}
+  .hero>.slide{animation:none;opacity:0}
+  .hero>.slide:nth-of-type(1){opacity:1}
   .hero .wrap,.hero::after{animation:none;opacity:0}
   .hero .wrap{position:absolute;pointer-events:none}
 }
@@ -267,30 +291,43 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
 
 
 <section class="hero">
-  <picture>
-    <source srcset="사진/web/표어2026.webp" type="image/webp">
-    <img src="사진/web/표어2026.jpg" alt="2026년 큰샘교회 표어 — 아는 신앙에서 사는 믿음으로" fetchpriority="high">
-  </picture>
-  <picture>
-    <source srcset="사진/web/c4a.webp" type="image/webp">
-    <img src="사진/web/c4a.jpg" alt="어깨띠를 두르고 거리로 나선 성도들" loading="lazy" decoding="async">
-  </picture>
-  <picture>
-    <source srcset="사진/web/c2b.webp" type="image/webp">
-    <img src="사진/web/c2b.jpg" alt="탁자에 둘러앉아 공부하는 성도들" loading="lazy" decoding="async">
-  </picture>
-  <picture>
-    <source srcset="사진/web/c3c.webp" type="image/webp">
-    <img src="사진/web/c3c.jpg" alt="마이크를 잡고 순서를 맡은 어린이들" loading="lazy" decoding="async">
-  </picture>
-  <picture>
-    <source srcset="사진/web/c1c.webp" type="image/webp">
-    <img src="사진/web/c1c.jpg" alt="성찬을 나누는 성도들" loading="lazy" decoding="async">
-  </picture>
-  <picture>
-    <source srcset="사진/web/c4b.webp" type="image/webp">
-    <img src="사진/web/c4b.jpg" alt="골목길을 걸으며 전하는 발걸음" loading="lazy" decoding="async">
-  </picture>
+  <div class="slide slide-motto">
+    <img class="under" src="사진/web/표어2026.jpg" alt="" aria-hidden="true" fetchpriority="high">
+    <picture class="over">
+      <source srcset="사진/web/표어2026.webp" type="image/webp">
+      <img src="사진/web/표어2026.jpg" alt="2026년 큰샘교회 표어 — 아는 신앙에서 사는 믿음으로">
+    </picture>
+  </div>
+  <div class="slide">
+    <picture>
+      <source srcset="사진/web/c4a.webp" type="image/webp">
+      <img src="사진/web/c4a.jpg" alt="어깨띠를 두르고 거리로 나선 성도들" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="slide">
+    <picture>
+      <source srcset="사진/web/c2b.webp" type="image/webp">
+      <img src="사진/web/c2b.jpg" alt="탁자에 둘러앉아 공부하는 성도들" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="slide">
+    <picture>
+      <source srcset="사진/web/c3c.webp" type="image/webp">
+      <img src="사진/web/c3c.jpg" alt="마이크를 잡고 순서를 맡은 어린이들" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="slide">
+    <picture>
+      <source srcset="사진/web/c1c.webp" type="image/webp">
+      <img src="사진/web/c1c.jpg" alt="성찬을 나누는 성도들" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="slide">
+    <picture>
+      <source srcset="사진/web/c4b.webp" type="image/webp">
+      <img src="사진/web/c4b.jpg" alt="골목길을 걸으며 전하는 발걸음" loading="lazy" decoding="async">
+    </picture>
+  </div>
   <div class="wrap">
     <p class="kicker">2026년 표어</p>
     <h1>아는 신앙에서 사는 믿음으로</h1>
