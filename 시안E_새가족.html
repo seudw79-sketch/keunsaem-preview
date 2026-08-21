@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>새가족 안내 · 큰샘교회</title>
+<meta name="description" content="큰샘교회에 처음 오시는 분께">
+<style>
+:root{
+  /* ★2026 표어 아트에서 뽑은 색이다 (사진/web/표어2026.png 실측):
+     하늘 #C4E4F8 · 청록 캘리 #2D7B8C · 딥블루 #0E6E9B.
+     종전 딥네이비+골드는 표어의 밝은 하늘색과 어긋났다 — 교회의 실제 아이덴티티에 사이트를 맞춘다. */
+  --white:#F6FBFE; --paper:#FFFFFF; --sky:#C8E6F9;   /* 표어 아트 가장자리 실측색 — 여백이 이어져 보이게 */
+  --navy:#0E5B76; --navy-2:#0E6E9B; --gold:#2D7B8C;
+  --ink:#17323D; --mute:#5F7A88; --line:#DCE8F0;
+  --wrap:1160px; --r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--white);color:var(--ink);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  font-size:16px;line-height:1.75;letter-spacing:-.01em;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 20px}
+
+/* ── sticky 상단 내비 ── */
+.nav{position:sticky;top:0;z-index:50;background:rgba(246,251,254,.86);
+  backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:14px;height:58px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.02em;font-size:17px;
+  color:var(--navy);white-space:nowrap;flex:0 0 auto}
+.brand img{height:26px;width:auto}
+/* ★메뉴가 7개다. 어떤 너비에서도 **글자 중간에서 줄바꿈되지 않게** 한다 —
+   760px 에서 "큰샘교/회", "교회소/개" 로 쪼개진 것을 실측하고 고쳤다.
+   안 들어가면 줄을 바꾸는 대신 **가로로 밀어 본다**(끝을 흐려 더 있음을 알린다). */
+.nav nav{margin-left:auto;display:flex;align-items:center;gap:4px;flex-wrap:nowrap;
+  overflow-x:auto;scrollbar-width:none;min-width:0;
+  -webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);
+  mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.nav nav::-webkit-scrollbar{display:none}
+.nav nav a,.nav .live{white-space:nowrap;flex:0 0 auto}
+.nav nav a{padding:8px 11px;border-radius:999px;font-size:14.5px;font-weight:600;color:#3C4655}
+.nav nav a:hover{background:#E3F0F9;color:var(--navy)}
+.nav .live{background:var(--navy);color:#fff;padding:8px 15px;border-radius:999px;font-size:14px;font-weight:700}
+@media(max-width:640px){
+  .nav .wrap{height:54px;gap:8px;padding:0 14px}
+  .brand span.en{display:none}
+  .nav nav{gap:0}
+  .nav nav a{padding:7px 7px;font-size:13px;white-space:nowrap}
+  /* ★모바일에서는 상단의 '온라인 예배' 버튼을 감춘다.
+     360px 에서 이 버튼이 세 링크를 화면 밖으로 밀어내 메뉴가 글자 중간에서 잘렸다(실측).
+     같은 링크가 히어로 버튼과 푸터에 이미 있으므로 잃는 경로가 없다. */
+  .nav .live{display:none}
+}
+
+/* ── 히어로 ── */
+.hero{position:relative;min-height:74svh;display:flex;align-items:flex-end;
+  color:#fff;overflow:hidden;background:var(--sky)}
+/* ★jpg 폴백을 위해 img 를 <picture> 로 감쌌더니 '.hero>img' 가 빗나가 히어로가 통째로 깨졌다(실측).
+   감싸개와 안쪽 img 를 각각 지정한다 — 선택자는 마크업을 바꾸면 같이 봐야 한다. */
+/* ★히어로 = 활동 사진 슬라이드 (2026-08-21 오너: "여러 큰샘교회 사진을 올려서 활동적인 모습")
+   외부 라이브러리 없이 **CSS 애니메이션만** 쓴다. 슬라이드마다 시작 시각을 밀어 두면
+   JS 없이도 잔잔한 크로스페이드가 돈다 — 스크립트가 죽어도 사진은 계속 바뀐다. */
+.hero>picture{position:absolute;inset:0;display:block;opacity:0;
+  animation:heroFade 36s linear infinite}
+.hero>picture>img,.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* ★표어 장만 cover 가 아니라 contain 이다.
+   활동 사진은 잘려도 되지만 **표어는 글씨가 본체**라 잘리면 아무 의미가 없다(360px 에서 실제로 잘렸다).
+   히어로 바탕을 표어와 같은 하늘색으로 두어 남는 자리가 이어져 보이게 했다. */
+.hero>picture:nth-of-type(1)>img{object-fit:contain}
+/* 6장 × 6초 = 36초. 다음 장이 나타나기 시작한 뒤에 사라지게 겹쳐 두었다 —
+   겹치지 않으면 장 사이에 검은 화면이 한 순간 번쩍인다. */
+@keyframes heroFade{
+  0%{opacity:0} 2.5%{opacity:1} 16.7%{opacity:1} 19.5%{opacity:0} 100%{opacity:0}
+}
+/* ★표어 장(1번)에서는 얹는 글자와 스크림을 **뺀다** — 이미지에 이미 표어 글씨가 있어 겹치면 지저분하다.
+   그래서 글자층과 스크림에 같은 리듬의 역위상 애니메이션을 걸었다. */
+@keyframes overlayFade{
+  0%{opacity:0} 17%{opacity:0} 21%{opacity:1} 97%{opacity:1} 100%{opacity:0}
+}
+/* 첫 장은 지연 없이 바로 보인다(빈 화면으로 시작하지 않게) */
+.hero>picture:nth-of-type(1){animation-delay:0s}
+.hero>picture:nth-of-type(2){animation-delay:6s}
+.hero>picture:nth-of-type(3){animation-delay:12s}
+.hero>picture:nth-of-type(4){animation-delay:18s}
+.hero>picture:nth-of-type(5){animation-delay:24s}
+.hero>picture:nth-of-type(6){animation-delay:30s}
+@media(prefers-reduced-motion:reduce){
+  /* 움직임을 원치 않는 분에게는 표어 장만 고정으로 보여 준다(글자·스크림 없이). */
+  .hero>picture{animation:none;opacity:0}
+  .hero>picture:nth-of-type(1){opacity:1}
+  .hero .wrap,.hero::after{animation:none;opacity:0}
+  .hero .wrap{position:absolute;pointer-events:none}
+}
+/* ★2026-08-21 오너: "왜 배경이 그라데이션이야?" → 3단 그라데이션을 걷고 **단색 스크림 하나**로.
+   사진 위 흰 글자라 가독은 지켜야 하므로 완전 투명으로 두지 않고 고른 농도 한 겹만 덮는다. */
+.hero::after{content:"";position:absolute;inset:0;background:rgba(12,32,44,.50);
+  opacity:0;animation:overlayFade 36s linear infinite}
+/* 스크림을 단색 한 겹으로 줄인 대신, 밝은 사진 위에서도 글자가 읽히도록 **그림자**로만 보완한다.
+   (그라데이션을 다시 넣지 않기 위한 처리다 — 오너가 그라데이션을 거슬려 했다) */
+.hero .wrap{position:relative;z-index:2;padding-top:64px;padding-bottom:44px;
+  text-shadow:0 2px 14px rgba(6,26,36,.55);opacity:0;animation:overlayFade 36s linear infinite}
+.hero .btn{text-shadow:none}
+/* ★교단명 표기 (2026-08-21 오너 피드백 수리)
+   문제 둘: (a) 크기가 애매했다 (b) 교회명보다 **왼쪽으로 삐죽 나와 보였다**.
+   (b)의 원인은 정렬 오류가 아니라 **글자 옆여백**이다 — 74px '큰'은 글자 왼쪽에 여백을 갖고 시작하는데
+   13px 한 줄은 딱 붙어 시작해서, 같은 x 에 놓여도 눈에는 교단명이 튀어나와 보인다.
+   그래서 px 로 맞추는 대신 **칩(테두리 있는 작은 상자)** 으로 바꿨다 — 상자 변이 기준선을 만들어 주므로
+   삐져나옴이 사라지고, 교회명과의 위계도 크기·명도로 분명해진다. */
+.kicker{display:inline-block;font-size:12px;letter-spacing:.02em;color:#EFE3BE;font-weight:700;
+  margin:0 0 14px;padding:5px 12px;border:1px solid rgba(239,227,190,.42);border-radius:999px;
+  background:rgba(10,18,32,.28)}
+/* ★위계 (2026-08-21 오너: "균형적으로 좀 세련되게")
+   제목 한 줄 → 부제 → 구절 한 줄 → 출처. 크기·색·자간을 단계마다 확실히 낮춰 층을 만든다.
+   제목은 화면이 좁아지면 글자만 줄어들 뿐 줄이 늘지 않게 clamp 하한을 낮게 잡았다. */
+/* ★nowrap 을 쓰지 않는다 — 360px 에서 13자가 아슬아슬해 넘칠 수 있고,
+   헤드리스가 500px 미만을 못 재서 **확인할 수 없는 위험**이 된다. 확인 못 할 위험은 없앤다.
+   대신 clamp 하한을 낮춰 대개 한 줄로 떨어지게 하고, 접히더라도 균형 있게 접히게 한다. */
+.hero h1{margin:0;font-size:clamp(24px,6.1vw,60px);line-height:1.14;font-weight:800;
+  letter-spacing:-.035em;text-wrap:balance}
+.hero .sub{margin:14px 0 0;font-size:clamp(14px,3.5vw,18px);color:#E6F1F6;font-weight:600;letter-spacing:.01em}
+.hero .verse{margin:18px 0 0;font-size:clamp(13px,3.1vw,17px);line-height:1.7;color:#DCEAF1;
+  font-weight:400;max-width:38em}
+.hero .ref{margin:7px 0 0;font-size:clamp(11.5px,2.6vw,13px);color:#BFD6E1;font-weight:600;letter-spacing:.04em}
+.times{margin:26px 0 0;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:15px;color:#F2EDE3}
+.times b{color:#fff;font-weight:700}
+.cta{margin:26px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:14px 22px;border-radius:999px;
+  font-weight:700;font-size:15.5px;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-g{background:var(--gold);color:#fff;box-shadow:0 8px 22px rgba(45,123,140,.30)}
+.btn-o{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.42)}
+@media(max-width:640px){
+  .hero{min-height:56svh}
+  .hero .wrap{padding:56px 18px 34px}
+  .cta{flex-direction:column;align-items:stretch}
+  .btn{justify-content:center;width:100%}
+}
+
+/* ── 행동 바 — 히어로 아래에 **항상** 있다 ──
+   표어 장에서는 히어로 글자가 사라지므로, 버튼까지 함께 사라지면 6초마다 갈 곳이 없어진다.
+   그래서 버튼을 히어로 밖으로 내렸다. 사라지는 CTA 는 CTA 가 아니다. */
+.actions{background:var(--paper);border-bottom:1px solid var(--line)}
+.actions .wrap{display:flex;align-items:center;gap:14px 18px;flex-wrap:wrap;padding-top:16px;padding-bottom:16px}
+.actions .t{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:15px;color:var(--ink)}
+.actions .t b{color:var(--navy)}
+.actions .g{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap}
+.actions .btn{padding:11px 18px;font-size:14.5px}
+.actions .btn-o{background:#fff;color:var(--navy);border:1px solid #BFDCEA}
+@media(max-width:640px){
+  .actions .g{margin-left:0;width:100%}
+  .actions .btn{flex:1 1 auto;justify-content:center}
+}
+
+/* ── 이번 주 블록 ── */
+.week{padding:clamp(46px,8vw,86px) 0 clamp(52px,9vw,96px)}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin:0 0 22px;flex-wrap:wrap}
+.sec-head h2{margin:0;font-size:clamp(24px,5.6vw,34px);font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.sec-head p{margin:0;color:var(--mute);font-size:14.5px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:860px){.cards{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:22px 22px 20px;display:flex;flex-direction:column;gap:9px;
+  transition:box-shadow .18s,transform .18s,border-color .18s}
+.card:hover{box-shadow:0 14px 34px rgba(14,91,118,.12);transform:translateY(-2px);border-color:#C6DEEC}
+.tag{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--gold)}
+.card .t{font-size:20px;font-weight:800;letter-spacing:-.02em;color:var(--navy);line-height:1.35}
+.card .s{font-size:14.5px;color:var(--mute)}
+.card .go{margin-top:auto;padding-top:12px;font-size:14.5px;font-weight:700;color:var(--navy-2)}
+
+/* ── 하위 페이지 본문 ── */
+/* ★하위 페이지 머리: 짙은 남색 덩어리가 무겁다는 지적을 받아 **웜화이트 단색 + 진한 글자**로 바꿨다.
+   본문과 같은 바탕이라 페이지가 한 장으로 이어져 보인다. */
+.page-head{background:var(--white);color:var(--navy);border-bottom:1px solid var(--line);
+  padding:clamp(40px,7vw,68px) 0 clamp(24px,4vw,36px)}
+.page-head h1{margin:6px 0 0;font-size:clamp(30px,7vw,50px);font-weight:800;letter-spacing:-.03em}
+.page-head p{margin:12px 0 0;color:var(--mute);font-size:16px;max-width:34em}
+.page-head .kicker{color:#1E6377;border-color:#BFDCEA;background:#E7F3FA}
+.body{padding:clamp(40px,7vw,74px) 0 clamp(52px,9vw,92px)}
+.block{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(20px,4vw,30px);margin:0 0 16px}
+.block h3{margin:0 0 10px;font-size:19px;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+.block p{margin:0 0 8px}
+.block p:last-child{margin-bottom:0}
+.rows{display:grid;gap:10px}
+.row{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:0}
+.row b{font-weight:700;color:var(--navy)}
+.row span{color:var(--mute);white-space:nowrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:760px){.gal{grid-template-columns:repeat(2,1fr)}}
+.gal img{border-radius:12px;aspect-ratio:4/3;object-fit:cover;width:100%}
+.note{font-size:13.5px;color:var(--mute);line-height:1.7}
+.ext{border:1px dashed #C6CCD6;border-radius:14px;padding:16px 18px;background:#fff}
+.ext .chip{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.1em;
+  color:#5A6577;border:1px solid #C6CCD6;border-radius:999px;padding:3px 10px;margin-bottom:9px}
+.video{position:relative;padding-top:56.25%;border-radius:14px;overflow:hidden;background:#000}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* ── 푸터 ── */
+footer{background:#0E4A60;color:#CFE4EE;padding:clamp(38px,7vw,60px) 0 34px;font-size:14.5px}
+footer .ftop{display:flex;flex-wrap:wrap;gap:22px 40px;align-items:flex-start}
+footer h4{margin:0 0 8px;color:#fff;font-size:17px;font-weight:800;letter-spacing:-.02em}
+footer a{color:#DDEEF6}
+footer .fnav{display:flex;flex-wrap:wrap;gap:8px 16px;margin-left:auto}
+footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16);
+  color:#9FBECD;font-size:13px}
+@media(max-width:640px){footer .fnav{margin-left:0}}
+
+/* ── 영상 3단 ── */
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:880px){.vgrid{grid-template-columns:1fr}}
+.vcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.vcard .cap{padding:14px 16px 16px}
+.vcard .cap b{display:block;font-size:17px;color:var(--navy);letter-spacing:-.02em}
+.vcard .cap span{font-size:13.5px;color:var(--mute)}
+/* ── 재정 표·막대 ── */
+.fin{width:100%;border-collapse:collapse;font-size:15px}
+.fin th,.fin td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left}
+.fin th{font-size:13px;color:var(--mute);font-weight:700;letter-spacing:.02em}
+.fin td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fin tr:last-child td{border-bottom:0}
+.fin tfoot td{font-weight:800;color:var(--navy);border-top:2px solid var(--navy)}
+.bars{display:grid;gap:9px;margin:6px 0 0}
+.bar{display:grid;grid-template-columns:7.5em 1fr auto;align-items:center;gap:10px;font-size:14px}
+.bar .lab{color:#3C4655}
+.bar .track{background:#E3EDF4;border-radius:5px;height:14px;overflow:hidden}
+/* ★display:block 이 없으면 인라인 span 이라 height:100% 가 먹지 않아 **막대가 통째로 안 보인다**(실측).
+   막대는 기준선(왼쪽)에 붙이고 **데이터 끝만** 둥글게 한다. */
+.bar .fill{display:block;height:100%;border-radius:0 4px 4px 0}
+.bar .val{font-variant-numeric:tabular-nums;color:#3C4655;font-weight:700}
+@media(max-width:520px){.bar{grid-template-columns:6em 1fr auto;font-size:13px}}
+.stamp{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:#8A5B00;
+  background:#FFF6DE;border:1px solid #EBD79B;border-radius:999px;padding:5px 12px}
+.updated{font-size:13.5px;color:var(--mute)}
+/* ── 아카데미 ── */
+.series{border:1px solid var(--line);border-radius:var(--r);background:var(--paper);overflow:hidden;margin:0 0 16px}
+.series>.head{padding:20px 22px;border-bottom:1px solid var(--line)}
+.series>.head b{display:block;font-size:20px;color:var(--navy);font-weight:800;letter-spacing:-.02em}
+.series>.head span{font-size:14px;color:var(--mute)}
+.eps{display:grid;gap:0}
+.ep{display:grid;grid-template-columns:3.4em 1fr auto;gap:12px;align-items:center;
+  padding:13px 22px;border-bottom:1px solid var(--line);font-size:15px}
+.ep:last-child{border-bottom:0}
+.ep .no{font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.ep .st{font-size:13px;color:var(--mute);white-space:nowrap}
+
+/* ── 스크롤 페이드 ── */
+.fade{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+.fade.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="시안E_홈.html">
+      <img src="사진/web/logo.png" alt="">큰샘교회 <span class="en" style="font-weight:600;color:#7B8494;font-size:13px">KEUNSAEM</span>
+    </a>
+    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_새가족.html">새가족</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
+  </div>
+</header>
+
+
+<section class="page-head">
+  <div class="wrap"><p class="kicker">처음 오시는 분께</p><h1>새가족 안내</h1>
+  <p>따로 신청하실 것이 없습니다. 예배 시간에 오시면 됩니다.</p></div>
+</section>
+<section class="body"><div class="wrap">
+  <div class="block fade">
+    <h3>언제 오면 되나요</h3>
+    <p>주일 오전 11시 예배로 오시면 됩니다.</p>
+    <p class="note">다른 예배&middot;모임 시간은 <a href="시안E_예배안내.html"><b>예배 안내</b></a>에 있습니다.</p>
+  </div>
+  <div class="block fade">
+    <h3>어디로 가면 되나요</h3>
+    <p>경기 광명시 기아로 23 (소하동) 4층.</p>
+    <p class="note">자가용&middot;대중교통 안내는 <a href="시안E_예배안내.html#visit"><b>오시는 길</b></a>에 있습니다.</p>
+  </div>
+  <div class="block fade">
+    <h3>물어볼 것이 있어요</h3>
+    <p>카카오 오픈채팅으로 목사님과 바로 이야기하실 수 있습니다.</p>
+    <div class="cta" style="margin-top:12px">
+      <a class="btn btn-g" href="https://open.kakao.com/o/s5G6vwDh" target="_blank" rel="noopener">오픈채팅으로 묻기</a>
+    </div>
+    <p class="note" style="margin-top:14px">★이 페이지는 이름&middot;연락처를 입력받지 않습니다. 개인정보를 한 글자도 받지 않습니다.</p>
+  </div>
+</div></section>
+
+
+<footer>
+  <div class="wrap">
+    <div class="ftop">
+      <div>
+        <h4>큰샘교회</h4>
+        경기 광명시 기아로 23 (소하동) 4층<br>
+        <a href="tel:010-2534-0407">010-2534-0407</a>
+      </div>
+      <div>
+        <h4>예배</h4>
+        주일 오전 11시<br>주일 성경공부 오후 1시
+      </div>
+      <div class="fnav"><a href="시안E_교회소개.html">교회소개</a><a href="시안E_새가족.html">새가족</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">유튜브</a></div>
+    </div>
+    <div class="copy">기독교대한감리회 큰샘교회 &middot; KEUNSAEM METHODIST CHURCH</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.fade').forEach(function(el){io.observe(el)});
+})();
+</script>
+</body>
+</html>

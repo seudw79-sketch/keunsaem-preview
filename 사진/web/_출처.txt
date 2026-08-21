@@ -1,0 +1,17 @@
+# 웹 최적화본 ↔ 원본 대조표 (자동 생성)
+# 원본은 손대지 않았다. 이 폴더는 표시용 축소본이다.
+
+hero.jpg / hero.webp   ←  keunsaem1431_1747724217.jpg   (1200x675)
+about.jpg / about.webp   ←  keunsaem1431_1748178532.jpg   (1000x750)
+pastor.jpg / pastor.webp   ←  keunsaem1431_1748268460.jpg   (1000x750)
+g1.jpg / g1.webp   ←  keunsaem1431_1747723954.jpg   (900x675)
+g2.jpg / g2.webp   ←  keunsaem1431_1747724091.jpg   (900x675)
+g3.jpg / g3.webp   ←  keunsaem1431_1748178509.jpg   (900x675)
+g4.jpg / g4.webp   ←  keunsaem1431_1748178560.jpg   (900x675)
+g5.jpg / g5.webp   ←  keunsaem1431_1748268530.jpg   (900x675)
+g6.jpg / g6.webp   ←  ksmc1431_1749285709.jpg   (900x675)
+g7.jpg / g7.webp   ←  ksmc1431_1749285763.jpg   (900x675)
+g8.jpg / g8.webp   ←  ksmc1431_1749285824.jpg   (900x675)
+g9.jpg / g9.webp   ←  ksmc1431_1749286375.jpg   (900x675)
+
+# 합계: webp 0.59MB / jpg 폴백 0.98MB
