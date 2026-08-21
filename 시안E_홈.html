@@ -144,7 +144,7 @@ a{color:inherit;text-decoration:none}
    13px 한 줄은 딱 붙어 시작해서, 같은 x 에 놓여도 눈에는 교단명이 튀어나와 보인다.
    그래서 px 로 맞추는 대신 **칩(테두리 있는 작은 상자)** 으로 바꿨다 — 상자 변이 기준선을 만들어 주므로
    삐져나옴이 사라지고, 교회명과의 위계도 크기·명도로 분명해진다. */
-.kicker{display:inline-block;font-size:clamp(11px,2.7vw,12.5px);letter-spacing:.02em;line-height:1.5;color:#EFE3BE;font-weight:700;
+.kicker{display:inline-block;font-size:clamp(10.5px,2.4vw,12px);letter-spacing:.02em;line-height:1.5;color:#EFE3BE;font-weight:700;
   margin:0 0 14px;padding:5px 12px;border:1px solid rgba(239,227,190,.42);border-radius:999px;
   background:rgba(10,18,32,.28)}
 /* ★위계 (2026-08-21 오너: "균형적으로 좀 세련되게")
@@ -155,7 +155,12 @@ a{color:inherit;text-decoration:none}
    대신 clamp 하한을 낮춰 대개 한 줄로 떨어지게 하고, 접히더라도 균형 있게 접히게 한다. */
 .hero h1{margin:0;font-size:clamp(24px,6.1vw,60px);line-height:1.14;font-weight:800;
   letter-spacing:-.035em;text-wrap:balance}
-.hero .verse{margin:16px 0 0;font-size:clamp(13px,3.1vw,17px);line-height:1.75;color:#DCEAF1;
+/* ★위계: 라벨(작게·단독) → 표어(가장 크게) → 부제(중간) → 구절(작게).
+   2026-08-21 오너 지적 — 라벨 옆에 부제를 붙였더니 **부제가 표어로 읽혔다.**
+   크기·굵기·색을 단계마다 확실히 벌려 어느 줄이 표어인지 한눈에 갈리게 한다. */
+.hero .sub{margin:14px 0 0;font-size:clamp(15px,3.8vw,21px);line-height:1.5;
+  color:#EAF3F8;font-weight:600;letter-spacing:-.01em}
+.hero .verse{margin:18px 0 0;font-size:clamp(13px,3.1vw,17px);line-height:1.75;color:#DCEAF1;
   font-weight:400;max-width:40em}
 /* 출처는 구절 **같은 줄**에 이어 붙인다(딴 줄로 떼지 않는다). 줄이 좁으면 자연스럽게 넘어간다. */
 .hero .verse .ref{margin-left:.5em;font-size:.85em;color:#BFD6E1;font-weight:600;letter-spacing:.03em;
@@ -351,8 +356,9 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
     </picture>
   </div>
   <div class="wrap">
-    <p class="kicker">2026년 표어 &middot; 모든 성도가 말씀으로 살아내는 교회</p>
+    <p class="kicker">2026년 표어</p>
     <h1>아는 신앙에서 사는 믿음으로</h1>
+    <p class="sub">모든 성도가 말씀으로 살아내는 교회</p>
     <p class="verse">&ldquo;너희는 말씀을 행하는 자가 되고 듣기만 하여 자신을 속이는 자가 되지 말라&rdquo;
       <span class="ref">야고보서 1:22</span></p>
   </div>
