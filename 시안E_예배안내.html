@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>예배 안내 · 큰샘교회</title>
 <meta name="description" content="큰샘교회 예배 시간과 오시는 길">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   /* ★2026 표어 아트에서 뽑은 색이다 (사진/web/표어2026.png 실측):
@@ -31,6 +33,11 @@ a{color:inherit;text-decoration:none}
 .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.02em;font-size:17px;
   color:var(--navy);white-space:nowrap;flex:0 0 auto}
 .brand img{height:26px;width:auto}
+.b3wrap{display:flex;align-items:center;gap:11px}
+.bname{font-family:'Gowun Batang','Noto Serif KR',serif;font-size:21px;font-weight:700;color:var(--navy);letter-spacing:.08em}
+.bbar{width:1px;height:24px;background:#C9A961}
+.bden{font-size:10.5px;color:#8A94A4;line-height:1.4;letter-spacing:.05em;font-weight:600}
+@media(max-width:640px){.bbar,.bden{display:none}}
 .bcol{display:flex;flex-direction:column;line-height:1.15}
 .denom{font-size:10.5px;font-weight:700;letter-spacing:.02em;color:#7B8494}
 /* ★메뉴가 7개다. 어떤 너비에서도 **글자 중간에서 줄바꿈되지 않게** 한다 —
@@ -329,9 +336,9 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
   <div class="wrap">
     <a class="brand" href="시안E_홈.html">
       <img src="사진/web/logo.png" alt="">
-      <span class="bcol"><span class="denom">기독교대한감리회</span>큰샘교회</span>
+      <span class="b3wrap"><span class="bname">큰샘교회</span><span class="bbar"></span><span class="bden">기독교대한감리회<br>KEUNSAEM CHURCH</span></span>
     </a>
-    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_새가족.html">새가족</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
+    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
   </div>
 </header>
 
@@ -421,7 +428,7 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
         <h4>예배</h4>
         주일 오전 11시<br>주일 성경공부 오후 1시
       </div>
-      <div class="fnav"><a href="시안E_교회소개.html">교회소개</a><a href="시안E_새가족.html">새가족</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">유튜브</a></div>
+      <div class="fnav"><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">유튜브</a></div>
     </div>
     <div class="copy">기독교대한감리회 큰샘교회 &middot; KEUNSAEM METHODIST CHURCH</div>
   </div>

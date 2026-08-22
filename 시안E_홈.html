@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>큰샘교회</title>
 <meta name="description" content="기독교대한감리회 큰샘교회 · 주일예배 오전 11시 · 경기 광명시 기아로 23">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   /* ★2026 표어 아트에서 뽑은 색이다 (사진/web/표어2026.png 실측):
@@ -31,6 +33,11 @@ a{color:inherit;text-decoration:none}
 .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.02em;font-size:17px;
   color:var(--navy);white-space:nowrap;flex:0 0 auto}
 .brand img{height:26px;width:auto}
+.b3wrap{display:flex;align-items:center;gap:11px}
+.bname{font-family:'Gowun Batang','Noto Serif KR',serif;font-size:21px;font-weight:700;color:var(--navy);letter-spacing:.08em}
+.bbar{width:1px;height:24px;background:#C9A961}
+.bden{font-size:10.5px;color:#8A94A4;line-height:1.4;letter-spacing:.05em;font-weight:600}
+@media(max-width:640px){.bbar,.bden{display:none}}
 .bcol{display:flex;flex-direction:column;align-items:center;line-height:1.15;text-align:center}
 .denom{font-size:10.5px;font-weight:700;letter-spacing:.02em;color:#7B8494}
 .bcol{letter-spacing:.14em;text-indent:.14em}
@@ -59,6 +66,19 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ── 히어로 ── */
+.hero2{display:grid;grid-template-columns:1fr 1.15fr;background:#FBF9F4;min-height:66svh}
+.hero2 .l{padding:clamp(40px,7vw,84px) clamp(22px,5vw,64px);display:flex;flex-direction:column;justify-content:center}
+.hero2 .k{margin:0;font-size:12px;letter-spacing:.32em;color:#C9A961;font-weight:700}
+.hero2 h1{font-family:'Gowun Batang','Noto Serif KR',serif;font-size:clamp(30px,5.4vw,46px);
+  margin:14px 0 12px;color:#12303F;line-height:1.28;font-weight:700;letter-spacing:-.01em}
+.hero2 .d{margin:0 0 26px;color:var(--mute);font-size:clamp(15px,2.4vw,16.5px);line-height:1.85}
+.hero2 .g{display:flex;gap:10px;flex-wrap:wrap}
+.hero2 .r{position:relative;min-height:380px}
+.hero2 .p1,.hero2 .p2{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 14px 34px rgba(20,40,60,.18)}
+.hero2 .p1{width:64%;height:64%;top:9%;right:7%}
+.hero2 .p2{width:44%;height:44%;bottom:8%;left:8%;border:5px solid #fff}
+.hero2 img{width:100%;height:100%;object-fit:cover}
+@media(max-width:820px){.hero2{grid-template-columns:1fr}.hero2 .r{min-height:330px;margin:0 0 8px}}
 .hero{position:relative;min-height:74svh;display:flex;align-items:flex-end;
   color:#fff;overflow:hidden;background:var(--sky)}
 /* ★jpg 폴백을 위해 img 를 <picture> 로 감쌌더니 '.hero>img' 가 빗나가 히어로가 통째로 깨졌다(실측).
@@ -344,60 +364,33 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
   <div class="wrap">
     <a class="brand" href="시안E_홈.html">
       <img src="사진/web/logo.png" alt="">
-      <span class="bcol"><span class="denom">기독교대한감리회</span>큰샘교회</span>
+      <span class="b3wrap"><span class="bname">큰샘교회</span><span class="bbar"></span><span class="bden">기독교대한감리회<br>KEUNSAEM CHURCH</span></span>
     </a>
-    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_새가족.html">새가족</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
+    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
   </div>
 </header>
 
 
-<section class="hero">
-  <div class="slide">
-    <picture>
-      <source srcset="사진/web/about2.webp" type="image/webp">
-      <img src="사진/web/about2.jpg" alt="정자 앞에 함께 선 큰샘교회 가족들" fetchpriority="high">
-    </picture>
+<section class="hero2">
+  <div class="l fade in">
+    <p class="k">KEUNSAEM CHURCH</p>
+    <h1>함께 걷는<br>믿음의 가족</h1>
+    <p class="d">기독교대한감리회 큰샘교회는<br>말씀과 기도로 세워지는 공동체입니다.</p>
+    <div class="g">
+      <a class="btn btn-g" href="시안E_예배안내.html#visit">오시는 길</a>
+      <a class="btn btn-o" href="시안E_온라인예배.html">온라인 예배</a>
+      <a class="btn btn-o" href="시안E_주보.html">온라인 주보</a>
+    </div>
   </div>
-  <div class="slide">
-    <picture>
-      <source srcset="사진/web/c4a.webp" type="image/webp">
-      <img src="사진/web/c4a.jpg" alt="어깨띠를 두르고 거리로 나선 성도들" loading="lazy" decoding="async">
-    </picture>
-  </div>
-  <div class="slide">
-    <picture>
-      <source srcset="사진/web/c2b.webp" type="image/webp">
-      <img src="사진/web/c2b.jpg" alt="탁자에 둘러앉아 공부하는 성도들" loading="lazy" decoding="async">
-    </picture>
-  </div>
-  <div class="slide">
-    <picture>
-      <source srcset="사진/web/g2.webp" type="image/webp">
-      <img src="사진/web/g2.jpg" alt="카네이션을 들고 찬양하는 어린이들" loading="lazy" decoding="async" style="object-position:50% 30%">
-    </picture>
-  </div>
-  <div class="slide">
-    <picture>
-      <source srcset="사진/web/c1c.webp" type="image/webp">
-      <img src="사진/web/c1c.jpg" alt="성찬을 나누는 성도들" loading="lazy" decoding="async">
-    </picture>
-  </div>
-  <div class="slide">
-    <picture>
-      <source srcset="사진/web/g1.webp" type="image/webp">
-      <img src="사진/web/g1.jpg" alt="성탄 트리 앞에 모인 아이들과 성도들" loading="lazy" decoding="async">
-    </picture>
+  <div class="r">
+    <div class="p1"><img src="사진/web/about2.jpg" alt="정자 앞에 함께 선 큰샘교회 가족들" fetchpriority="high"></div>
+    <div class="p2"><img src="사진/web/g2.jpg" alt="카네이션을 들고 찬양하는 어린이들" loading="lazy"></div>
   </div>
 </section>
 
 <section class="actions">
   <div class="wrap">
     <div class="t"><span><b>주일예배</b> 오전 11시</span><span><b>성경공부</b> 주일 오후 1시</span></div>
-    <div class="g">
-      <a class="btn btn-g" href="시안E_예배안내.html#visit">오시는 길</a>
-      <a class="btn btn-o" href="시안E_온라인예배.html">온라인 예배</a>
-      <a class="btn btn-o" href="시안E_주보.html">온라인 주보</a>
-    </div>
   </div>
 </section>
 
@@ -479,7 +472,7 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
         <h4>예배</h4>
         주일 오전 11시<br>주일 성경공부 오후 1시
       </div>
-      <div class="fnav"><a href="시안E_교회소개.html">교회소개</a><a href="시안E_새가족.html">새가족</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">유튜브</a></div>
+      <div class="fnav"><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">유튜브</a></div>
     </div>
     <div class="copy">기독교대한감리회 큰샘교회 &middot; KEUNSAEM METHODIST CHURCH</div>
   </div>
