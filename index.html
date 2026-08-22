@@ -75,7 +75,7 @@ a{color:inherit;text-decoration:none}
 /* 담임목사 강의 사진을 흑백·저농도로 깔아 배경 질감으로 쓴다 — 글 가독을 위해 밝은 스크림을 겹친다 */
 .hero2::before{content:"";position:absolute;inset:0;
   background:url("사진/web/pastor.jpg") 100% 46%/112% auto no-repeat;
-  filter:grayscale(1);opacity:.68}
+  filter:grayscale(1);opacity:.55}
 .hero2::after{content:"";position:absolute;inset:0;
   background:linear-gradient(90deg,rgba(251,249,244,.55),rgba(251,249,244,.04))}
 .hero2 .l,.hero2 .r{position:relative;z-index:2}
@@ -101,9 +101,7 @@ a{color:inherit;text-decoration:none}
 .hero2 .r{position:relative;min-height:420px}
 .hero2 .ph{position:absolute;border-radius:16px;overflow:hidden;
   box-shadow:0 12px 30px rgba(20,40,60,.16)}
-.hero2 .ph.big{left:2%;top:7%;width:64%;height:86%}
-.hero2 .ph.s1{right:2%;top:9%;width:33%;height:38%;border:4px solid #fff;z-index:2}
-.hero2 .ph.s2{right:4%;bottom:8%;width:30%;height:34%;border:4px solid #fff;z-index:2}
+.hero2 .ph.big{left:4%;top:8%;width:88%;height:84%}
 .hero2 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 /* 액자 속 사진 회전 — 첫 장은 고정 밑layer, 위에 두 장이 6초 간격으로 얹혔다 사라진다(18초 순환) */
 .hero2 .rot{position:absolute;inset:0;opacity:0;animation:pf 18s linear infinite}
@@ -421,12 +419,6 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
     <div class="ph big"><img src="사진/web/about2.jpg" alt="정자 앞에 함께 선 큰샘교회 가족들" fetchpriority="high">
       <img class="rot" style="animation-delay:6s" src="사진/web/c1c.jpg" alt="성찬을 나누는 성도들" loading="lazy">
       <img class="rot" style="animation-delay:12s" src="사진/web/c2b.jpg" alt="탁자에 둘러앉아 공부하는 성도들" loading="lazy"></div>
-    <div class="ph s1"><img src="사진/web/c3a.jpg" alt="성탄절에 모인 교회 가족들">
-      <img class="rot" style="animation-delay:6s" src="사진/web/g8.jpg" alt="성탄 순서를 맡은 어린이들" loading="lazy">
-      <img class="rot" style="animation-delay:12s" src="사진/web/g4.jpg" alt="십자가 앞 가족" loading="lazy"></div>
-    <div class="ph s2"><img src="사진/web/g2.jpg" alt="카네이션을 들고 찬양하는 어린이들">
-      <img class="rot" style="animation-delay:6s" src="사진/web/c4a.jpg" alt="어깨띠를 두르고 거리로 나선 성도" loading="lazy">
-      <img class="rot" style="animation-delay:12s" src="사진/web/g6.jpg" alt="음식을 나누는 교제" loading="lazy"></div>
   </div>
 </section>
 
