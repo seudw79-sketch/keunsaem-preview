@@ -214,6 +214,12 @@ a{color:inherit;text-decoration:none}
 .tdcell .cap b{display:block;font-size:16px;color:var(--navy);font-weight:800;letter-spacing:-.02em}
 .tdcell .cap span{font-size:13.5px;color:var(--mute)}
 .tdcell .video{border-radius:0}
+.gallery{padding:clamp(40px,7vw,72px) 0}
+.ggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:720px){.ggrid{grid-template-columns:repeat(2,1fr)}}
+.ggrid a{display:block;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.ggrid img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .35s}
+.ggrid a:hover img{transform:scale(1.04)}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
   padding:22px 22px 20px;display:flex;flex-direction:column;gap:9px;
   transition:box-shadow .18s,transform .18s,border-color .18s}
@@ -441,6 +447,23 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
           <b>오늘 회차를 불러오지 못했습니다</b>
           <span><a href="시안E_아카데미.html">성경 아카데미에서 보기 &rarr;</a></span></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <h2>큰샘교회의 모습</h2>
+      <p><a href="시안E_교회소개.html" style="color:inherit">교회소개에서 더 보기 &rarr;</a></p>
+    </div>
+    <div class="ggrid fade">
+      <a href="시안E_교회소개.html"><img src="사진/web/c1a.jpg" alt="성탄 장식 아래 함께 드리는 예배" loading="lazy"></a>
+      <a href="시안E_교회소개.html"><img src="사진/web/c1b.jpg" alt="강단에서 말씀을 전하는 목사님" loading="lazy"></a>
+      <a href="시안E_교회소개.html"><img src="사진/web/c2a.jpg" alt="탁자에 둘러앉아 공부하는 성도들" loading="lazy"></a>
+      <a href="시안E_교회소개.html"><img src="사진/web/c2c.jpg" alt="교회 가족들" loading="lazy"></a>
+      <a href="시안E_교회소개.html"><img src="사진/web/c3a.jpg" alt="함께 모인 성도들" loading="lazy"></a>
+      <a href="시안E_교회소개.html"><img src="사진/web/c4c.jpg" alt="전도지를 함께 준비하는 손길" loading="lazy"></a>
     </div>
   </div>
 </section>
