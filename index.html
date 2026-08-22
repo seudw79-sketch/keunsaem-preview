@@ -421,8 +421,8 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
         <span class="go">주보 보기 &nearr;</span>
       </a>
       <a class="card fade" href="시안E_온라인예배.html">
-        <span class="tag">새벽 QT</span>
-        <span class="t">새벽 QT 예배</span>
+        <span class="tag">아침 QT</span>
+        <span class="t">아침 QT 예배</span>
         <span class="s">매일 아침 말씀 묵상으로 하루를 엽니다</span>
         <span class="go">예배 참여하기 &nearr;</span>
       </a>
@@ -430,12 +430,13 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
     <div class="tdgrid fade">
       <div class="tdcell">
         <div class="cap"><b>어? 성경이 읽어지네 &mdash; 이애실 사모 강의</b>
-          <span>애실쌤과 365성경읽기 &middot; 생터성경사역원</span></div>
-        <div class="video"><iframe
-          src="https://www.youtube.com/embed/videoseries?list=PLN0CvF5J-mpCg0_mjw8a0yT6LHErhrvxZ"
-          title="이애실 사모 강의" loading="lazy"
+          <span id="lc-ref">애실쌤과 365성경읽기 &middot; 생터성경사역원</span></div>
+        <div class="video"><iframe id="lc-video" title="이애실 사모 강의" loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        <div class="td-nav"><button type="button" id="lc-prev">&larr; 이전 강의</button>
+          <span id="lc-pos"></span>
+          <button type="button" id="lc-next">다음 강의 &rarr;</button></div>
       </div>
       <div class="tdcell">
         <div class="cap"><b>오늘의 통독 &mdash; <span id="td-day">불러오는 중</span></b>
@@ -443,20 +444,13 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
         <div class="video" id="td-video-wrap"><iframe id="td-video" title="오늘의 통독" loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-        <!-- 영상을 못 불러오면 iframe 을 숨기고 아카데미 링크를 보인다 — 빈 검은 칸을 두지 않는다 -->
         <div class="cap" id="td-fallback" hidden>
           <b>오늘 회차를 불러오지 못했습니다</b>
           <span><a href="시안E_아카데미.html">성경 아카데미에서 보기 &rarr;</a></span></div>
+        <div class="td-nav"><button type="button" id="td-prev">&larr; 이전 회차</button>
+          <span id="td-pos"></span>
+          <button type="button" id="td-next">다음 회차 &rarr;</button></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="gallery">
-  <div class="wrap">
-    <div class="sec-head fade">
-      <h2>큰샘교회의 모습</h2>
-      <p><a href="시안E_교회소개.html" style="color:inherit">교회소개에서 더 보기 &rarr;</a></p>
     </div>
     <div class="ggrid fade">
       <a href="시안E_교회소개.html"><img src="사진/web/g3.jpg" alt="전도 띠를 두르고 거리로 나선 성도들과 아이들" loading="lazy"></a>
@@ -508,7 +502,9 @@ fetch('latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():nu
   set('jb-title',d.주보_제목); link('jb-link',d.주보_링크);
 }).catch(function(){});
 
-/* 오늘의 통독 — 회차 = 연중 일수(KST). 윤년 2/29는 59일차 유지(안 하면 그 해 내내 어긋난다). 아카데미와 같은 규칙. */
+/* 오늘의 통독/강의 — 회차 = 연중 일수(KST). 윤년 2/29는 59일차 유지(안 하면 그 해 내내 어긋난다).
+   왼쪽 강의 칸은 기본표(공개 직강)만 보고, 오른쪽 통독 칸은 덮어쓰기(오너 시리즈)가 이긴다.
+   두 칸의 이전/다음은 서로 독립이다. */
 (function(){
   function 오늘회차(){
     var kst=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
@@ -518,22 +514,38 @@ fetch('latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():nu
     if(윤&&n>59)n-=1;
     return Math.min(365,Math.max(1,n));
   }
+  var 표=null,덮=null,강의일=오늘회차(),통독일=오늘회차();
+  function 회차(n){return 표&&표.회차&&표.회차[n-1];}
+  function 강의그리기(){
+    var r=회차(강의일); if(!r)return;
+    var f=document.getElementById('lc-video'),pos=document.getElementById('lc-pos'),ref=document.getElementById('lc-ref');
+    if(f)f.src='https://www.youtube.com/embed/'+r.영상;
+    if(pos)pos.textContent=r.일+'일차 / 365';
+    if(ref)ref.textContent=(r.범위||'')+' \u00b7 생터성경사역원';
+  }
+  function 통독그리기(){
+    var r=회차(통독일);
+    var 날=document.getElementById('td-day'),참=document.getElementById('td-ref');
+    var 틀=document.getElementById('td-video-wrap'),폴=document.getElementById('td-fallback'),pos=document.getElementById('td-pos');
+    if(!r){ if(틀)틀.hidden=true; if(폴)폴.hidden=false; if(날)날.textContent='준비 중'; if(참)참.textContent=''; return; }
+    if(날)날.textContent=r.일+'일차'; if(참)참.textContent=r.범위||'';
+    if(pos)pos.textContent=r.일+'일차 / 365';
+    var id=(덮&&덮.덮어쓰기&&덮.덮어쓰기[String(r.일)])||r.영상;
+    var f=document.getElementById('td-video');
+    if(id&&f){ f.src='https://www.youtube.com/embed/'+id; if(틀)틀.hidden=false; if(폴)폴.hidden=true; }
+    else { if(틀)틀.hidden=true; if(폴)폴.hidden=false; }
+  }
+  function 묶기(pid,nid,이동){
+    var p=document.getElementById(pid),n=document.getElementById(nid);
+    if(p)p.addEventListener('click',function(){이동(-1)});
+    if(n)n.addEventListener('click',function(){이동(1)});
+  }
+  묶기('lc-prev','lc-next',function(d){강의일=((강의일-1+d)%365+365)%365+1;강의그리기();});
+  묶기('td-prev','td-next',function(d){통독일=((통독일-1+d)%365+365)%365+1;통독그리기();});
   Promise.all([
     fetch('통독_365.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
     fetch('통독_영상_덮어쓰기.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})
-  ]).then(function(v){
-    var 표=v[0],덮=v[1],오늘=오늘회차();
-    var r=표&&표.회차&&표.회차[오늘-1];
-    var 날=document.getElementById('td-day'),참=document.getElementById('td-ref');
-    var 틀=document.getElementById('td-video-wrap'),폴=document.getElementById('td-fallback');
-    if(!r){ if(틀)틀.hidden=true; if(폴)폴.hidden=false;
-            if(날)날.textContent='준비 중'; if(참)참.textContent=''; return; }
-    if(날)날.textContent=r.일+'일차'; if(참)참.textContent=r.범위||'';
-    var id=(덮&&덮.덮어쓰기&&덮.덮어쓰기[String(r.일)])||r.영상;
-    var f=document.getElementById('td-video');
-    if(id&&f){ f.src='https://www.youtube.com/embed/'+id; }
-    else { if(틀)틀.hidden=true; if(폴)폴.hidden=false; }
-  });
+  ]).then(function(v){표=v[0];덮=v[1];강의그리기();통독그리기();});
 })();
 </script>
 </body>
