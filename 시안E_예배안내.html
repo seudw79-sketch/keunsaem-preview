@@ -36,7 +36,11 @@ a{color:inherit;text-decoration:none}
 .b3wrap{display:flex;align-items:center;gap:11px}
 .bname{font-family:'Gowun Batang','Noto Serif KR',serif;font-size:21px;font-weight:700;color:var(--navy);letter-spacing:.08em}
 .bbar{width:1px;height:24px;background:#C9A961}
-.bden{font-size:10.5px;color:#8A94A4;line-height:1.4;letter-spacing:.05em;font-weight:600}
+.bden{display:flex;flex-direction:column;gap:1px;width:96px;line-height:1.35}
+.bden .l1,.bden .l2{display:flex;justify-content:space-between}
+.bden .l1{font-size:10.5px;color:#8A94A4;font-weight:600}
+.bden .l2{font-size:9px;color:#9AA6B2;font-weight:600}
+.bden i{font-style:normal}
 @media(max-width:640px){.bbar,.bden{display:none}}
 .bcol{display:flex;flex-direction:column;line-height:1.15}
 .denom{font-size:10.5px;font-weight:700;letter-spacing:.02em;color:#7B8494}
@@ -336,7 +340,7 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
   <div class="wrap">
     <a class="brand" href="시안E_홈.html">
       <img src="사진/web/logo.png" alt="">
-      <span class="b3wrap"><span class="bname">큰샘교회</span><span class="bbar"></span><span class="bden">기독교대한감리회<br>KEUNSAEM CHURCH</span></span>
+      <span class="b3wrap"><span class="bname">큰샘교회</span><span class="bbar"></span><span class="bden"><span class="l1"><i>기</i><i>독</i><i>교</i><i>대</i><i>한</i><i>감</i><i>리</i><i>회</i></span><span class="l2"><i>K</i><i>E</i><i>U</i><i>N</i><i>S</i><i>A</i><i>E</i><i>M</i><i>&nbsp;</i><i>C</i><i>H</i><i>U</i><i>R</i><i>C</i><i>H</i></span></span></span>
     </a>
     <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
   </div>
