@@ -205,6 +205,13 @@ a{color:inherit;text-decoration:none}
 .sec-head p{margin:0;color:var(--mute);font-size:14.5px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:860px){.cards{grid-template-columns:1fr}}
+.tdgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 18px}
+@media(max-width:860px){.tdgrid{grid-template-columns:1fr}}
+.tdcell{border:1px solid var(--line);border-radius:var(--r);background:var(--paper);overflow:hidden}
+.tdcell .cap{padding:14px 18px;border-bottom:1px solid var(--line)}
+.tdcell .cap b{display:block;font-size:16px;color:var(--navy);font-weight:800;letter-spacing:-.02em}
+.tdcell .cap span{font-size:13.5px;color:var(--mute)}
+.tdcell .video{border-radius:0}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
   padding:22px 22px 20px;display:flex;flex-direction:column;gap:9px;
   transition:box-shadow .18s,transform .18s,border-color .18s}
@@ -281,6 +288,19 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
 .stamp{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:#8A5B00;
   background:#FFF6DE;border:1px solid #EBD79B;border-radius:999px;padding:5px 12px}
 .updated{font-size:13.5px;color:var(--mute)}
+/* ── 오늘의 통독 ── */
+.today{padding:22px 22px 14px;background:linear-gradient(180deg,#F1F8FC,#E8F2F9);
+  border-bottom:1px solid var(--line)}
+.td-label{margin:0;font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--gold)}
+.td-day{margin:6px 0 0;font-size:clamp(22px,5vw,30px);font-weight:800;letter-spacing:-.03em;color:var(--navy)}
+.td-ref{margin:4px 0 0;font-size:clamp(15px,3.6vw,18px);color:#3C4655;font-weight:600}
+.td-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 22px;
+  border-top:1px solid var(--line)}
+.td-nav button{appearance:none;border:1px solid #C6DEEC;background:#fff;color:var(--navy);
+  padding:9px 16px;border-radius:999px;font:inherit;font-size:14.5px;font-weight:700;cursor:pointer}
+.td-nav button:hover{background:#EAF4FA}
+.td-nav span{font-size:14px;color:var(--mute)}
+
 /* ── 준비 중 패널 ── */
 .ready{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
   padding:clamp(38px,8vw,64px) 20px;background:linear-gradient(180deg,#EDF5FA,#E3EFF7);
@@ -377,13 +397,29 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
       <h2>이번 주 큰샘교회</h2>
       <p>매주 갱신됩니다</p>
     </div>
+    <div class="tdgrid fade">
+      <div class="tdcell">
+        <div class="cap"><b>어? 성경이 읽어지네 &mdash; 이애실 사모 강의</b>
+          <span>애실쌤과 365성경읽기 &middot; 생터성경사역원</span></div>
+        <div class="video"><iframe
+          src="https://www.youtube.com/embed/videoseries?list=PLN0CvF5J-mpCg0_mjw8a0yT6LHErhrvxZ"
+          title="이애실 사모 강의" loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+      </div>
+      <div class="tdcell">
+        <div class="cap"><b>오늘의 통독 &mdash; <span id="td-day">불러오는 중</span></b>
+          <span id="td-ref">잠시만요</span></div>
+        <div class="video" id="td-video-wrap"><iframe id="td-video" title="오늘의 통독" loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        <!-- 영상을 못 불러오면 iframe 을 숨기고 아카데미 링크를 보인다 — 빈 검은 칸을 두지 않는다 -->
+        <div class="cap" id="td-fallback" hidden>
+          <b>오늘 회차를 불러오지 못했습니다</b>
+          <span><a href="시안E_아카데미.html">성경 아카데미에서 보기 &rarr;</a></span></div>
+      </div>
+    </div>
     <div class="cards">
-      <a class="card fade" id="td-link" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw">
-        <span class="tag">오늘의 통독</span>
-        <span class="t" id="td-day">준비 중</span>
-        <span class="s" id="td-ref">담임목사 음성 낭독을 준비하고 있습니다</span>
-        <span class="go">낭독 듣기 &nearr;</span>
-      </a>
       <a class="card fade" id="sm-link" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw">
         <span class="tag">주일 설교</span>
         <span class="t" id="sm-title">복이 있도다</span>
@@ -432,10 +468,37 @@ fetch('latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():nu
   if(!d) return;
   function set(id,v){var el=document.getElementById(id); if(el&&v) el.textContent=v;}
   function link(id,v){var el=document.getElementById(id); if(el&&v) el.href=v;}
-  set('td-day',d.통독_일차); set('td-ref',d.통독_범위); link('td-link',d.통독_링크);
   set('sm-title',d.설교_제목); set('sm-date',d.설교_날짜); link('sm-link',d.설교_링크);
   set('jb-title',d.주보_제목); link('jb-link',d.주보_링크);
 }).catch(function(){});
+
+/* 오늘의 통독 — 회차 = 연중 일수(KST). 윤년 2/29는 59일차 유지(안 하면 그 해 내내 어긋난다). 아카데미와 같은 규칙. */
+(function(){
+  function 오늘회차(){
+    var kst=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));
+    var 연=kst.getFullYear(), 첫날=new Date(연,0,1);
+    var n=Math.floor((new Date(연,kst.getMonth(),kst.getDate())-첫날)/86400000)+1;
+    var 윤=(연%4===0&&연%100!==0)||(연%400===0);
+    if(윤&&n>59)n-=1;
+    return Math.min(365,Math.max(1,n));
+  }
+  Promise.all([
+    fetch('통독_365.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
+    fetch('통독_영상_덮어쓰기.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})
+  ]).then(function(v){
+    var 표=v[0],덮=v[1],오늘=오늘회차();
+    var r=표&&표.회차&&표.회차[오늘-1];
+    var 날=document.getElementById('td-day'),참=document.getElementById('td-ref');
+    var 틀=document.getElementById('td-video-wrap'),폴=document.getElementById('td-fallback');
+    if(!r){ if(틀)틀.hidden=true; if(폴)폴.hidden=false;
+            if(날)날.textContent='준비 중'; if(참)참.textContent=''; return; }
+    if(날)날.textContent=r.일+'일차'; if(참)참.textContent=r.범위||'';
+    var id=(덮&&덮.덮어쓰기&&덮.덮어쓰기[String(r.일)])||r.영상;
+    var f=document.getElementById('td-video');
+    if(id&&f){ f.src='https://www.youtube.com/embed/'+id; }
+    else { if(틀)틀.hidden=true; if(폴)폴.hidden=false; }
+  });
+})();
 </script>
 </body>
 </html>
