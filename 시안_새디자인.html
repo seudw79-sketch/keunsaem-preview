@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>새 디자인 시안 · 큰샘교회</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0E5B76;--gold:#C9A961;--ink:#17323D;--mute:#5F7A88;--line:#DCE8F0}
+*{box-sizing:border-box}body{margin:0;font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;color:var(--ink);background:#F2F6F9}
+.sec{max-width:1100px;margin:0 auto;padding:34px 18px}
+h2{font-size:22px;margin:40px 0 6px;letter-spacing:-.02em}
+.pick{font-size:14px;color:var(--mute);margin:0 0 16px}
+.tag{display:inline-block;background:var(--navy);color:#fff;font-size:12.5px;font-weight:800;border-radius:999px;padding:4px 12px;margin:0 0 10px}
+/* ── 로고 시안: 실제 헤더 모양 그대로 ── */
+.hdr{background:rgba(246,251,254,.97);border:1px solid var(--line);border-radius:12px;height:62px;display:flex;align-items:center;padding:0 18px;margin:0 0 14px;box-shadow:0 2px 10px rgba(14,60,90,.05)}
+.hdr .menu{margin-left:auto;font-size:13.5px;color:#8aa;letter-spacing:.02em}
+/* 1안 명조 클래식 */
+.b1{display:flex;flex-direction:column;line-height:1.12}
+.b1 .d{font-size:10.5px;color:#8A94A4;letter-spacing:.34em;font-weight:600}
+.b1 .n{font-family:'Noto Serif KR',serif;font-size:21px;font-weight:900;color:var(--navy);letter-spacing:.06em}
+/* 2안 미니멀 산세리프 */
+.b2{display:flex;flex-direction:column;line-height:1.15;align-items:flex-start}
+.b2 .n{font-size:20px;font-weight:800;color:#132A38;letter-spacing:.42em;text-indent:.42em}
+.b2 .d{font-size:9.5px;color:#9AA6B2;letter-spacing:.18em;font-weight:600;margin-top:2px}
+/* 3안 세로선 골드 */
+.b3{display:flex;align-items:center;gap:12px}
+.b3 .n{font-family:'Gowun Batang',serif;font-size:22px;font-weight:700;color:#12303F;letter-spacing:.08em}
+.b3 .bar{width:1px;height:26px;background:var(--gold)}
+.b3 .d{font-size:11px;color:#8A94A4;line-height:1.45;letter-spacing:.06em}
+/* 4안 씰 포인트 */
+.b4{display:flex;align-items:center;gap:11px}
+.b4 .seal{width:34px;height:34px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-weight:900;color:var(--gold);font-size:15px}
+.b4 .col{display:flex;flex-direction:column;line-height:1.14}
+.b4 .n{font-family:'Noto Serif KR',serif;font-size:20px;font-weight:700;color:#12303F;letter-spacing:.14em}
+.b4 .d{font-size:10px;color:#93A0AC;letter-spacing:.10em}
+/* ── 히어로 시안 ── */
+.hero-demo{border-radius:16px;overflow:hidden;border:1px solid var(--line);margin:0 0 14px;box-shadow:0 8px 30px rgba(14,60,90,.08)}
+/* A 시네마틱 */
+.hA{position:relative;height:430px;overflow:hidden;background:#000}
+.hA img{width:100%;height:100%;object-fit:cover;animation:kb 18s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.09)}}
+.hA .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,20,30,.05) 40%,rgba(8,20,30,.62))}
+.hA .tx{position:absolute;left:34px;bottom:30px;color:#fff}
+.hA .tx .k{font-size:12px;letter-spacing:.34em;opacity:.85;font-weight:600}
+.hA .tx h3{font-family:'Noto Serif KR',serif;font-size:36px;margin:8px 0 4px;font-weight:900;letter-spacing:.02em;text-shadow:0 2px 18px rgba(0,0,0,.45)}
+.hA .tx p{margin:0;font-size:15px;opacity:.9}
+/* B 미니멀 화이트 */
+.hB{background:#fff;padding:52px 30px 34px;text-align:center}
+.hB .k{font-size:12px;letter-spacing:.4em;color:var(--gold);font-weight:700}
+.hB h3{font-family:'Noto Serif KR',serif;font-size:34px;margin:12px 0 8px;color:#12303F;font-weight:900}
+.hB p{margin:0 0 26px;color:var(--mute);font-size:15.5px}
+.hB .ph{border-radius:18px;overflow:hidden;height:300px}
+.hB .ph img{width:100%;height:100%;object-fit:cover}
+/* C 스플릿 콜라주 */
+.hC{display:grid;grid-template-columns:1fr 1.15fr;background:#FBF9F4;min-height:400px}
+.hC .l{padding:46px 36px;display:flex;flex-direction:column;justify-content:center}
+.hC .k{font-size:11.5px;letter-spacing:.3em;color:var(--gold);font-weight:700}
+.hC h3{font-family:'Gowun Batang',serif;font-size:32px;margin:12px 0 10px;color:#12303F;line-height:1.3}
+.hC p{margin:0;color:var(--mute);font-size:15px;line-height:1.8}
+.hC .r{position:relative;padding:26px}
+.hC .p1,.hC .p2{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 14px 34px rgba(20,40,60,.18)}
+.hC .p1{width:62%;height:62%;top:8%;right:8%}
+.hC .p2{width:44%;height:44%;bottom:7%;left:6%;border:5px solid #fff}
+.hC img{width:100%;height:100%;object-fit:cover}
+@media(max-width:760px){.hC{grid-template-columns:1fr}.hC .r{height:320px}}
+.note{font-size:14px;color:var(--mute);line-height:1.7}
+</style></head><body>
+<div class="sec">
+<h2 style="margin-top:6px">① 로고(교단·교회명) 글씨체 시안 4가지</h2>
+<p class="pick">실제 화면 맨 위 모양 그대로 만들었습니다 — 마음에 드는 번호를 말씀해 주세요.</p>
+
+<div class="hdr"><span class="tag" style="margin:0 14px 0 0">1안</span>
+  <div class="b1"><span class="d">기독교대한감리회</span><span class="n">큰샘교회</span></div>
+  <span class="menu">교회소개 · 새가족 · 예배안내 · 주보 …</span></div>
+
+<div class="hdr"><span class="tag" style="margin:0 14px 0 0">2안</span>
+  <div class="b2"><span class="n">큰샘교회</span><span class="d">기독교대한감리회</span></div>
+  <span class="menu">교회소개 · 새가족 · 예배안내 · 주보 …</span></div>
+
+<div class="hdr"><span class="tag" style="margin:0 14px 0 0">3안</span>
+  <div class="b3"><span class="n">큰샘교회</span><span class="bar"></span><span class="d">기독교대한감리회<br>KEUNSAEM CHURCH</span></div>
+  <span class="menu">교회소개 · 새가족 · 예배안내 · 주보 …</span></div>
+
+<div class="hdr"><span class="tag" style="margin:0 14px 0 0">4안</span>
+  <div class="b4"><span class="seal">샘</span><div class="col"><span class="n">큰샘교회</span><span class="d">기독교대한감리회</span></div></div>
+  <span class="menu">교회소개 · 새가족 · 예배안내 · 주보 …</span></div>
+
+<p class="note">1안 = 명조 클래식(교단 위·자간 넓게) · 2안 = 미니멀(교회명 자간 크게, 교단 아래 작게) ·
+3안 = 금색 세로선으로 나눈 2단 · 4안 = "샘" 금색 도장 + 명조</p>
+
+<h2>② 메인 사진 연출 시안 3가지 (움직입니다)</h2>
+<p class="pick">지금의 "사진 전체가 차례로 바뀌는" 방식 대신, 요즘 교회 사이트들이 쓰는 세 가지 연출입니다.</p>
+
+<div class="hero-demo"><div style="padding:10px 16px"><span class="tag">A안 · 시네마틱</span> <span class="note">사진 한 장이 아주 천천히 다가오고(줌), 그 위에 명조 큰 글씨</span></div>
+<div class="hA"><img src="사진/web/about2.jpg" alt="">
+  <div class="ov"></div>
+  <div class="tx"><div class="k">KEUNSAEM CHURCH</div><h3>물 댄 동산 같은 교회</h3><p>기독교대한감리회 큰샘교회 · 주일예배 오전 11시</p></div>
+</div></div>
+
+<div class="hero-demo"><div style="padding:10px 16px"><span class="tag">B안 · 미니멀</span> <span class="note">흰 여백에 글이 먼저, 사진은 아래 큰 라운드 카드로 — 가장 요즘 스타일</span></div>
+<div class="hB"><div class="k">KEUNSAEM CHURCH</div><h3>말씀 위에 세워지는 교회</h3><p>기독교대한감리회 큰샘교회</p>
+<div class="ph"><img src="사진/web/g3.jpg" alt=""></div></div></div>
+
+<div class="hero-demo"><div style="padding:10px 16px"><span class="tag">C안 · 스플릿</span> <span class="note">왼쪽 글 · 오른쪽 사진 두 장을 액자처럼 겹쳐 — 따뜻하고 고급스러운 느낌</span></div>
+<div class="hC"><div class="l"><div class="k">KEUNSAEM CHURCH</div><h3>함께 걷는<br>믿음의 가족</h3><p>기독교대한감리회 큰샘교회는<br>말씀과 기도로 세워지는 공동체입니다.</p></div>
+<div class="r"><div class="p1"><img src="사진/web/about2.jpg" alt=""></div><div class="p2"><img src="사진/web/g2.jpg" alt=""></div></div></div></div>
+
+<p class="note">※ 어느 안이든 사진은 지금 슬라이드처럼 여러 장을 돌릴 수 있습니다. 조합도 됩니다 — 예: "로고 1안 + 메인 A안".</p>
+</div></body></html>
