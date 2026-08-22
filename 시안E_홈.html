@@ -87,6 +87,16 @@ a{color:inherit;text-decoration:none}
   margin:14px 0 12px;color:#12303F;line-height:1.28;font-weight:700;letter-spacing:-.01em}
 .hero2 .d{margin:0 0 26px;color:var(--mute);font-size:clamp(15px,2.4vw,16.5px);line-height:1.85}
 .hero2 .g{display:flex;gap:10px;flex-wrap:wrap}
+.livechip{display:block;margin-top:26px;max-width:420px;background:rgba(255,255,255,.82);
+  border:1px solid #DCE8F0;border-left:5px solid #2D7B8C;border-radius:14px;padding:14px 18px;
+  box-shadow:0 8px 22px rgba(14,60,90,.10)}
+.livechip .lc-top{display:flex;align-items:center;gap:8px;font-size:15px;color:#12303F;font-weight:600}
+.livechip .lc-top b{font-weight:800;color:#0E5B76}
+.lc-dot{width:8px;height:8px;border-radius:50%;background:#2D7B8C;box-shadow:0 0 0 4px rgba(45,123,140,.15);flex:0 0 auto}
+.lc-bar{display:block;height:7px;border-radius:999px;background:#E3EFF7;margin:10px 0 8px;overflow:hidden}
+.lc-fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#2D7B8C,#0E6E9B);width:0;transition:width 1.2s ease}
+.lc-sub{font-size:13px;color:#5F7A88}
+.lc-sub b{color:#2D7B8C}
 
 .hero2 .r{position:relative;min-height:420px}
 .hero2 .ph{position:absolute;border-radius:16px;overflow:hidden;
@@ -401,6 +411,11 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
       <a class="btn btn-o" href="시안E_온라인예배.html">온라인 예배</a>
       <a class="btn btn-o" href="시안E_주보.html">온라인 주보</a>
     </div>
+    <a class="livechip" href="시안E_아카데미.html">
+      <span class="lc-top"><span class="lc-dot"></span>오늘의 통독 &middot; <b id="hc-day">-</b> <span id="hc-ref"></span></span>
+      <span class="lc-bar"><span class="lc-fill" id="hc-fill"></span></span>
+      <span class="lc-sub">1년 1독 &middot; <b id="hc-pct">-</b> 지나는 중 &middot; 함께 읽기 &rarr;</span>
+    </a>
   </div>
   <div class="r">
     <div class="ph big"><img src="사진/web/about2.jpg" alt="정자 앞에 함께 선 큰샘교회 가족들" fetchpriority="high">
@@ -574,7 +589,17 @@ fetch('latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():nu
   Promise.all([
     fetch('통독_365.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),
     fetch('통독_영상_덮어쓰기.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})
-  ]).then(function(v){표=v[0];덮=v[1];강의그리기();통독그리기();});
+  ]).then(function(v){표=v[0];덮=v[1];강의그리기();통독그리기();
+    var 오늘=오늘회차(), r=표&&표.회차&&표.회차[오늘-1];
+    if(r){
+      var d=document.getElementById('hc-day'),f=document.getElementById('hc-ref'),
+          fill=document.getElementById('hc-fill'),pc=document.getElementById('hc-pct');
+      if(d)d.textContent=r.일+'일차'; if(f)f.textContent=r.범위||'';
+      var pct=Math.round(r.일/365*100);
+      if(pc)pc.textContent='성경의 '+pct+'%를';
+      if(fill)setTimeout(function(){fill.style.width=pct+'%'},300);
+    }
+  });
 })();
 </script>
 </body>
