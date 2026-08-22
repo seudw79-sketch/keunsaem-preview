@@ -70,25 +70,21 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ── 히어로 ── */
-.hero2{display:grid;grid-template-columns:1fr 1.1fr;background:#FBF9F4;min-height:62svh;
+.hero2{display:grid;grid-template-columns:1fr 1.3fr;background:#FBF9F4;align-items:stretch;
   position:relative;overflow:hidden}
 .hero2 .l,.hero2 .r{position:relative;z-index:2}
 .hero2 .r{position:relative;overflow:hidden}
-.hero2 .r img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:right bottom;
-  filter:saturate(.55) contrast(.92) brightness(1.06);opacity:.82;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 34%),linear-gradient(180deg,transparent,#000 22%);
-  -webkit-mask-composite:source-in;
-  mask-image:linear-gradient(90deg,transparent,#000 34%),linear-gradient(180deg,transparent,#000 22%);
-  mask-composite:intersect}
+.hero2 .r{aspect-ratio:4/3}
+.hero2 .r img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 @media(max-width:820px){.hero2{grid-template-columns:1fr}.hero2 .r{height:300px}}
 .hero2 .btn-o{background:#fff;color:var(--navy);border:1px solid #BFDCEA;text-shadow:none}
 .hero2 .btn-o:hover{background:#EAF4FA}
-.hero2 .l{padding:clamp(44px,6vw,72px) clamp(20px,3vw,44px) clamp(36px,5vw,56px) clamp(36px,7vw,110px);display:flex;flex-direction:column}
-.hero2 .l .g{margin-top:auto;padding-top:34px}
+.hero2 .l{padding:clamp(44px,6vw,72px) clamp(20px,3vw,44px) clamp(44px,6vw,72px) clamp(36px,7vw,110px);display:flex;flex-direction:column;justify-content:center}
+.hero2 .l .g{margin-top:38px}
 .hero2 .k{margin:0;font-size:12px;letter-spacing:.32em;color:#C9A961;font-weight:700}
 .hero2 h1{font-family:'Gowun Batang','Noto Serif KR',serif;font-size:clamp(30px,5.4vw,46px);
   margin:14px 0 12px;color:#12303F;line-height:1.28;font-weight:700;letter-spacing:-.01em}
-.hero2 .d{margin:0 0 26px;color:var(--mute);font-size:clamp(15px,2.4vw,16.5px);line-height:1.85}
+.hero2 .d{margin:0;color:var(--mute);font-size:clamp(15px,2.4vw,16.5px);line-height:1.85}
 .hero2 .g{display:flex;gap:10px;flex-wrap:wrap}
 .livechip{display:block;margin-top:26px;max-width:410px;background:rgba(255,255,255,.82);
   border:1px solid #DCE8F0;border-left:5px solid #2D7B8C;border-radius:14px;padding:14px 18px;
@@ -412,11 +408,7 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
       <a class="btn btn-o" href="시안E_온라인예배.html">온라인 예배</a>
       <a class="btn btn-o" href="시안E_주보.html">온라인 주보</a>
     </div>
-    <a class="livechip" href="시안E_아카데미.html">
-      <span class="lc-top"><span class="lc-dot"></span>오늘의 통독 &middot; <b id="hc-day">-</b> <span id="hc-ref"></span></span>
-      <span class="lc-bar"><span class="lc-fill" id="hc-fill"></span></span>
-      <span class="lc-sub">1년 1독 &middot; <b id="hc-pct">-</b> 지나는 중 &middot; 함께 읽기 &rarr;</span>
-    </a>
+
 
   </div>
 
