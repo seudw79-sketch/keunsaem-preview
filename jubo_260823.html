@@ -21,8 +21,18 @@ td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
 tr:last-child td{border-bottom:0}
 td:first-child{font-weight:700;color:var(--navy);white-space:nowrap;width:7.5em}
 td:last-child{color:var(--mute);text-align:right;white-space:nowrap}
-/* ★예배 순서의 가운데 칸(내용)을 가운데로 맞춘다 — 2026-08-22 오너 지적 */
-table.ord td:nth-child(2){text-align:center;color:var(--ink)}
+/* ★예배 순서 정렬 — 2026-08-22 오너 지적 · 총괄 정확 진단
+   처음엔 가운데 칸에 text-align:center 만 주었는데, 그러면 내용이 **줄 전체의 중앙**이 아니라
+   좌 라벨과 우 담당 사이에 **남는 공간의 중앙**에 앉는다. 좌우 폭이 다르니 왼쪽으로 틀어져 보인다.
+   → 줄을 1fr auto 1fr 3칸 격자로 짠다. 가운데 칸이 늘 줄의 기하학적 중앙에 온다. */
+table.ord,table.ord tbody{display:block}
+table.ord tr{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;
+ gap:10px;padding:9px 6px;border-bottom:1px solid var(--line)}
+table.ord tr:last-child{border-bottom:0}
+table.ord td{display:block;padding:0;border:0}
+table.ord td:first-child{width:auto;text-align:left}
+table.ord td:nth-child(2){text-align:center;color:var(--ink);white-space:normal}
+table.ord td:last-child{text-align:right}
 table.mi td{white-space:normal}
 table.mi td:first-child{width:9em}
 table.mi td:last-child{text-align:right;color:var(--ink)}
@@ -54,8 +64,8 @@ footer{text-align:center;font-size:13px;color:var(--mute);padding:8px 18px 0;lin
     <p class="m">로마서 8장 1-11절</p>
     <blockquote>이는 그리스도 예수 안에 있는 생명의 성령의 법이 죄와 사망의 법에서 너를 해방하였음이라<span class="s">로마서 8장 2절 · 개역개정</span></blockquote>
   </section>
-  <section><h2>예배 순서</h2><table class="ord"><tr><td>경배와 찬양</td><td></td><td>서요한 간사</td></tr><tr><td>대표 기도</td><td></td><td>서요한 간사</td></tr><tr><td>찬송</td><td>찬송가 88장</td><td>다 같이</td></tr><tr><td>봉헌</td><td></td><td>다 같이</td></tr><tr><td>봉헌 기도</td><td></td><td>인도자</td></tr><tr><td>교회 소식</td><td></td><td>인도자</td></tr><tr><td>성경 봉독</td><td>로마서 8장 1-11절</td><td>인도자</td></tr><tr><td>말씀 선포</td><td>생명의 성령의 법이 나를 살린다</td><td>서동우 목사</td></tr><tr><td>결단의 기도</td><td></td><td>다 같이</td></tr><tr><td>파송의 찬양</td><td>주께 가까이</td><td>다 같이</td></tr><tr><td>축도</td><td></td><td>서동우 목사</td></tr></table></section>
-  <section><h2>교회 소식</h2><ul><li>큰샘교회 오신 여러분들을 환영하고 축복합니다</li><li>성경읽기를 생활하는 삶이 됩시다.</li><li>오늘 식사 후 YRG를 합니다. 기대하는 마음으로 참여합시다</li><li>담임목사 동정 (여름휴가: 24-27일)</li></ul></section>
+  <section><h2>예배 순서</h2><table class="ord"><tr><td>경배와 찬양</td><td></td><td>서에스더 성도</td></tr><tr><td>대표 기도</td><td></td><td>서요한 간사</td></tr><tr><td>찬송</td><td>찬송가 88장</td><td>다 같이</td></tr><tr><td>봉헌</td><td>모든 영광을 하나님께</td><td>다 같이</td></tr><tr><td>봉헌 기도</td><td></td><td>인도자</td></tr><tr><td>교회 소식</td><td></td><td>인도자</td></tr><tr><td>성경 봉독</td><td>로마서 8장 1-11절</td><td>인도자</td></tr><tr><td>말씀 선포</td><td>생명의 성령의 법이 나를 살린다</td><td>서동우 목사</td></tr><tr><td>결단의 기도</td><td></td><td>다 같이</td></tr><tr><td>파송의 찬양</td><td>주께 가까이</td><td>다 같이</td></tr><tr><td>축도</td><td></td><td>서동우 목사</td></tr></table></section>
+  <section><h2>교회 소식</h2><ul><li>큰샘교회 오신 여러분들을 환영하고 축복합니다</li><li>성경읽기를 생활하는 삶이 됩시다.</li></ul></section>
   <section><h2>함께 기도하는 형제교회 · 선교사</h2><table class='mi'><tr><td>태국</td><td>이상섭 선교사, 에스더 선교사</td></tr><tr><td>몽골</td><td>이정형 선교사, 김소연 사모(이은샘)</td></tr><tr><td>러시아</td><td>최서연 자매</td></tr><tr><td>인도네시아</td><td>백창현 선교사, 김현주 선교사</td></tr><tr><td>용사선교회</td><td>동영진 목사, 전선희 사모</td></tr><tr><td>베네치아연합</td><td>박요한 목사</td></tr></table></section>
   <section><h2>이 주의 암송</h2>
     <blockquote>이는 그리스도 예수 안에 있는 생명의 성령의 법이 죄와 사망의 법에서 너를 해방하였음이라<span class="s">로마서 8장 2절</span></blockquote>
