@@ -580,7 +580,13 @@ fetch('latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():nu
     if(r){
       var d=document.getElementById('hc-day'),f=document.getElementById('hc-ref'),
           fill=document.getElementById('hc-fill'),pc=document.getElementById('hc-pct');
-      if(d)d.textContent=r.일+'일차'; if(f)f.textContent=r.범위||'';
+      var 뱃지 = '';
+      if(덮&&덮.덮어쓰기&&덮.덮어쓰기[String(r.일)]) {
+          뱃지 = ' <span style="font-size:0.5em;background:#4ade80;color:#064e3b;padding:2px 6px;border-radius:4px;vertical-align:middle;margin-left:8px;font-weight:normal">강의+통독</span>';
+      } else if(덮&&덮.상태&&덮.상태[String(r.일)] === '강의-only') {
+          뱃지 = ' <span style="font-size:0.5em;background:#facc15;color:#854d0e;padding:2px 6px;border-radius:4px;vertical-align:middle;margin-left:8px;font-weight:normal">강의만 (통독 대기)</span>';
+      }
+      if(d)d.innerHTML=r.일+'일차' + 뱃지; if(f)f.textContent=r.범위||'';
       var pct=Math.round(r.일/365*100);
       if(pc)pc.textContent='성경의 '+pct+'%를';
       if(fill)setTimeout(function(){fill.style.width=pct+'%'},300);
