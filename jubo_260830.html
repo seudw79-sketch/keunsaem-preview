@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>큰샘감리교회 온라인 주보 · 2026년 8월 30일</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--ink:#20242B;--mute:#5F7A88;--line:#DCE8F0;--navy:#0E5B76;--teal:#2D7B8C;--bg:#F6FBFE}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+ line-height:1.75;font-size:16px;-webkit-text-size-adjust:100%}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px 56px}
+header{background:var(--navy);color:#fff;padding:30px 18px 24px;text-align:center}
+header .h{font-size:13px;letter-spacing:.08em;color:#BFE0EC}
+header h1{margin:8px 0 4px;font-size:clamp(22px,5vw,30px);font-weight:800;letter-spacing:-.03em}
+header .d{font-size:15px;color:#DCEDF4}
+section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin:16px 0}
+h2{margin:0 0 12px;font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;color:var(--navy);white-space:nowrap;width:7.5em}
+td:last-child{color:var(--mute);text-align:right;white-space:nowrap}
+/* ★예배 순서 정렬 — 2026-08-22 오너 지적 · 총괄 정확 진단
+   처음엔 가운데 칸에 text-align:center 만 주었는데, 그러면 내용이 **줄 전체의 중앙**이 아니라
+   좌 라벨과 우 담당 사이에 **남는 공간의 중앙**에 앉는다. 좌우 폭이 다르니 왼쪽으로 틀어져 보인다.
+   → 줄을 1fr auto 1fr 3칸 격자로 짠다. 가운데 칸이 늘 줄의 기하학적 중앙에 온다. */
+table.ord,table.ord tbody{display:block}
+table.ord tr{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;
+ gap:10px;padding:9px 6px;border-bottom:1px solid var(--line)}
+table.ord tr:last-child{border-bottom:0}
+table.ord td{display:block;padding:0;border:0}
+table.ord td:first-child{width:auto;text-align:left}
+table.ord td:nth-child(2){text-align:center;color:var(--ink);white-space:normal}
+table.ord td:last-child{text-align:right}
+table.mi td{white-space:normal}
+table.mi td:first-child{width:9em}
+table.mi td:last-child{text-align:right;color:var(--ink)}
+ol.bib{margin:0;padding-left:0;list-style:none;counter-reset:none}
+ol.bib li{position:relative;padding-left:2.1em;margin:6px 0;font-size:15.5px}
+ol.bib li::before{content:attr(value);position:absolute;left:0;top:.1em;
+ font-size:12px;font-weight:800;color:var(--teal);min-width:1.6em;text-align:right}
+.hymn .vs{display:flex;gap:10px;margin:0 0 14px}
+.hymn .vs:last-child{margin-bottom:0}
+.hymn .no{flex:0 0 auto;min-width:2.2em;height:1.8em;line-height:1.8em;text-align:center;
+ font-size:12px;font-weight:800;color:#fff;background:var(--teal);border-radius:999px}
+.hymn .vs.ref .no{background:var(--mute)}
+.hymn p{margin:0;font-size:15.5px}
+img.score{width:100%;height:auto;border-radius:10px;display:block;margin-top:12px}
+/* ★예배 흐름 단계 — 위에서 아래로 읽으면 예배가 진행된다(2026-08-22 오너 확정) */
+section.step{padding:16px 18px}
+.sh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sh .st{font-size:12px;font-weight:800;letter-spacing:.02em;color:#fff;
+ background:var(--navy);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.sh .sc{font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+.sh .sb{margin-left:auto;font-size:13px;color:var(--mute);white-space:nowrap}
+section.step .hymn,section.step ul,section.step ol,section.step blockquote{margin-top:12px}
+section.step ul{padding-left:1.1em}
+ul{margin:0;padding-left:1.1em} li{margin:4px 0}
+blockquote{margin:0;padding:14px 16px;background:#EEF6FB;border-left:3px solid var(--teal);border-radius:0 10px 10px 0}
+blockquote .s{display:block;margin-top:8px;font-size:13.5px;color:var(--mute)}
+.col p{margin:0 0 12px} .col .by{font-size:14px;color:var(--mute)}
+.m{margin:0;font-size:15px;color:var(--mute)}
+footer{text-align:center;font-size:13px;color:var(--mute);padding:8px 18px 0;line-height:1.8}
+</style></head><body>
+<header>
+  <div class="h">큰샘감리교회 온라인 주보</div>
+  <h1>우연이 아니라 성령님이 하십니다</h1>
+  <div class="d">2026년 8월 30일 &middot; 제 35 호</div>
+</header>
+<div class="wrap">
+  <section><h2>이 주의 말씀</h2>
+    <p class="m">시편 104편 27-30절</p>
+    <blockquote>주의 영을 보내어 그들을 창조하사 지면을 새롭게 하시나이다<span class="s">시편 104편 30절 · 개역개정</span></blockquote>
+  </section>
+  <section><h2>예배 순서</h2><table class="ord"><tr><td>경배와 찬양</td><td></td><td>서에스더 성도</td></tr><tr><td>대표 기도</td><td></td><td>서한나 성도</td></tr><tr><td>찬송</td><td>찬송가 79장</td><td>다 같이</td></tr><tr><td>봉헌</td><td>모든 영광을 하나님께</td><td>다 같이</td></tr><tr><td>봉헌 기도</td><td></td><td>인도자</td></tr><tr><td>교회 소식</td><td></td><td>인도자</td></tr><tr><td>성경 봉독</td><td>시편 104편 27-30절</td><td>인도자</td></tr><tr><td>말씀 선포</td><td>우연이 아니라 성령님이 하십니다</td><td>서동우 목사</td></tr><tr><td>결단의 기도</td><td></td><td>다 같이</td></tr><tr><td>파송의 찬양</td><td>모든 상황속에서</td><td>다 같이</td></tr><tr><td>축도</td><td></td><td>서동우 목사</td></tr></table></section>
+  <section class='step'><div class='sh'><span class='st'>교회 소식</span><span class='sb'>인도자</span></div><ul><li>큰샘교회 오신 여러분들을 환영하고 축복합니다</li><li>성경읽기를 생활하는 삶이 됩시다.</li><li>오늘 식사 후 YRG를 합니다. 기대하는 마음으로 참여합시다</li><li>담임목사 동정 (여름휴가: 24-27일)</li></ul></section>
+  <section class='step'><div class='sh'><span class='st'>성경 봉독</span><span class='sc'>시편 104편 27-30절</span><span class='sb'>인도자</span></div><ol class='bib'><li value='27'>이것들은 다 주께서 때를 따라 먹을 것을 주시기를 바라나이다</li><li value='28'>주께서 주신즉 그들이 받으며 주께서 손을 펴신즉 그들이 좋은 것으로 만족하다가</li><li value='29'>주께서 낯을 숨기신즉 그들이 떨고 주께서 그들의 호흡을 거두신즉 그들은 죽어 먼지로 돌아가나이다</li><li value='30'>주의 영을 보내어 그들을 창조하사 지면을 새롭게 하시나이다</li></ol></section>
+  <section class="col"><h2>우연이 아니라 성령님이 하십니다</h2><p>우리는 하루에도 여러 번 “운이 좋았다”, “재수가 없었다”, “어쩌다 그렇게 됐다”는 말을 합니다. 일이 잘되면 내가 잘해서 된 것 같고, 일이 뜻대로 되지 않으면 운명이나 환경을 탓하기도 합니다. 그러나 성경은 우리의 삶을 우연이나 숙명으로 설명하지 않습니다. 하나님께서 지으신 세상을 지금도 붙드시고 다스리신다고 말씀합니다. 우리는 이것을 하나님의 섭리라고 부릅니다.</p><p>시편 104편은 하나님께서 만물을 먹이시고 생명을 붙드시며 지면을 새롭게 하신다고 노래합니다. “주께서 주신즉 그들이 받으며 주께서 손을 펴신즉 그들이 좋은 것으로 만족하다가”(시 104:28). 우리가 매일 먹는 음식과 마시는 물, 아침마다 다시 쉬게 되는 숨까지도 당연한 것은 하나도 없습니다. 농부가 씨를 뿌리고 사람이 수고하지만, 햇빛과 비를 주시고 생명이 자라게 하시는 분은 하나님이십니다.</p><p>특별히 시편 기자는 “주의 영을 보내어 그들을 창조하사 지면을 새롭게 하시나이다”(시 104:30)라고 고백합니다. 성령님은 우리의 구원과 신앙생활에만 역사하시는 분이 아닙니다. 오늘도 생명을 주시고, 사람들이 가진 지혜와 기술과 재능을 사용하게 하시며, 이 세상이 유지되도록 일하고 계십니다. 우리가 가진 건강과 시간과 능력 가운데 스스로 만들어 낸 것은 아무것도 없습니다. 모두 받은 것입니다.</p><p>그러므로 이 사실을 아는 사람은 교만할 수 없습니다. 내가 잘해서 여기까지 왔다고 말하기보다 “하나님께서 주셨습니다”라고 고백하게 됩니다. 또한 다른 사람을 쉽게 낮추어 볼 수도 없습니다. 하나님께서는 믿는 사람뿐 아니라 세상의 수많은 사람에게도 지혜와 재능을 주셔서 서로 돕고 함께 살아가게 하십니다.</p><p>물론 우리의 삶에는 이해하기 어려운 일도 있습니다. 왜 이런 일이 일어났는지 지금은 설명할 수 없을 때도 있습니다. 그러나 보이지 않는다고 해서 하나님의 손길이 없는 것은 아닙니다. 요셉이 지나온 고난을 훗날 돌아보며 하나님의 뜻을 발견했듯이, 섭리는 지나간 뒤에 비로소 선명해지는 경우가 많습니다.</p><p>정전이 되고 나서야 전기가 계속 들어오고 있었다는 사실을 깨닫듯이, 우리는 멈추고 나서야 평범했던 하루가 얼마나 큰 은혜였는지를 알 때가 많습니다. 그러나 그리스도인은 끊어진 뒤에야 아는 사람이 아니라, 끊어지기 전에 감사하는 사람이어야 합니다.</p><p>오늘 아침 눈을 뜬 것도, 지금 숨을 쉬는 것도, 일할 힘과 사랑할 사람을 주신 것도 우연이 아닙니다. 오늘도 성령님께서 일하고 계십니다. 그러므로 하루를 시작하며 이렇게 고백해 봅시다.</p><p>“오늘 이 숨도 주님이 주신 것입니다.”</p><p>당연한 하루를 감사의 하루로, 자랑의 하루를 겸손의 하루로 살아가는 것, 그것이 하나님의 섭리를 믿는 사람의 삶입니다.</p>
+    <p class="by">서동우 목사</p></section>
+  <section><h2>이 주의 암송</h2>
+    <blockquote>주의 영을 보내어 그들을 창조하사 지면을 새롭게 하시나이다<span class="s">시편 104편 30절</span></blockquote>
+  </section>
+  <section><h2>함께 기도하는 형제교회 · 선교사</h2><table class='mi'><tr><td>태국</td><td>이상섭 선교사, 에스더 선교사</td></tr><tr><td>몽골</td><td>이정형 선교사, 김소연 사모(이은샘)</td></tr><tr><td>러시아</td><td>최서연 자매</td></tr><tr><td>인도네시아</td><td>백창현 선교사, 김현주 선교사</td></tr><tr><td>용사선교회</td><td>동영진 목사, 전선희 사모</td></tr><tr><td>베네치아연합</td><td>박요한 목사</td></tr></table></section>
+  <section><h2>교회 재정</h2><p class='m'>재정 내역은 교회 재정 페이지에서 보실 수 있습니다.</p><p class='m'><a href='시안E_재정.html'>자세히 보기 &rarr; 교회 재정 페이지</a></p></section>
+  <footer>큰샘감리교회<br>경기도 광명시 기아로 23, 4층<br>주일예배 오전 11시</footer>
+</div></body></html>
