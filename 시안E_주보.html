@@ -333,6 +333,27 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
 .fade.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.fade{opacity:1;transform:none;transition:none}}
 </style>
+
+<style>
+/* 지난 주보 아카이브 */
+#jb-archive details{border:1px solid var(--line,#DCE8F0);border-radius:12px;margin:8px 0;background:#fff}
+#jb-archive details.arc-m{margin:8px 10px;background:#FAFDFF}
+#jb-archive summary{cursor:pointer;padding:12px 14px;font-weight:700;color:var(--navy,#0E5B76);
+ list-style:none;display:flex;align-items:center;gap:8px}
+#jb-archive summary::-webkit-details-marker{display:none}
+#jb-archive summary::before{content:"▸";transition:transform .15s;display:inline-block}
+#jb-archive details[open]>summary::before{transform:rotate(90deg)}
+#jb-archive .arc-n{font-weight:500;font-size:13px;color:#7A93A2}
+#jb-archive ul.arc-l{list-style:none;margin:0;padding:0 10px 10px}
+#jb-archive ul.arc-l li{border-top:1px solid #EDF4F8}
+#jb-archive ul.arc-l li:first-child{border-top:0}
+#jb-archive ul.arc-l a{display:flex;align-items:baseline;gap:10px;padding:11px 6px;
+ text-decoration:none;color:inherit;flex-wrap:wrap}
+#jb-archive ul.arc-l a:hover{background:#F2F9FC;border-radius:8px}
+#jb-archive ul.arc-l b{color:var(--navy,#0E5B76);white-space:nowrap;min-width:2.6em}
+#jb-archive .arc-t{flex:1 1 12em;font-weight:600}
+#jb-archive .arc-s{font-size:12.5px;color:#7A93A2;white-space:nowrap}
+</style>
 </head>
 <body>
 
@@ -342,7 +363,7 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
       <img src="사진/web/logo.png" alt="">
       <span class="b3wrap"><span class="bname">큰샘교회</span><span class="bbar"></span><span class="bden"><span class="l1"><i>기</i><i>독</i><i>교</i><i>대</i><i>한</i><i>감</i><i>리</i><i>회</i></span><span class="l2"><i>K</i><i>E</i><i>U</i><i>N</i><i>S</i><i>A</i><i>E</i><i>M</i><i>&nbsp;</i><i>C</i><i>H</i><i>U</i><i>R</i><i>C</i><i>H</i></span></span></span>
     </a>
-    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
+    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_주보.html">온라인 주보</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
   </div>
 </header>
 
@@ -361,7 +382,8 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
   </div>
   <div class="block fade">
     <h3>지난 주보</h3>
-    <p class="note">지난 주보는 준비 중입니다. 주보가 쌓이면 이 자리에 주차별로 정리됩니다.</p>
+    <p class="note">교회의 역사입니다. 연도 → 월 → 주일 순으로 쌓입니다.</p>
+    <div id="jb-archive"><p class="note">불러오는 중…</p></div>
   </div>
 </div></section>
 
@@ -399,6 +421,60 @@ fetch('latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():nu
   if(d.주보_링크) document.getElementById('jb2-link').href = d.주보_링크;
   document.getElementById('jb2-date').textContent = '마지막 갱신 ' + (d.갱신일 || '확인 필요');
 }).catch(function(){});
+</script>
+
+<script>
+/* 지난 주보 아카이브 — 연도 → 월 → 주일 3단.
+   ★주보목록.json 하나만 읽는다. 주보 생성기가 매주 그 파일에 최신을 앞에 넣는다.
+     그러므로 이 화면은 손댈 일이 없다 — 새 주보가 나오면 저절로 늘어난다.
+   ★파일이 없거나 비어 있으면 「아직 없습니다」를 정직하게 쓴다. 빈 화면으로 두지 않는다. */
+(function(){
+  var box = document.getElementById('jb-archive');
+  if(!box) return;
+  fetch('주보목록.json', {cache:'no-store'})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      var list = (d && d.주보) || [];
+      if(!list.length){ box.innerHTML = '<p class="note">아직 쌓인 주보가 없습니다.</p>'; return; }
+      /* 연도 → 월 로 묶는다. 목록은 최신이 앞이므로 그 순서를 그대로 쓴다. */
+      var years = [], ymap = {};
+      list.forEach(function(x){
+        var iso = String(x.날짜 || '');
+        var y = iso.slice(0,4), m = iso.slice(5,7);
+        if(!y || !m) return;
+        if(!ymap[y]){ ymap[y] = {months:[], mmap:{}}; years.push(y); }
+        var Y = ymap[y];
+        if(!Y.mmap[m]){ Y.mmap[m] = []; Y.months.push(m); }
+        Y.mmap[m].push(x);
+      });
+      var html = '';
+      years.forEach(function(y, yi){
+        html += '<details class="arc-y"' + (yi===0 ? ' open' : '') + '>';
+        var cnt = 0; ymap[y].months.forEach(function(m){ cnt += ymap[y].mmap[m].length; });
+        html += '<summary>' + y + '년 <span class="arc-n">' + cnt + '건</span></summary>';
+        ymap[y].months.forEach(function(m, mi){
+          html += '<details class="arc-m"' + (yi===0 && mi===0 ? ' open' : '') + '>';
+          html += '<summary>' + Number(m) + '월 <span class="arc-n">' + ymap[y].mmap[m].length + '건</span></summary>';
+          html += '<ul class="arc-l">';
+          ymap[y].mmap[m].forEach(function(x){
+            var iso = String(x.날짜||''), dd = Number(iso.slice(8,10));
+            var href = (x.파일 || 'jubo.html') + '?v=' + iso.replace(/-/g,'');
+            var title = x.설교제목 || '';
+            var ho = x.제호 && x.제호 !== '자동' ? ' · ' + x.제호 : '';
+            html += '<li><a href="' + href + '">'
+                 +  '<b>' + dd + '일</b>'
+                 +  '<span class="arc-t">' + title + '</span>'
+                 +  '<span class="arc-s">' + (x.표기 || iso) + ho + '</span>'
+                 +  '</a></li>';
+          });
+          html += '</ul></details>';
+        });
+        html += '</details>';
+      });
+      box.innerHTML = html;
+    })
+    .catch(function(){ box.innerHTML = '<p class="note">지난 주보를 불러오지 못했습니다.</p>'; });
+})();
 </script>
 </body>
 </html>
