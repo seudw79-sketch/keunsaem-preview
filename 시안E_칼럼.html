@@ -342,7 +342,7 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
       <img src="사진/web/logo.png" alt="">
       <span class="b3wrap"><span class="bname">큰샘교회</span><span class="bbar"></span><span class="bden"><span class="l1"><i>기</i><i>독</i><i>교</i><i>대</i><i>한</i><i>감</i><i>리</i><i>회</i></span><span class="l2"><i>K</i><i>E</i><i>U</i><i>N</i><i>S</i><i>A</i><i>E</i><i>M</i><i>&nbsp;</i><i>C</i><i>H</i><i>U</i><i>R</i><i>C</i><i>H</i></span></span></span>
     </a>
-    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_주보.html">온라인 주보</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
+    <nav><a href="시안E_교회소개.html">교회소개</a><a href="시안E_예배안내.html">예배안내</a><a href="시안E_아카데미.html">성경 아카데미</a><a href="시안E_칼럼.html">신앙 칼럼</a><a href="시안E_재정.html">교회 재정</a><a href="시안E_주보.html">온라인 주보</a><a class="live" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">온라인 예배</a></nav>
   </div>
 </header>
 
@@ -352,6 +352,7 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
   <p>주보에 실린 신앙 칼럼을 모았습니다. 한 주에 한 편씩 쌓입니다.</p></div>
 </section>
 <section class="body"><div class="wrap">
+  <div id="col-list">
   <article class="block fade">
     <p class="note" style="margin:0 0 6px">26. 06. 21 &middot; 서동우 목사</p>
     <h3>당신은 어떤 안경을 쓰고 있습니까</h3>
@@ -361,8 +362,44 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
     <p>감사한 소식은, 이 안경을 바꿀 수 있다는 것입니다. "너희는 이 세대를 본받지 말고 오직 마음을 새롭게 함으로 변화를 받아"(롬 12:2)라는 말씀은, 세상 안경을 벗고 하나님이 주시는 새 안경으로 바꿔 끼라는 초대입니다. 예수님을 만난 삭개오가 재산의 절반을 내어놓은 것은, 같은 돈이 '전부'에서 '나눌 도구'로 다르게 보이기 시작했기 때문입니다. 안경이 바뀌는 것, 그것이 곧 구원이며 변화입니다.</p>
     <p>이번 한 주, "주님, 제 안경을 보여주십시오. 그리고 주님의 눈으로 세상을 보게 하옵소서"라는 기도로 살아가시기를 바랍니다.</p>
   </article>
-  <p class="note">★새 주보가 나올 때마다 그 주의 칼럼이 이 위에 쌓입니다.</p>
+  </div>
+  <p class="note" id="col-note">★새 주보가 나올 때마다 그 주의 칼럼이 이 위에 쌓입니다.</p>
 </div></section>
+
+<script>
+/* 신앙칼럼 아카이브 — 칼럼목록.json 하나만 읽는다.
+   ★2026-09-05 배선. 그전까지 이 화면은 6월 21일 칼럼이 **손으로 박혀** 있었고,
+     주보 생성기는 매주 칼럼목록.json 을 갱신했지만 **아무도 그 파일을 읽지 않았다.**
+     화면에는 "새 주보가 나올 때마다 쌓입니다"라고 적혀 있었으나 석 달간 한 편도 안 쌓였다.
+     쌓는 쪽만 만들고 읽는 쪽을 안 이으면, 쌓인 것은 없는 것과 같다.
+   ★파일을 못 읽으면 아래 정적 칼럼(6월 21일)을 그대로 둔다 — 빈 화면으로 두지 않는다. */
+(function(){
+  var box = document.getElementById('col-list');
+  var note = document.getElementById('col-note');
+  if(!box) return;
+  function esc(s){ var d=document.createElement('div'); d.textContent=String(s==null?'':s); return d.innerHTML; }
+  fetch('칼럼목록.json', {cache:'no-store'})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      var list = (d && d.칼럼) || [];
+      if(!list.length) return;                    /* 비었으면 정적 내용을 살려 둔다 */
+      box.innerHTML = list.map(function(x){
+        var 문단 = (x.문단 || []).map(function(p){ return '<p>' + esc(p) + '</p>'; }).join('');
+        if(!문단) 문단 = '<p class="note">본문이 아직 없습니다.</p>';
+        return '<article class="block fade">'
+             + '<p class="note" style="margin:0 0 6px">' + esc(x.표기 || x.날짜) + ' &middot; ' + esc(x.필자 || '') + '</p>'
+             + '<h3>' + esc(x.제목 || '') + '</h3>' + 문단 + '</article>';
+      }).join('');
+      if(note) note.textContent = '★새 주보가 나올 때마다 그 주의 칼럼이 맨 위에 쌓입니다. 지금까지 ' + list.length + '편.';
+      /* 새로 만든 카드에도 등장 효과를 붙인다(기존 관찰자는 이미 끝났으므로 다시 건다). */
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, {threshold:.12});
+      box.querySelectorAll('.fade').forEach(function(el){ io.observe(el); });
+    })
+    .catch(function(){});
+})();
+</script>
 
 
 <footer>
