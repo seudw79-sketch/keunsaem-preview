@@ -247,6 +247,13 @@ a{color:inherit;text-decoration:none}
 .row b{font-weight:700;color:var(--navy)}
 .row span{color:var(--mute);white-space:nowrap}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2.pastor{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:28px;align-items:center}
+.grid2.pastor picture,.grid2.pastor picture img{width:100%;height:auto;display:block}
+.grid2.pastor>div p:first-child{font-size:1.15em;color:#1f4e5f;margin-top:0}
+.grid2.pastor>div p b{font-size:1.1em}
+.grid2.pastor .note{line-height:1.7}
+@media(max-width:720px){.grid2.pastor{grid-template-columns:1fr}}
+
 @media(max-width:760px){.grid2{grid-template-columns:1fr}}
 .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:760px){.gal{grid-template-columns:repeat(2,1fr)}}
@@ -377,7 +384,7 @@ footer .copy{margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,
 
   <div class="block fade">
     <h3>담임목사</h3>
-    <div class="grid2">
+    <div class="grid2 pastor">
       <picture><source srcset="사진/web/pastor.webp" type="image/webp">
       <img src="사진/web/pastor.jpg" alt="담임목사 서동우" loading="lazy" decoding="async"
            style="border-radius:14px"></picture>
