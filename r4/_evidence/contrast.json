@@ -1,0 +1,98 @@
+[
+ {
+  "pair": "본문 ink-700 / paper-050",
+  "fg": "#33414A",
+  "bg": "#F6F8F8",
+  "ratio": 9.87,
+  "need": 4.5,
+  "pass": true
+ },
+ {
+  "pair": "본문 ink-900 / paper-050",
+  "fg": "#1A2429",
+  "bg": "#F6F8F8",
+  "ratio": 14.83,
+  "need": 4.5,
+  "pass": true
+ },
+ {
+  "pair": "보조 ink-500 / paper-050",
+  "fg": "#66737A",
+  "bg": "#F6F8F8",
+  "ratio": 4.58,
+  "need": 4.5,
+  "pass": true
+ },
+ {
+  "pair": "보조 ink-500 / tint-100",
+  "fg": "#66737A",
+  "bg": "#EBF1F2",
+  "ratio": 4.28,
+  "need": 4.5,
+  "pass": false
+ },
+ {
+  "pair": "링크·아이브로우 teal-600 / paper-050",
+  "fg": "#2A5D69",
+  "bg": "#F6F8F8",
+  "ratio": 6.87,
+  "need": 4.5,
+  "pass": true
+ },
+ {
+  "pair": "teal-600 / tint-100",
+  "fg": "#2A5D69",
+  "bg": "#EBF1F2",
+  "ratio": 6.41,
+  "need": 4.5,
+  "pass": true
+ },
+ {
+  "pair": "제목 navy-700 / paper-050",
+  "fg": "#1B3A47",
+  "bg": "#F6F8F8",
+  "ratio": 11.3,
+  "need": 4.5,
+  "pass": true
+ },
+ {
+  "pair": "금색 gold-500 / paper-050 (대형·장식 전용)",
+  "fg": "#9C835A",
+  "bg": "#F6F8F8",
+  "ratio": 3.39,
+  "need": 3.0,
+  "pass": true
+ },
+ {
+  "pair": "gold-500 / tint-100 (대형)",
+  "fg": "#9C835A",
+  "bg": "#EBF1F2",
+  "ratio": 3.17,
+  "need": 3.0,
+  "pass": true
+ },
+ {
+  "pair": "버튼 흰글자 / teal-600 (on-deep≈#FFFFFF·90%)",
+  "fg": "#FFFFFF",
+  "bg": "#2A5D69",
+  "ratio": 7.32,
+  "need": 4.5,
+  "pass": true
+ },
+ {
+  "pair": "푸터 흰글자 / navy-900",
+  "fg": "#FFFFFF",
+  "bg": "#0F2733",
+  "ratio": 15.46,
+  "need": 4.5,
+  "pass": true
+ },
+ {
+  "pair": "푸터 muted(72% 흰) 근사 #C4CBCE / navy-900",
+  "fg": "#C4CBCE",
+  "bg": "#0F2733",
+  "ratio": 9.41,
+  "need": 4.5,
+  "pass": true
+ }
+]

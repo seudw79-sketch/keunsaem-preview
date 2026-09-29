@@ -1,0 +1,42 @@
+{
+ "hero.jpg": {
+  "src": "hero.jpg",
+  "size": [
+   1200,
+   675
+  ],
+  "bytes": 110216
+ },
+ "about.jpg": {
+  "src": "about2.jpg",
+  "size": [
+   1000,
+   750
+  ],
+  "bytes": 169273
+ },
+ "worship.jpg": {
+  "src": "c1c.jpg",
+  "size": [
+   900,
+   675
+  ],
+  "bytes": 109524
+ },
+ "academy.jpg": {
+  "src": "pastor_full.jpg",
+  "size": [
+   1200,
+   900
+  ],
+  "bytes": 110049
+ },
+ "logo.png": {
+  "src": "logo.png",
+  "size": [
+   201,
+   213
+  ],
+  "bytes": 16696
+ }
+}

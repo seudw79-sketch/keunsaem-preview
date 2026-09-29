@@ -1,0 +1,199 @@
+/* ============================================================
+   큰샘교회 R4 — 공용 컴포넌트 CSS (토큰은 tokens.css · 여기엔 hex 리터럴 0)
+   레이어 순서: tokens → base → components → pages (페이지 고유 CSS는 @layer pages)
+   근거: cys skill design-system-propagate(@layer·BEM·한 페이지씩) · 벤치마크 §4·§5 · master 기준 격상 8항
+   ============================================================ */
+@layer tokens, base, components, pages;
+
+@layer base {
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--body);font:400 var(--text-body)/var(--lh-body) var(--font-sans);letter-spacing:var(--tracking-normal);overflow-x:hidden}
+  img{max-width:100%;height:auto;display:block}
+  a{color:inherit;text-decoration:none}
+  a:hover{text-decoration:underline;text-underline-offset:.35em;text-decoration-thickness:1px}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+  h1,h2,h3,h4,p{margin:0}
+  h1,h2,h3,h4{font-family:var(--font-serif);font-weight:500;color:var(--heading);word-break:keep-all;line-height:var(--lh-heading);letter-spacing:var(--tracking-tight)}
+  p{max-width:var(--measure)}
+  button{font:inherit;cursor:pointer}
+  .wrap{width:min(var(--wrap),calc(100% - var(--gutter)*2));margin-inline:auto}
+  .wrap-narrow{width:min(var(--wrap-narrow),calc(100% - var(--gutter)*2));margin-inline:auto}
+}
+
+@layer components {
+  /* ── 내비 (상단 고정 · 스크롤 시 반투명 블러 · 우측 알약 CTA) ── */
+  .nav{position:fixed;inset:0 0 auto 0;z-index:50;background:var(--nav-glass);color:var(--ink);border-bottom:1px solid var(--line);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%)}
+  .nav .wrap{display:flex;align-items:center;gap:var(--s-4);min-height:72px}
+  .brand{display:flex;flex-direction:column;line-height:1.05;flex:0 0 auto}
+  .brand strong{font-family:var(--font-serif);font-size:var(--fs-1);font-weight:600;letter-spacing:.06em}
+  .brand small{font-size:10px;letter-spacing:.2em;font-weight:500;opacity:.78;margin-top:4px}
+  .nav nav{margin-left:auto;display:flex;align-items:center;gap:2px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;min-width:0;
+    -webkit-mask-image:linear-gradient(90deg,black 92%,transparent);mask-image:linear-gradient(90deg,black 92%,transparent)}
+  .nav nav::-webkit-scrollbar{display:none}
+  .nav nav a{flex:0 0 auto;padding:10px 12px;font-size:var(--text-body-sm);font-weight:600}
+  .nav nav a:hover{text-decoration:none;color:var(--accent)}
+  .nav nav .nav__cta{margin-left:var(--s-2);padding:9px 18px;border:1px solid currentColor;border-radius:var(--radius-pill)}
+  .nav nav .nav__cta:hover{background:var(--deep);color:var(--on-deep);border-color:var(--deep)}
+  .nav--dark{background:transparent;color:var(--on-deep);border-color:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .nav--dark nav a:hover{color:var(--on-deep);text-decoration:underline}
+  .nav--dark nav .nav__cta:hover{background:var(--surface);color:var(--heading);border-color:var(--surface)}
+  @supports (animation-timeline: scroll()) {
+    .nav--dark{animation:nav-solidify linear both;animation-timeline:scroll(root);animation-range:0 180px}
+    @keyframes nav-solidify{
+      from{background:transparent;color:var(--on-deep);border-color:transparent;-webkit-backdrop-filter:blur(0) saturate(100%);backdrop-filter:blur(0) saturate(100%)}
+      to{background:var(--nav-glass);color:var(--ink);border-color:var(--line);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%)}
+    }
+  }
+
+  /* ── 히어로 (전폭 사진 · 톤다운 필터 · 어두운 그라데이션 스크림) ── */
+  .hero{position:relative;min-height:clamp(600px,90svh,860px);display:flex;align-items:flex-end;color:var(--on-deep);background:var(--deep);overflow:hidden;isolation:isolate}
+  .hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;z-index:-2;filter:var(--photo-filter)}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,var(--hero-scrim-top) 0%,var(--hero-scrim-mid) 52%,var(--hero-scrim-bottom) 100%)}
+  .hero .wrap{padding-block:var(--s-15) var(--s-12)}
+  .hero__label{font-size:var(--text-caption);letter-spacing:var(--tracking-wide);font-weight:600;color:var(--on-deep-muted);margin-bottom:var(--s-3)}
+  .hero h1{font-size:var(--text-display);line-height:var(--lh-tight);letter-spacing:var(--tracking-tight);color:var(--on-deep);max-width:16ch}
+  .hero__bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s-5);margin-top:var(--s-5);flex-wrap:wrap}
+  .hero__bottom p{font-size:var(--fs-1);line-height:1.6;color:var(--on-deep-muted);max-width:32ch}
+  .hero__links{display:flex;gap:var(--s-2);flex-wrap:wrap}
+
+  /* ── 버튼 · 텍스트 링크 ── */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border:1px solid var(--line-strong);background:var(--surface);color:var(--heading);font-size:var(--text-body-sm);font-weight:600;line-height:1;border-radius:var(--radius-md);transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out)}
+  .btn:hover{text-decoration:none;background:var(--deep);color:var(--on-deep);border-color:var(--deep)}
+  .btn--pill{border-radius:var(--radius-pill);padding:13px 24px}
+  .btn--primary{background:var(--accent);color:var(--on-deep);border-color:var(--accent)}
+  .btn--primary:hover{background:var(--deep);border-color:var(--deep)}
+  .btn--ghost{background:transparent;color:var(--on-deep);border-color:var(--on-deep-line)}
+  .btn--ghost:hover{background:var(--surface);color:var(--heading);border-color:var(--surface)}
+  .text-link{display:inline-block;font-size:var(--text-body-sm);font-weight:600;color:var(--accent);padding-bottom:4px;border-bottom:1px solid var(--line-strong);transition:border-color var(--dur-fast) var(--ease-out)}
+  .text-link:hover{text-decoration:none;border-color:var(--accent)}
+
+  /* ── 섹션 골격 ── */
+  .strip{border-bottom:1px solid var(--line);background:var(--surface)}
+  .strip .wrap{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-6);padding-block:var(--s-3);font-size:var(--text-body-sm);color:var(--muted)}
+  .strip b{color:var(--heading);font-weight:600;margin-right:8px}
+  .section{padding-block:var(--section-y);border-bottom:1px solid var(--line)}
+  .section--tint{background:var(--surface-tint)}
+  .section-head{display:grid;grid-template-columns:1fr 2fr;gap:var(--gap-md);align-items:end;margin-bottom:var(--gap-lg)}
+  .section-head h2{font-size:var(--text-h1)}
+  .section-head .lead{grid-column:2}
+  .eyebrow{display:flex;align-items:center;gap:12px;font-family:var(--font-sans);font-size:var(--text-caption);letter-spacing:var(--tracking-wide);font-weight:600;color:var(--accent);margin-bottom:var(--s-2);text-transform:uppercase}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--gold)}
+  .lead{font-size:var(--fs-1);line-height:1.6;color:var(--ink)}
+  .note{font-size:var(--text-body-sm);color:var(--muted);line-height:var(--lh-body)}
+
+  /* ── 사진 ── */
+  .photo{position:relative;overflow:hidden;border-radius:var(--radius-sm);background:var(--surface-tint);border:1px solid var(--line-light)}
+  .photo img{width:100%;height:100%;object-fit:cover;filter:var(--photo-filter)}
+  .photo--43{aspect-ratio:4/3}
+  .photo--45{aspect-ratio:4/5}
+  .photo--1610{aspect-ratio:16/10}
+
+  /* ── 2단 레이아웃 ── */
+  .split{display:grid;grid-template-columns:5fr 7fr;gap:var(--gap-lg);align-items:center}
+  .split--rev{grid-template-columns:7fr 5fr}
+  .prose{display:grid;gap:var(--gap-sm)}
+  .prose p{color:var(--body);line-height:var(--lh-loose)}
+
+  /* ── 세 기둥 (3칼럼 핵심가치) ── */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-strong)}
+  .pillar{padding:var(--s-5) var(--s-4) var(--s-3) 0}
+  .pillar+.pillar{padding-left:var(--s-4);border-left:1px solid var(--line)}
+  .pillar__no{font-family:var(--font-serif);font-size:var(--fs-3);line-height:1;color:var(--gold);margin-bottom:var(--s-3)}
+  .pillar h3{font-size:var(--text-h2);margin-bottom:var(--s-3)}
+  .empty-line{height:24px;max-width:30ch;border-bottom:1px solid var(--line);margin-bottom:8px}
+
+  /* ── 예배 시간표 ── */
+  .schedule{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap-md)}
+  .schedule article{border-top:1px solid var(--line-strong);padding-top:var(--s-3)}
+  .schedule h3{font-family:var(--font-sans);font-size:var(--text-body-sm);font-weight:600;color:var(--muted);margin-bottom:var(--s-2)}
+  .schedule strong{display:block;font-family:var(--font-serif);font-size:var(--fs-3);white-space:nowrap;font-weight:500;color:var(--heading);letter-spacing:var(--tracking-tight);line-height:1.2}
+  .schedule p{font-size:var(--text-body-sm);color:var(--muted);margin-top:var(--s-2)}
+  .schedule__cta{margin-top:var(--gap-md)}
+
+  /* ── 카드(얇은 선·큰 여백·그림자 없음) ── */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap-sm)}
+  .card{display:flex;flex-direction:column;gap:var(--s-2);padding:var(--s-4);border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-sm);min-height:220px;transition:border-color var(--dur-fast) var(--ease-out)}
+  .card:hover{border-color:var(--accent);text-decoration:none}
+  .card h3{font-size:var(--text-h2)}
+  .card .tag{font-size:var(--text-caption);letter-spacing:var(--tracking-wide);font-weight:600;color:var(--accent)}
+  .card .sub{font-size:var(--text-body-sm);color:var(--muted)}
+  .card .go{margin-top:auto;padding-top:var(--s-2);font-size:var(--text-body-sm);font-weight:600;color:var(--accent)}
+  .card--deep{background:var(--deep);border-color:var(--deep);color:var(--on-deep)}
+  .card--deep h3{color:var(--on-deep)}
+  .card--deep .tag,.card--deep .go,.card--deep .sub{color:var(--on-deep-muted)}
+
+  /* ── 통독 블록 ── */
+  .reading{display:grid;grid-template-columns:7fr 5fr;gap:var(--gap-lg);align-items:center;margin-top:var(--gap-lg);padding-top:var(--gap-lg);border-top:1px solid var(--line)}
+  .reading h3{font-size:var(--text-h1)}
+  .reading__now{display:grid;gap:var(--s-1);margin:var(--s-4) 0;padding:var(--s-3) 0;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong);font-family:var(--font-serif);font-size:var(--text-h2);color:var(--heading)}
+  .reading__now span{color:var(--muted);font-family:var(--font-sans);font-size:var(--text-caption);letter-spacing:var(--tracking-wide)}
+  .reading__nav{display:flex;align-items:center;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-3)}
+  .reading__nav button{background:transparent;border:1px solid var(--line-strong);color:var(--heading);padding:9px 16px;border-radius:var(--radius-md);font-size:var(--text-body-sm);font-weight:600;transition:background var(--dur-fast) var(--ease-out)}
+  .reading__nav button:hover{background:var(--surface-tint)}
+  .reading__nav span{font-size:var(--text-body-sm);color:var(--muted)}
+  .reading__links{margin-top:var(--s-3);display:flex;gap:var(--s-3);flex-wrap:wrap}
+
+  /* ── 설교 카드 ── */
+  .sermons{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap-md)}
+  .sermon{display:flex;flex-direction:column;border-top:1px solid var(--line-strong);padding:var(--s-4) 0;min-height:240px}
+  .sermon h3{font-size:var(--text-h2);max-width:14ch}
+  .sermon time,.sermon .when{display:block;font-size:var(--text-body-sm);color:var(--muted);margin:var(--s-3) 0}
+  .sermon .when time{display:inline;margin:0}
+  .sermon a{margin-top:auto;font-size:var(--text-body-sm);font-weight:600;color:var(--accent)}
+
+  /* ── 처음 오신 분 (3단계) ── */
+  .visitor-list{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap-md)}
+  .visitor-list article{border-top:1px solid var(--line-strong);padding-top:var(--s-3);display:grid;gap:var(--s-2);align-content:start}
+  .visitor-list .step{font-family:var(--font-serif);font-size:var(--fs-3);line-height:1;color:var(--gold)}
+  .visitor-list h3{font-size:var(--text-h2)}
+  .visitor-list .note a{color:var(--accent);font-weight:600}
+
+  /* ── 오시는 길 · 문의 ── */
+  .location-grid{display:grid;grid-template-columns:1fr 2fr;gap:var(--gap-lg);align-items:start}
+  .address{font-family:var(--font-serif);font-size:var(--fs-4);line-height:1.4;color:var(--heading);max-width:22ch}
+  .phone{display:inline-block;font-size:var(--fs-1);margin-top:var(--s-3);color:var(--ink)}
+  .map-link{display:inline-flex;align-items:center;gap:var(--s-6);margin-top:var(--s-4);padding:var(--s-2) 0;border-bottom:1px solid var(--accent);color:var(--accent);font-weight:600}
+  .contact{margin-top:var(--gap-lg);padding-top:var(--gap-md);border-top:1px solid var(--line)}
+  .contact__actions{display:flex;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-3)}
+
+  /* ── 푸터 3열 ── */
+  .footer{background:var(--deep);color:var(--on-deep-muted);padding-block:var(--s-10) var(--s-6);font-size:var(--text-body-sm);line-height:var(--lh-body)}
+  .footer__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--gap-lg)}
+  .footer h4{font-family:var(--font-serif);font-size:var(--fs-1);color:var(--on-deep);margin-bottom:var(--s-2)}
+  .footer__name{font-family:var(--font-serif);font-size:var(--text-h2);color:var(--on-deep);margin-bottom:var(--s-2)}
+  .footer a{color:var(--on-deep)}
+  .footer__links{display:grid;gap:6px}
+  .footer__copy{margin-top:var(--gap-lg);padding-top:var(--s-3);border-top:1px solid var(--on-deep-line);font-size:var(--text-caption);color:var(--on-deep-muted)}
+
+  /* ── 모션 1종: 스크롤 등장 페이드 (CSS only · 미지원=정적 표시) ── */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .reveal{animation:reveal var(--ease-out) both;animation-timeline:view();animation-range:entry 0% entry 35%}
+      @keyframes reveal{from{opacity:0;transform:translateY(var(--reveal-shift))}to{opacity:1;transform:none}}
+    }
+  }
+
+  /* ── 반응형 ── */
+  @media (max-width: 960px) {
+    .split,.split--rev,.reading,.location-grid{grid-template-columns:1fr;gap:var(--gap-md)}
+    .section-head{grid-template-columns:1fr;gap:var(--s-2)}
+    .section-head .lead{grid-column:auto}
+    .cards,.sermons,.visitor-list{grid-template-columns:1fr 1fr}
+    .footer__grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width: 640px) {
+    .nav .wrap{min-height:64px;gap:var(--s-2)}
+    .nav nav a{padding:10px 8px;font-size:13px}
+    .nav nav .nav__cta{padding:7px 14px;margin-left:var(--s-1)}
+    .hero{min-height:clamp(560px,84svh,760px)}
+    .hero .wrap{padding-block:var(--s-15) var(--s-8)}
+    .hero h1{max-width:12ch}
+    .pillars,.schedule,.cards,.sermons,.visitor-list{grid-template-columns:1fr}
+    .pillar{padding:var(--s-3) 0}
+    .pillar+.pillar{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+    .sermon{min-height:0}
+    .footer__grid{grid-template-columns:1fr}
+    .map-link{gap:var(--s-3)}
+  }
+}
