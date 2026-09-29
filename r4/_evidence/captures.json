@@ -32,5 +32,17 @@
   "exists": true,
   "bytes": 375494,
   "method": "window"
+ },
+ "온라인예배_390": {
+  "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/온라인예배_390.png",
+  "exists": true,
+  "bytes": 218957,
+  "method": "iframe-wrapper"
+ },
+ "온라인예배_1280": {
+  "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/온라인예배_1280.png",
+  "exists": true,
+  "bytes": 252483,
+  "method": "window"
  }
 }

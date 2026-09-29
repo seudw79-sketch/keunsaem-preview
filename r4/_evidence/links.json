@@ -187,5 +187,54 @@
    "재정.html",
    "칼럼.html"
   ]
+ },
+ "온라인예배": {
+  "page": "온라인예배",
+  "internal": [
+   "assets/tokens.css",
+   "assets/r4.css",
+   "index.html",
+   "교회소개.html",
+   "예배안내.html",
+   "아카데미.html",
+   "칼럼.html",
+   "재정.html",
+   "주보.html",
+   "온라인예배.html",
+   "새가족.html",
+   "교회소개.html",
+   "예배안내.html",
+   "주보.html",
+   "재정.html",
+   "아카데미.html",
+   "칼럼.html"
+  ],
+  "external": [
+   "https://fonts.googleapis.com",
+   "https://fonts.gstatic.com",
+   "https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Nanum+Brush+Script&display=swap",
+   "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css",
+   "https://www.youtube.com/embed/videoseries?list=PLRKz01U8iI5IuYm8JnLfkFt7JzxVyiqZW",
+   "https://www.youtube.com/embed/videoseries?list=PLdPO76K4HcRA",
+   "https://www.youtube.com/embed/videoseries?list=PLRKz01U8iI5LEosjtRdeO9PMiKXB0yPhO",
+   "https://www.youtube.com/embed/videoseries?list=PLRKz01U8iI5JdSAHTMKHmC5yfFMd7_4kg",
+   "https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw",
+   "https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw?sub_confirmation=1",
+   "tel:010-2534-0407",
+   "https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw"
+  ],
+  "broken": [
+   "교회소개.html",
+   "예배안내.html",
+   "칼럼.html",
+   "재정.html",
+   "주보.html",
+   "새가족.html",
+   "교회소개.html",
+   "예배안내.html",
+   "주보.html",
+   "재정.html",
+   "칼럼.html"
+  ]
  }
 }
