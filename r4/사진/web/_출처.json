@@ -38,5 +38,127 @@
    213
   ],
   "bytes": 16696
+ },
+ "pastor.jpg": {
+  "src": "pastor.jpg",
+  "size": [
+   900,
+   1034
+  ],
+  "bytes": 62308
+ },
+ "c1a.jpg": {
+  "src": "c1a.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 67541
+ },
+ "c1b.jpg": {
+  "src": "c1b.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 48464
+ },
+ "c1c.jpg": {
+  "src": "c1c.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 71545
+ },
+ "c2a.jpg": {
+  "src": "c2a.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 74462
+ },
+ "c2b.jpg": {
+  "src": "c2b.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 54597
+ },
+ "c2c.jpg": {
+  "src": "c2c.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 107698
+ },
+ "c3a.jpg": {
+  "src": "c3a.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 74901
+ },
+ "c3b.jpg": {
+  "src": "c3b.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 57889
+ },
+ "c3c.jpg": {
+  "src": "c3c.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 49830
+ },
+ "c4a.jpg": {
+  "src": "c4a.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 114200
+ },
+ "c4b.jpg": {
+  "src": "c4b.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 64673
+ },
+ "c4c.jpg": {
+  "src": "c4c.jpg",
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 70482
+ },
+ "hero_b.jpg": {
+  "src": "about2.jpg",
+  "size": [
+   1000,
+   750
+  ],
+  "bytes": 173381,
+  "용도": "히어로 대안 미리보기"
+ },
+ "hero_c.jpg": {
+  "src": "c1b.jpg",
+  "size": [
+   900,
+   675
+  ],
+  "bytes": 72492,
+  "용도": "히어로 대안 미리보기"
  }
 }

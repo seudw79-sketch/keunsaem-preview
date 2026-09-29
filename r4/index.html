@@ -1,103 +1,122 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>큰샘교회</title>
 <meta name="description" content="기독교대한감리회 큰샘교회 · 주일예배 오전 11시 · 경기 광명시 기아로 23">
-<!-- 근거: 디자인=시안R3_B.html(청록·남색·Noto Serif KR/Pretendard) + master 기준 격상 8항 + 조사/02_프리미엄_벤치마크_20260929.md §5 토큰·사진 전략·섹션 순서(문안은 제외) -->
+<!-- 근거: 디자인 v2 = master R4 2차 방침(타이포·질감 주도·hcbc 구조·종이색+먹색·금색 숫자) + 조사/02_프리미엄_벤치마크 §5 토큰 · 히어로=우리 십자가·벽 질감(r4/_evidence/photo_grade.py) -->
 <!-- 근거: 문안=00_R3_실문구_대장.md · ksmc31/시안E_홈·교회소개·새가족·예배안내.html · latest.json · 주보목록.json · jubo_2609xx.html — 문자 그대로, 창작 0 -->
-<!-- 근거: 폰트 링크는 시안R3_B.html 과 동일(조사/01_디자인_레퍼런스.md · 2. Noto Serif KR + Pretendard) -->
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<!-- 근거: 폰트=시안R3_B 링크(Noto Serif KR·Pretendard) + master 2차 ① 허용 Nanum Brush Script(표어 캘리) -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Nanum+Brush+Script&display=swap" rel="stylesheet"><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="assets/tokens.css"><link rel="stylesheet" href="assets/r4.css">
 </head><body>
 
-<!-- 근거: 00_R3_실문구_대장.md 내비 7항 그대로 · 벤치마크 §5(5) GNB 우측 알약 CTA(처음 오신 분) → 시안E_새가족.html 제목 "새가족 안내" -->
-<header class="nav nav--dark"><div class="wrap"><a class="brand" href="index.html"><strong>큰샘교회</strong><small>KEUNSAEM CHURCH</small></a>
+<!-- 근거: 00_R3_실문구_대장.md 내비 7항 그대로 · 영문 라벨 KEUNSAEM CHURCH(대장) · 우측 알약 CTA=시안E_새가족.html 제목 -->
+<header class="nav"><div class="wrap"><a class="brand" href="index.html"><strong>큰샘교회</strong><small>KEUNSAEM CHURCH</small></a>
 <nav aria-label="주 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a><a class="nav__cta" href="새가족.html">새가족 안내</a></nav></div></header>
 
 <main>
-<!-- 근거: 00_R3_실문구_대장.md · 표어·히어로 / 시안R3_B.html hero 문안 그대로 · 사진=ksmc31/사진/web/hero.jpg(alt는 시안E_홈.html) · 벤치마크 §5(4)-1 톤다운 필터 · master ③ 어두운 그라데이션 -->
-<section id="home" class="hero" data-block="hero">
-  <img class="hero__img" src="사진/web/hero.jpg" alt="큰샘교회 온 가족" fetchpriority="high">
-  <div class="wrap"><p class="hero__label">KEUNSAEM METHODIST CHURCH</p><h1>말씀을 읽고<br>배우고 가르치자</h1>
-  <div class="hero__bottom"><p>기독교대한감리회 큰샘교회는<br>말씀과 기도로 세워지는 공동체입니다.</p>
-  <div class="hero__links"><a class="btn btn--ghost btn--pill" href="#worship">예배안내 ↗</a><a class="btn btn--ghost btn--pill" href="#location">오시는 길 ↗</a><a class="btn btn--ghost btn--pill" href="새가족.html">새가족 안내 ↗</a></div></div></div>
-</section>
+<!-- 근거: 오너 지정 5곳(cedarcrestchurch.com 상단 SUNDAYS 칩·one.church 상단 안내줄) → 예배 시간 유틸 라인을 히어로 위에 · 문안=00_R3_실문구_대장.md 예배 시간표 실값 -->
+<section id="home" class="hero" data-block="hero"><div class="util" data-block="times"><span><b>주일예배</b>오전 11시</span><span><b>성경공부</b>주일 오후 1시</span><span><b>아침예배</b>오전 7시</span></div>
+<!-- 근거: 00_R3_실문구_대장.md 표어·히어로 문안 · 배경=r4/사진/web/hero_texture.jpg(pastor_full.jpg 십자가·벽 크롭 블러·저채도, 사람 없음) · 종이 그라데이션 마스크(master 2차 ④) · 인셋 둥근 프레임=오너 지정 passioncitychurch.com·cedarcrestchurch.com -->
+<div class="hero__frame">
+  <img class="hero__img" src="사진/web/hero_texture.jpg" alt="" fetchpriority="high">
+  <div class="hero__lockup"><p class="hero__label">KEUNSAEM METHODIST CHURCH</p><h1>말씀을 읽고<br>배우고 가르치자</h1>
+  <p class="hero__sub">기독교대한감리회 큰샘교회는<br>말씀과 기도로 세워지는 공동체입니다.</p>
+  <div class="hero__links"><a class="btn" href="#worship">예배안내 ↗</a><a class="btn" href="#location">오시는 길 ↗</a><a class="btn btn--primary" href="새가족.html">새가족 안내 ↗</a></div></div>
+</div></section>
 
-<!-- 근거: 00_R3_실문구_대장.md · 예배 시간표(실값) · 시안E_홈.html actions 바 -->
-<div class="strip" data-block="times"><div class="wrap"><span><b>주일예배</b>오전 11시</span><span><b>성경공부</b>주일 오후 1시</span><span><b>아침예배</b>오전 7시</span></div></div>
+<!-- 근거: 오너 지정 5곳 공통(cedarcrestchurch.com 'Latest Message' 히어로·transformchurch.us 'WATCH LATEST SERMON'·one.church WATCH) → 최신 설교를 히어로 바로 아래 크게 · 문안=대장 카드 블록(주일 설교·설교 영상 보기 ↗)·latest.json 실값·'온라인 예배'(대장 내비) · 썸네일=교회 유튜브 영상 자체 썸네일(i.ytimg.com, 상세 r4/_evidence/images.md) -->
+<section id="latest" class="section" data-block="latest-sermon"><div class="wrap feature reveal">
+  <a class="media" id="sm-thumb" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/4Uw236eEFuk/hqdefault.jpg" alt="" loading="eager"></a>
+  <div><span class="eyebrow">주일 설교</span><h2 class="title" id="sm-title">광야에서도 신실하신 하나님</h2><p class="meta" id="sm-date">2026-09-27 · 민수기 14장 8-9절</p>
+    <div class="actions"><a class="btn btn--primary" id="sm-link" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener">설교 영상 보기 ↗</a><a class="btn" href="온라인예배.html">온라인 예배 ↗</a></div></div>
+</div></section>
 
-<!-- 근거: 벤치마크 §5(5) SECTION 2 = 비전·핵심가치 3칼럼 → 시안R3_B.html pillars 블록(표어=대장) · 세 기둥 2줄×3 은 빈칸+주석 유지(master 보충 ②: 오너 답 대기) -->
+<!-- 근거: hcbc OUR VISION 구조(eyebrow+대형 세리프+01/02/03 얇은 선 3열) · 문안=대장 표어 · 세 기둥 2줄×3 빈칸+주석(오너 답 대기) -->
 <section id="vision" class="section" data-block="pillars"><div class="wrap">
-  <div class="section-head reveal"><p class="eyebrow">성경 아카데미</p><h2>말씀을 읽고 배우고 가르치자</h2></div>
-  <div class="pillars reveal">
-    <article class="pillar"><p class="pillar__no">01</p><h3>말씀 읽기</h3><!-- 실문구 필요 / 오너 확인 필요: 각 2줄 --><p class="empty-line"></p><p class="empty-line"></p></article>
-    <article class="pillar"><p class="pillar__no">02</p><h3>배우기</h3><!-- 실문구 필요 / 오너 확인 필요: 각 2줄 --><p class="empty-line"></p><p class="empty-line"></p></article>
-    <article class="pillar"><p class="pillar__no">03</p><h3>가르치기</h3><!-- 실문구 필요 / 오너 확인 필요: 각 2줄 --><p class="empty-line"></p><p class="empty-line"></p></article>
+  <div class="head reveal"><span class="eyebrow">성경 아카데미</span><h2 class="title title--display">말씀을 읽고<br>배우고 가르치자</h2></div>
+  <div class="cols reveal">
+    <article><span class="num">01</span><h3>말씀 읽기</h3><!-- 실문구 필요 / 오너 확인 필요: 각 2줄 --><p class="empty-line"></p><p class="empty-line"></p></article>
+    <article><span class="num">02</span><h3>배우기</h3><!-- 실문구 필요 / 오너 확인 필요: 각 2줄 --><p class="empty-line"></p><p class="empty-line"></p></article>
+    <article><span class="num">03</span><h3>가르치기</h3><!-- 실문구 필요 / 오너 확인 필요: 각 2줄 --><p class="empty-line"></p><p class="empty-line"></p></article>
   </div>
+  <p class="rule reveal">함께 걷는 믿음의 가족</p>
 </div></section>
 
-<!-- 근거: 벤치마크 §5(5) SECTION 3 = 예배·모임 + 알약형 온라인 예배 CTA → 00_R3_실문구_대장.md 예배 시간표 실값 · 시안R3_B.html worship 블록 · 사진=c1c.jpg(alt 원문 시안E_교회소개.html) · CTA 문안=시안E_홈.html 버튼 "온라인 예배" -->
-<section id="worship" class="section section--tint" data-block="worship"><div class="wrap">
-  <div class="section-head reveal"><p class="eyebrow">예배안내</p><h2>예배 시간표</h2></div>
-  <div class="split split--rev reveal">
-    <div><div class="schedule"><article><h3>주일예배</h3><strong>오전 11시</strong></article><article><h3>성경공부</h3><strong>주일 오후 1시</strong></article><article><h3>아침예배</h3><strong>오전 7시</strong><p>아침 QT 예배</p></article></div>
-      <div class="schedule__cta"><a class="btn btn--primary btn--pill" href="온라인예배.html">온라인 예배</a></div></div>
-    <div class="photo photo--43"><img src="사진/web/worship.jpg" alt="성찬을 나누는 성도들" loading="lazy"></div>
-  </div>
-</div></section>
-
-<!-- 근거: 벤치마크 §5(5) SECTION 4 = 2단 사진+소개 → 시안R3_B.html intro 블록 · 문단 3개=ksmc31/시안E_교회소개.html 소개 p1~p3 원문 그대로 · 사진=about2.jpg(alt 원문) -->
-<section id="intro" class="section" data-block="intro"><div class="wrap">
-  <div class="section-head reveal"><p class="eyebrow">교회소개</p><h2>함께 걷는<br>믿음의 가족</h2></div>
-  <div class="split reveal">
-    <div class="photo photo--43"><img src="사진/web/about.jpg" alt="정자 앞에 함께 선 큰샘교회 가족들" loading="lazy"></div>
-    <div class="prose"><p>말씀과 기도로 세워진 이 공동체는 예수 그리스도의 사랑을 삶으로 실천하며, 지역사회와 열방을 섬기고자 세워졌습니다.</p><p>우리는 성경 중심의 제자훈련과 깊이 있는 말씀 연구를 통해, 성도 한 사람 한 사람이 하나님의 말씀 위에 굳건히 서도록 돕고 있습니다.
+<!-- 근거: 시안R3_B intro 블록 · 문단 3=ksmc31/시안E_교회소개.html 원문 · 사진 1장 소형=about2(저채도·따뜻한 톤, alt 원문) -->
+<section id="intro" class="section section--tint" data-block="intro"><div class="wrap two two--photo reveal">
+  <div class="photo photo--43"><img src="사진/web/about.jpg" alt="정자 앞에 함께 선 큰샘교회 가족들" loading="lazy"></div>
+  <div><span class="eyebrow">교회소개</span><h2 class="title">함께 걷는<br>믿음의 가족</h2>
+    <div class="prose" style="margin-top:32px"><p>말씀과 기도로 세워진 이 공동체는 예수 그리스도의 사랑을 삶으로 실천하며, 지역사회와 열방을 섬기고자 세워졌습니다.</p><p>우리는 성경 중심의 제자훈련과 깊이 있는 말씀 연구를 통해, 성도 한 사람 한 사람이 하나님의 말씀 위에 굳건히 서도록 돕고 있습니다.
        말씀 안에 뿌리내린 한 사람이 변화될 때, 가정과 교회, 세상 가운데 하나님의 나라가 확장된다고 믿기 때문입니다.</p><p>큰샘교회는 단순한 예배의 공간을 넘어, 삶의 모든 자리에서 복음을 살아내는 &lsquo;살아있는 교회&rsquo;가 되기를 소망합니다.
-       가정과 일터, 선교지에서 하나님의 뜻을 이루어가는 이 거룩한 여정에 여러분을 초대합니다.</p><div><a class="text-link" href="교회소개.html">교회소개에서 더 보기 →</a></div></div>
-  </div>
+       가정과 일터, 선교지에서 하나님의 뜻을 이루어가는 이 거룩한 여정에 여러분을 초대합니다.</p><div><a class="text-link" href="교회소개.html">교회소개에서 더 보기 →</a></div></div></div>
 </div></section>
 
-<!-- 근거: 00_R3_실문구_대장.md · 카드 블록 문구 · 시안E_홈.html 이번 주 블록(제목/부제) · latest.json(ksmc31 라이브 2026-09-27) 실값 · 통독=통독_365.json 272일차(KST 2026-09-29, 시안E 회차 계산식) · 영상=통독_영상_덮어쓰기.json "272" · 사진=pastor_full.jpg(alt 원문 시안E_홈.html) -->
+<!-- 근거: 00_R3_실문구_대장.md 예배 시간표 실값 · 시안R3_B worship 블록 · CTA 문안=시안E_홈 버튼 "온라인 예배" -->
+<section id="worship" class="section section--line" data-block="worship"><div class="wrap">
+  <div class="two reveal"><div><span class="eyebrow">예배안내</span><h2 class="title">예배 시간표</h2></div>
+    <div><div class="cols"><article><span class="num">주일예배</span><b class="big">오전 11시</b></article><article><span class="num">성경공부</span><b class="big">주일 오후 1시</b></article><article><span class="num">아침예배</span><b class="big">오전 7시</b><p>아침 QT 예배</p></article></div>
+    <div class="actions"><a class="btn btn--primary" href="온라인예배.html">온라인 예배</a></div></div></div>
+</div></section>
+
+<!-- 근거: 00_R3_실문구_대장.md 카드 블록 문구 · 시안E_홈 이번 주 블록 · latest.json(ksmc31 2026-09-27) · 통독=통독_365.json 272일차(KST 2026-09-29) · 영상=통독_영상_덮어쓰기.json "272" -->
 <section id="week" class="section section--tint" data-block="today"><div class="wrap">
-  <div class="section-head reveal"><p class="eyebrow">이번 주 큰샘교회</p><h2>매주 갱신됩니다</h2></div>
-  <div class="cards reveal">
-    <a class="card" id="sm-link" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener"><span class="tag">주일 설교</span><h3 id="sm-title">광야에서도 신실하신 하나님</h3><span class="sub" id="sm-date">2026-09-27 · 민수기 14장 8-9절</span><span class="go">설교 영상 보기 ↗</span></a>
-    <a class="card" id="jb-link" href="../jubo.html?v=20260927"><span class="tag">온라인 주보</span><h3 id="jb-title">2026년 9월 27일 주보</h3><span class="sub">이번 주 예배 순서와 소식</span><span class="go">주보 보기 ↗</span></a>
-    <a class="card card--deep" href="온라인예배.html"><span class="tag">아침예배</span><h3>아침 QT 예배</h3><span class="sub">매일 아침 7시 말씀묵상으로 하루를 엽니다</span><span class="go">예배 참여하기 ↗</span></a>
+  <div class="head reveal"><span class="eyebrow">이번 주 큰샘교회</span><h2 class="title">매주 갱신됩니다</h2></div>
+  <div class="cols reveal">
+    <article><span class="num">01 · 온라인 주보</span><h3 id="jb-title">2026년 9월 27일 주보</h3><p>이번 주 예배 순서와 소식</p><a class="go" id="jb-link" href="../jubo.html?v=20260927">주보 보기 ↗</a></article>
+    <article><span class="num">02 · 아침예배</span><h3>아침 QT 예배</h3><p>매일 아침 7시 말씀묵상으로 하루를 엽니다</p><a class="go" href="온라인예배.html">예배 참여하기 ↗</a></article>
+    <article><span class="num">03 · 성경 아카데미</span><h3>어? 성경이 읽어지네</h3><p>이애실 사모 강의<br>애실쌤과 365성경읽기 · 생터성경사역원</p><a class="go" href="아카데미.html">성경 아카데미 ↗</a></article>
   </div>
   <div class="reading reveal">
-    <div><p class="eyebrow">성경 아카데미</p><h3>어? 성경이 읽어지네</h3><p class="note" style="margin-top:8px">이애실 사모 강의<br>애실쌤과 365성경읽기 · 생터성경사역원</p>
-      <div class="reading__now"><span>오늘의 통독 —</span><b id="td-day">272일차</b><span>오늘 읽을 곳 —</span><b id="td-ref">욥기 38-39장</b></div>
+    <div><span class="eyebrow">성경 아카데미</span><h3>오늘의 통독 —</h3><p class="note" style="margin-top:8px">어? 성경이 읽어지네</p></div>
+    <div><div class="reading__now"><div><span>오늘의 통독 —</span><b id="td-day">272일차</b></div><div><span>오늘 읽을 곳 —</span><b id="td-ref">욥기 38-39장</b></div></div>
       <div class="reading__nav"><button type="button" id="td-prev">← 이전 회차</button><span id="td-pos">272 / 365</span><button type="button" id="td-next">다음 회차 →</button></div>
       <div class="reading__links"><a class="text-link" id="td-video" href="https://www.youtube.com/watch?v=62_GWt6YyAE" target="_blank" rel="noopener">오늘의 통독 강의 ↗</a><a class="text-link" href="아카데미.html">성경 아카데미 ↗</a></div></div>
-    <div class="photo photo--43"><img src="사진/web/academy.jpg" alt="생터 성경사역원 강의 중인 담임목사" loading="lazy"></div>
   </div>
 </div></section>
 
-<!-- 근거: 시안R3_B.html sermons 블록 · ①latest.json(ksmc31) ②③ master 회신(2026-09-29): jubo 실값 문자 그대로 -->
-<section id="sermons" class="section" data-block="sermons"><div class="wrap">
-  <div class="section-head reveal"><p class="eyebrow">온라인 예배</p><h2>최근 설교</h2></div>
-  <div class="sermons reveal">
-    <article class="sermon"><!-- 출처: latest.json --><h3 id="sermon-title">광야에서도 신실하신 하나님</h3><time id="sermon-date" datetime="2026-09-27">2026-09-27 · 민수기 14장 8-9절</time><a id="sermon-link" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener">설교 영상 보기 ↗</a></article>
-    <article class="sermon"><!-- 출처: jubo_260920.html (제목=영상으로 듣기 링크·본문=성경 봉독·날짜=주보목록.json) --><h3>다시 하나님 앞으로</h3><span class="when"><time datetime="2026-09-20">2026-09-20</time> · 레위기 16장 30절</span><a href="https://www.youtube.com/watch?v=J4RREhmoU3Q" target="_blank" rel="noopener">설교 영상 보기 ↗</a></article>
-    <article class="sermon"><!-- 출처: jubo_260913.html (제목=영상으로 듣기 링크·본문=성경 봉독·날짜=주보목록.json) --><h3>구원하시고 함께 하시는 하나님</h3><span class="when"><time datetime="2026-09-13">2026-09-13</time> · 출애굽기 6장 6-7절</span><a href="https://www.youtube.com/watch?v=uyJ4LittIYs" target="_blank" rel="noopener">설교 영상 보기 ↗</a></article>
+<!-- 근거: 시안R3_B sermons 블록 · ①latest.json ②③ master 회신: jubo 실값 문자 그대로 -->
+<section id="sermons" class="section section--line" data-block="sermons"><div class="wrap">
+  <div class="head reveal"><span class="eyebrow">온라인 예배</span><h2 class="title">최근 설교</h2></div>
+  <div class="cols reveal">
+    <article><!-- 출처: latest.json --><span class="num">01</span><h3 id="sermon-title">광야에서도 신실하신 하나님</h3><p><time id="sermon-date" datetime="2026-09-27">2026-09-27 · 민수기 14장 8-9절</time></p><a class="go" id="sermon-link" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener">설교 영상 보기 ↗</a></article>
+    <article><!-- 출처: jubo_260920.html (제목=영상으로 듣기 링크·본문=성경 봉독·날짜=주보목록.json) --><span class="num">02</span><h3>다시 하나님 앞으로</h3><p><time datetime="2026-09-20">2026-09-20</time> · 레위기 16장 30절</p><a class="go" href="https://www.youtube.com/watch?v=J4RREhmoU3Q" target="_blank" rel="noopener">설교 영상 보기 ↗</a></article>
+    <article><!-- 출처: jubo_260913.html (제목=영상으로 듣기 링크·본문=성경 봉독·날짜=주보목록.json) --><span class="num">03</span><h3>구원하시고 함께 하시는 하나님</h3><p><time datetime="2026-09-13">2026-09-13</time> · 출애굽기 6장 6-7절</p><a class="go" href="https://www.youtube.com/watch?v=uyJ4LittIYs" target="_blank" rel="noopener">설교 영상 보기 ↗</a></article>
   </div>
 </div></section>
 
-<!-- 근거: 벤치마크 §5(5) SECTION 5 = 처음 오신 분 3단계 카드(문안은 제외) → master 보충 ①: ksmc31/시안E_새가족.html 4항 문자 그대로(오픈채팅 href 원문) · 제목=시안R3_B.html "처음 오신 분 안내" -->
-<section id="visitors" class="section section--tint" data-block="visitors"><div class="wrap">
-  <div class="section-head reveal"><p class="eyebrow">처음 오시는 분께</p><h2>처음 오신 분 안내</h2><p class="lead">따로 신청하실 것이 없습니다. 예배 시간에 오시면 됩니다.</p></div>
-  <div class="visitor-list reveal">
-    <article><p class="step">01</p><h3>언제 오면 되나요</h3><p>주일 오전 11시 예배로 오시면 됩니다.</p><p class="note">다른 예배·모임 시간은 <a href="예배안내.html">예배 안내</a>에 있습니다.</p></article>
-    <article><p class="step">02</p><h3>어디로 가면 되나요</h3><p>경기 광명시 기아로 23 (소하동) 4층.</p><p class="note">자가용·대중교통 안내는 <a href="예배안내.html#visit">오시는 길</a>에 있습니다.</p></article>
-    <article><p class="step">03</p><h3>물어볼 것이 있어요</h3><p>카카오 오픈채팅으로 목사님과 바로 이야기하실 수 있습니다.</p><div><a class="btn btn--primary btn--pill" href="https://open.kakao.com/o/s5G6vwDh" target="_blank" rel="noopener">오픈채팅으로 묻기</a></div><p class="note">★이 페이지는 이름·연락처를 입력받지 않습니다. 개인정보를 한 글자도 받지 않습니다.</p></article>
+<!-- 근거: hcbc NEW HERE? 구조(대형 세리프 좌 + 번호 행 우) · master 보충 ①: ksmc31/시안E_새가족.html 4항 문자 그대로(오픈채팅 href 원문) · 제목=시안R3_B "처음 오신 분 안내" -->
+<section id="visitors" class="section section--tint" data-block="visitors"><div class="wrap two reveal">
+  <div><span class="eyebrow">처음 오시는 분께</span><h2 class="title title--display">처음 오신<br>분 안내</h2><p class="lead" style="margin-top:24px">따로 신청하실 것이 없습니다. 예배 시간에 오시면 됩니다.</p></div>
+  <div class="rows">
+    <div class="row"><span class="num">01</span><div><h3>언제 오면 되나요</h3><p>주일 오전 11시 예배로 오시면 됩니다.</p><p class="note">다른 예배·모임 시간은 <a href="예배안내.html">예배 안내</a>에 있습니다.</p></div></div>
+    <div class="row"><span class="num">02</span><div><h3>어디로 가면 되나요</h3><p>경기 광명시 기아로 23 (소하동) 4층.</p><p class="note">자가용·대중교통 안내는 <a href="예배안내.html#visit">오시는 길</a>에 있습니다.</p></div></div>
+    <div class="row"><span class="num">03</span><div><h3>물어볼 것이 있어요</h3><p>카카오 오픈채팅으로 목사님과 바로 이야기하실 수 있습니다.</p><div class="actions" style="margin-top:16px"><a class="btn btn--primary" href="https://open.kakao.com/o/s5G6vwDh" target="_blank" rel="noopener">오픈채팅으로 묻기</a></div><p class="note" style="margin-top:12px">★이 페이지는 이름·연락처를 입력받지 않습니다. 개인정보를 한 글자도 받지 않습니다.</p></div></div>
   </div>
 </div></section>
 
-<!-- 근거: 벤치마크 §5(5) SECTION 6 = 오시는 길·연락 → 00_R3_실문구_대장.md 주소·전화·지도 링크 · 시안R3_B.html location 블록 · 문의=대장 "폼 미연결" → 시안E_새가족.html 오픈채팅 문안·링크 그대로(전송 폼·서버 연결 없음) -->
-<section id="location" class="section" data-block="location"><div class="wrap location-grid reveal"><div><p class="eyebrow">큰샘교회</p><h2>오시는 길</h2></div><div><p class="address">경기 광명시 기아로 23<br>(소하동) 4층</p><a class="phone" href="tel:010-2534-0407">010-2534-0407</a><br><a class="map-link" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 <span aria-hidden="true">↗</span></a>
-  <div class="contact" id="inquiry"><p class="eyebrow">문의</p><p class="lead">카카오 오픈채팅으로 목사님과 바로 이야기하실 수 있습니다.</p><div class="contact__actions"><a class="btn btn--primary btn--pill" href="https://open.kakao.com/o/s5G6vwDh" target="_blank" rel="noopener">오픈채팅으로 묻기</a><a class="btn btn--pill" href="tel:010-2534-0407">010-2534-0407</a></div></div></div></div></section>
+<!-- 근거: 시안E_교회소개.html 「교회의 시간들」 6장 소형 타일(alt 원문·동일 톤 duotone=photo_grade.py) + 주석문 원문 -->
+<section id="moments" class="section section--line" data-block="gallery"><div class="wrap">
+  <div class="head reveal"><span class="eyebrow">교회소개</span><h2 class="title">교회의 시간들</h2></div>
+  <div class="tiles reveal">
+    <div class="photo"><img src="사진/web/tile_c2a.jpg" alt="책자를 들고 함께 선 성도들" loading="lazy"></div>
+    <div class="photo"><img src="사진/web/tile_c2b.jpg" alt="탁자에 둘러앉아 공부하는 성도들" loading="lazy"></div>
+    <div class="photo"><img src="사진/web/tile_c4c.jpg" alt="전도지를 함께 준비하는 손길" loading="lazy"></div>
+    <div class="photo"><img src="사진/web/tile_g7.jpg" alt="추수감사절 예배단" loading="lazy"></div>
+    <div class="photo"><img src="사진/web/tile_c4a.jpg" alt="어깨띠를 두르고 거리로 나선 성도들" loading="lazy"></div>
+    <div class="photo"><img src="사진/web/tile_g8.jpg" alt="성탄 순서를 맡은 어린이들" loading="lazy"></div>
+  </div>
+  <p class="note reveal" style="margin-top:16px">교회가 가진 사진만 씁니다. 날짜나 행사 이름을 지어내지 않았습니다.</p>
+</div></section>
+
+<!-- 근거: 00_R3_실문구_대장.md 주소·전화·지도 링크 · 문의=대장 "폼 미연결" → 시안E_새가족.html 오픈채팅 문안·링크 그대로 -->
+<section id="location" class="section section--line" data-block="location"><div class="wrap two reveal">
+  <div><span class="eyebrow">큰샘교회</span><h2 class="title">오시는 길</h2></div>
+  <div><p class="address">경기 광명시 기아로 23<br>(소하동) 4층</p><a class="phone" href="tel:010-2534-0407">010-2534-0407</a>
+    <div class="actions"><a class="btn" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 ↗</a><a class="btn btn--primary" href="https://open.kakao.com/o/s5G6vwDh" target="_blank" rel="noopener">오픈채팅으로 묻기</a></div>
+    <p class="note" id="inquiry" style="margin-top:24px">카카오 오픈채팅으로 목사님과 바로 이야기하실 수 있습니다.</p></div>
+</div></section>
 </main>
 
-<!-- 근거: 시안R3_B.html footer + 시안E_홈.html footer(예배 2줄·바로가기·copy) · master 기준 격상 ⑦ 3열(교회·예배·바로가기) -->
+<!-- 근거: 시안R3_B footer + 시안E_홈 footer(예배 2줄·바로가기·copy) · master ⑦ 3열(교회·예배·바로가기) -->
 <footer class="footer" data-block="footer"><div class="wrap"><div class="footer__grid">
   <div><div class="footer__name">큰샘교회</div><p>기독교대한감리회 큰샘교회<br>KEUNSAEM METHODIST CHURCH</p><p style="margin-top:16px">경기 광명시 기아로 23 (소하동) 4층<br><a href="tel:010-2534-0407">010-2534-0407</a></p></div>
   <div><h4>예배</h4><p>주일 오전 11시<br>주일 성경공부 오후 1시</p></div>
@@ -111,7 +130,8 @@ if(location.protocol!=='file:')fetch('../latest.json',{cache:'no-store'}).then(r
     ['sermon-title','sm-title'].forEach(id=>document.getElementById(id).textContent=d.설교_제목);
     ['sermon-date','sm-date'].forEach(id=>document.getElementById(id).textContent=d.설교_날짜);
     document.getElementById('sermon-date').dateTime=d.설교_날짜.slice(0,10);
-    ['sermon-link','sm-link'].forEach(id=>document.getElementById(id).href=d.설교_링크);
+    ['sermon-link','sm-link','sm-thumb'].forEach(id=>document.getElementById(id).href=d.설교_링크);
+    var vid=d.설교_링크.split('v=')[1].split('&')[0];document.getElementById('sm-thumb-img').src='https://i.ytimg.com/vi/'+vid+'/hqdefault.jpg';
   }
   if(d.주보_제목)document.getElementById('jb-title').textContent=d.주보_제목;
   if(d.주보_링크)document.getElementById('jb-link').href='../'+d.주보_링크;

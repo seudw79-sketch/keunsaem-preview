@@ -1,15 +1,33 @@
 {
  "index": {
   "390": {
+   "scrollWidth": 390,
+   "clientWidth": 390,
+   "scrollHeight": 9950,
+   "maxRight": 390,
+   "overflow": false,
+   "method": "iframe-wrapper"
+  },
+  "1280": {
+   "scrollWidth": 1280,
+   "clientWidth": 1280,
+   "scrollHeight": 7829,
+   "maxRight": 1280,
+   "overflow": false,
+   "method": "window"
+  }
+ },
+ "교회소개": {
+  "390": {
    "scrollWidth": 500,
    "clientWidth": 500,
-   "scrollHeight": 9587,
+   "scrollHeight": 5669,
    "overflow": false
   },
   "1280": {
    "scrollWidth": 1280,
    "clientWidth": 1280,
-   "scrollHeight": 5960,
+   "scrollHeight": 4391,
    "overflow": false
   }
  }

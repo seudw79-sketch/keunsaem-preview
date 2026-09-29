@@ -14,7 +14,7 @@ CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 LEDGER = Path("/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/조사/00_R3_실문구_대장.md")
 
 # 페이지 → 출처 파일 목록(문안은 이 안에서만 나와야 한다 = 창작 0)
-COMMON = [PREVIEW/"시안R3_B.html", LEDGER, LIVE/"시안E_홈.html", LIVE/"latest.json", LIVE/"주보목록.json"]
+COMMON = [PREVIEW/"시안R3_B.html", LEDGER, LIVE/"시안E_홈.html", LIVE/"시안E_새가족.html", LIVE/"latest.json", LIVE/"주보목록.json"]
 PAGES = {
     "index": COMMON + [LIVE/"시안E_교회소개.html", LIVE/"시안E_새가족.html", LIVE/"시안E_예배안내.html",
                        LIVE/"jubo_260920.html", LIVE/"jubo_260913.html", LIVE/"통독_365.json", LIVE/"통독_영상_덮어쓰기.json"],
@@ -82,6 +82,9 @@ def text_parity(page):
         if not n or n in ALLOW or any(rx.match(n) for rx in ALLOW_RE): continue
         total+=1
         if n in hay: continue
+        # 화살표 기호(↗ → ←)는 링크 장식 — 떼고 본문만 대조
+        base=re.sub(r"\s*[↗→←]\s*$","",n).strip()
+        if base and base in hay: continue
         # 구분자로 쪼개 조각 단위 대조(조각마다 출처 존재해야 함)
         pieces=[x.strip() for x in re.split(r"\s[·—/]\s|·|\s—\s",n) if x.strip()]
         if pieces and all((pc in hay) or (pc in ALLOW) or len(pc)<2 for pc in pieces): continue
@@ -130,25 +133,48 @@ def chrome(args, timeout=90):
                           capture_output=True,text=True,timeout=timeout)
 
 def measure(page, width):
-    """dump-dom 으로 scrollWidth/clientWidth/scrollHeight 측정(무서버·의존성 0)."""
+    """넘침 측정. 헤드리스 Chrome 은 500px 미만 창을 못 만들므로(시안E 실측) 500 미만 폭은 iframe 래퍼로 진짜 폭을 만든다.
+    maxRight 는 overflow-x:auto/scroll 조상 안의 요소(내비 스크롤 행)는 제외한다."""
     f=R4/f"{page}.html"; raw=f.read_text(encoding="utf-8")
-    probe=("<script>window.addEventListener('load',function(){var d=document.documentElement;"
-           "document.title='PROBE sw='+Math.max(d.scrollWidth,document.body.scrollWidth)+' cw='+d.clientWidth+' sh='+Math.max(d.scrollHeight,document.body.scrollHeight);});</script></body>")
+    probe=("<script>window.addEventListener('load',function(){var d=document.documentElement;var mr=0;"
+           "function inScroll(e){for(var p=e.parentElement;p&&p!==document.body;p=p.parentElement){var o=getComputedStyle(p).overflowX;if(o==='auto'||o==='scroll')return true;}return false;}"
+           "document.querySelectorAll('body *').forEach(function(e){if(inScroll(e))return;var r=e.getBoundingClientRect();if(r.width>0&&r.right>mr)mr=r.right;});"
+           "var msg='PROBE sw='+Math.max(d.scrollWidth,document.body.scrollWidth,Math.ceil(mr))+' cw='+d.clientWidth+' sh='+Math.max(d.scrollHeight,document.body.scrollHeight)+' mr='+Math.ceil(mr);"
+           "document.title=msg;if(window.parent!==window)window.parent.postMessage(msg,'*');});</script></body>")
     tmp=R4/f"_probe_{page}.html"; tmp.write_text(raw.replace("</body>",probe,1),encoding="utf-8")
+    wrap=R4/f"_wrap_{page}_{width}.html"
     try:
-        r=chrome([f"--window-size={width},900","--dump-dom",f"file://{tmp}"])
-        m=re.search(r"PROBE sw=(\d+) cw=(\d+) sh=(\d+)",r.stdout)
+        if width<500:
+            wrap.write_text(f"<!doctype html><html><head><meta charset='utf-8'><title>WRAP</title><style>body{{margin:0}}iframe{{border:0;display:block}}</style></head><body><iframe id='f' src='_probe_{page}.html' width='{width}' height='900'></iframe><script>window.addEventListener('message',function(e){{document.title=String(e.data)}});</script></body></html>",encoding="utf-8")
+            r=chrome(["--window-size=520,900","--dump-dom",f"file://{wrap}"])
+        else:
+            r=chrome([f"--window-size={width},900","--dump-dom",f"file://{tmp}"])
+        m=re.search(r"PROBE sw=(\d+) cw=(\d+) sh=(\d+) mr=(\d+)",r.stdout)
         if not m: return {"error":"probe not found","stderr":r.stderr[-300:]}
-        sw,cw,sh=map(int,m.groups())
-        return {"scrollWidth":sw,"clientWidth":cw,"scrollHeight":sh,"overflow":sw>cw}
+        sw,cw,sh,mr=map(int,m.groups())
+        return {"scrollWidth":sw,"clientWidth":cw,"scrollHeight":sh,"maxRight":mr,"overflow":sw>cw,"method":"iframe-wrapper" if width<500 else "window"}
     finally:
-        tmp.unlink(missing_ok=True)
+        tmp.unlink(missing_ok=True); wrap.unlink(missing_ok=True)
 
 def capture(page, width, height):
+    """캡처. 500px 미만은 iframe 래퍼(폭 width·높이 height)를 520px 창에 렌더한 뒤 왼쪽 width 만 잘라 저장."""
     CAP.mkdir(parents=True,exist_ok=True)
     out=CAP/f"{page}_{width}.png"
-    r=chrome([f"--window-size={width},{height}",f"--screenshot={out}",f"file://{R4/(page+'.html')}"])
-    return {"file":str(out),"exists":out.exists() and out.stat().st_size>0,"bytes":out.stat().st_size if out.exists() else 0}
+    if width<500:
+        wrap=R4/f"_cap_{page}_{width}.html"
+        wrap.write_text(f"<!doctype html><html><head><meta charset='utf-8'><style>body{{margin:0;background:transparent}}iframe{{border:0;display:block}}</style></head><body><iframe src='{page}.html' width='{width}' height='{height}'></iframe></body></html>",encoding="utf-8")
+        try:
+            r=chrome([f"--window-size=520,{height}",f"--screenshot={out}",f"file://{wrap}"],timeout=180)
+        finally:
+            wrap.unlink(missing_ok=True)
+        try:
+            from PIL import Image
+            im=Image.open(out); im.crop((0,0,width,im.height)).save(out)
+        except Exception as e:
+            return {"file":str(out),"exists":False,"error":str(e)}
+    else:
+        r=chrome([f"--window-size={width},{height}",f"--screenshot={out}",f"file://{R4/(page+'.html')}"],timeout=180)
+    return {"file":str(out),"exists":out.exists() and out.stat().st_size>0,"bytes":out.stat().st_size if out.exists() else 0,"method":"iframe-wrapper" if width<500 else "window"}
 
 def load(name):
     p=R4/"_evidence"/name

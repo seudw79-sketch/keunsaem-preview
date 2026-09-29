@@ -1,0 +1,58 @@
+{
+ "hero_texture.jpg": {
+  "size": [
+   1920,
+   1080
+  ],
+  "bytes": 49493
+ },
+ "about.jpg": {
+  "size": [
+   1000,
+   750
+  ],
+  "bytes": 165337
+ },
+ "tile_c2a.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 70017
+ },
+ "tile_c2b.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 49195
+ },
+ "tile_c4c.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 64864
+ },
+ "tile_g7.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 64139
+ },
+ "tile_c4a.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 106062
+ },
+ "tile_g8.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 64785
+ }
+}

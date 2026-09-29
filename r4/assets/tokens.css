@@ -1,115 +1,106 @@
 /* ============================================================
-   큰샘교회 R4 — 디자인 토큰 (TIER1 primitives → TIER2 semantics)
+   큰샘교회 R4 — 디자인 토큰 v2 (TIER1 primitives → TIER2 semantics)
    1차 근거: 조사/02_프리미엄_벤치마크_20260929.md §5(1)(2)(3) 권고 토큰(hcbc.kr·Wright's Ferry·Obama·Passion City 실측)
-   2차 근거: master 기준 격상 8항(2026-09-29) · cys skill design-token-system(2-tier·모듈러 스케일·8pt)
-   불변: 색 계열=남색·청록 계승+금색 1색(master) · 문안 원천 불변. 채택/보류 상세=r4/_evidence/design_decisions.md
-   규칙: hex 리터럴은 이 파일의 TIER1 블록에만. 다른 CSS·HTML은 hex 0. 주석 안에 별표-슬래시 시퀀스 금지.
+   2차 근거: master R4 2차 방침(2026-09-29) — 종이색 배경(#F6F5F1 계열)+먹색 글자, 남색·청록은 라벨·선·버튼에만 소량,
+            금색은 숫자·선·eyebrow 만 · 제목 clamp 상한 5.6rem · 숫자·라벨 작게·자간 넓게
+   불변: 문안 원천 불변. 채택/보류 상세=r4/_evidence/design_decisions.md
+   규칙: hex 리터럴은 이 파일의 --p-* 줄에만. 다른 CSS·HTML은 hex 0. 주석 안에 별표-슬래시 시퀀스 금지.
    ============================================================ */
 @layer tokens {
   :root {
     /* ---------- TIER1 PRIMITIVES (리터럴은 여기만) ---------- */
-    /* 근거: 벤치마크 §5(1) --color-paper #F8F7F3(L97)·--color-surface #FFFEFB·--color-surface-sub #F0EEE6(L93) 의 명도 비례를 남색·청록 계열로 이식 */
-    --p-paper-050: #F6F8F8;
-    --p-paper-000: #FCFDFD;
-    --p-tint-100: #EBF1F2;
-    /* 근거: 벤치마크 §5(1) --color-ink #1E211E(L13)·--color-body #383D37(L24)·--color-muted #6B7068(L44) 명도 비례 · 순흑 배제 */
-    --p-ink-900: #1A2429;
-    --p-ink-700: #33414A;
-    --p-ink-500: #5D6A71;   /* tint-100 위 4.5:1 확보(대비 실측 후 #66737A→조정) */
-    /* 근거: 벤치마크 §5(1) --color-line #DAD7CD(L85)·--color-line-light #E8E6DF(L91) */
-    --p-line-200: #D9DFE1;
-    --p-line-100: #E7ECED;
-    /* 근거: master 기준 격상 ④ 남색·청록 계승+채도↓ · 벤치마크 §5(1) --color-accent #364336(L25·저채도)의 채도·명도 비례 */
-    --p-navy-900: #0F2733;   /* 히어로 스크림·푸터 */
-    --p-navy-700: #1B3A47;   /* 제목 */
-    --p-teal-600: #2A5D69;   /* 링크·버튼·아이브로우(바탕 대비 6.5:1 계산) */
-    --p-teal-200: #C6D8DC;   /* 강조 선 */
-    /* 근거: 벤치마크 §5(1) --color-accent-gold #9C835A 앤틱 골드 그대로(성구 기호·01/02/03 넘버링 전용 = master ④ 금색 포인트 1색) */
+    /* 근거: master 2차 ④ 종이색 #F6F5F1 계열 · 벤치마크 §5(1) paper #F8F7F3(L97)·surface #FFFEFB·surface-sub #F0EEE6 · hcbc --paper #f8f7f3 */
+    --p-paper-050: #F6F5F1;
+    --p-paper-000: #FBFAF7;
+    --p-paper-100: #EEECE6;
+    /* 근거: 벤치마크 §5(1) ink #1E211E(L13)·body #383D37·muted #6B7068 · hcbc --ink #20231f·--muted #666a63 (순흑 배제) */
+    --p-ink-900: #1E211E;
+    --p-ink-700: #3A3D3A;
+    --p-ink-500: #666A64;
+    /* 근거: 벤치마크 §5(1) line #DAD7CD·line-light #E8E6DF · hcbc --line #d9d8d1 */
+    --p-line-200: #D9D8D1;
+    --p-line-100: #E8E6DF;
+    /* 근거: master ④ 남색·청록은 라벨·선·버튼에만 소량 · 채도 낮춤 (벤치마크 accent L25 비례) */
+    --p-navy-800: #1B3A47;   /* 버튼 바탕 */
+    --p-teal-600: #2A5D69;   /* 라벨·링크(종이 위 6.6:1) */
+    --p-teal-200: #C9D8DA;   /* 강조 선 */
+    /* 근거: 벤치마크 §5(1) --color-accent-gold #9C835A 앤틱 골드(숫자·선·eyebrow 전용) */
     --p-gold-500: #9C835A;
-    --p-white-a90: rgba(255,255,255,.90);
-    --p-white-a72: rgba(255,255,255,.72);
-    --p-white-a34: rgba(255,255,255,.34);
-    --p-paper-a80: rgba(246,248,248,.80);
-    --p-navy-a88: rgba(15,39,51,.88);
-    --p-navy-a52: rgba(15,39,51,.52);
-    --p-navy-a08: rgba(15,39,51,.08);
-    /* 근거: 벤치마크 §5(3) --box-shadow-subtle 0 4px 20px rgba(30,33,30,.04) — 정의만(카드 미사용: master ⑧ 얇은 선) */
-    --p-shadow-subtle: 0 4px 20px rgba(26,36,41,.04);
+    --p-white-a92: rgba(255,255,255,.92);
+    --p-paper-a60: rgba(246,245,241,.60);
+    --p-paper-a00: rgba(246,245,241,0);
+    --p-paper-a86: rgba(246,245,241,.86);
+    --p-ink-a10: rgba(30,33,30,.10);
 
     /* ---------- TIER2 SEMANTICS (var 참조만) ---------- */
     --bg: var(--p-paper-050);
     --surface: var(--p-paper-000);
-    --surface-tint: var(--p-tint-100);
+    --surface-tint: var(--p-paper-100);
     --ink: var(--p-ink-900);
     --body: var(--p-ink-700);
     --muted: var(--p-ink-500);
-    --heading: var(--p-navy-700);
+    --heading: var(--p-ink-900);
     --accent: var(--p-teal-600);
+    --button: var(--p-navy-800);
+    --on-button: var(--p-white-a92);
     --gold: var(--p-gold-500);
     --line: var(--p-line-200);
     --line-light: var(--p-line-100);
     --line-strong: var(--p-teal-200);
-    --deep: var(--p-navy-900);
-    --on-deep: var(--p-white-a90);
-    --on-deep-muted: var(--p-white-a72);
-    --on-deep-line: var(--p-white-a34);
-    --hero-scrim-top: var(--p-navy-a08);
-    --hero-scrim-mid: var(--p-navy-a52);
-    --hero-scrim-bottom: var(--p-navy-a88);
-    --nav-glass: var(--p-paper-a80);
-    --shadow-subtle: var(--p-shadow-subtle);
+    --nav-glass: var(--p-paper-a86);
+    --hero-mask-top: var(--p-paper-a60);
+    --hero-mask-mid: var(--p-paper-a00);
+    --hero-mask-bottom: var(--p-paper-a86);
+    --hero-frame: var(--p-ink-a10);
 
     /* ---------- 타이포 ---------- */
-    /* 근거: 벤치마크 §5(2) --font-serif/--font-sans 스택 · 조사/01_디자인_레퍼런스.md §2 · 폰트 링크는 시안R3_B 와 동일(Nanum Brush 는 보류) */
+    /* 근거: 벤치마크 §5(2) 스택 · hcbc 실측 Noto Serif KR + Nanum Brush Script(표어 캘리) + Pretendard · master 2차 ① 캘리 허용 */
     --font-serif: "Noto Serif KR", "Nanum Myeongjo", "Batang", serif;
     --font-sans: Pretendard, "Noto Sans KR", system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif;
-    /* 근거: 벤치마크 §5(2) 유동 타이포 clamp 실측 권고값 그대로 */
-    --text-display: clamp(2.2rem, 5.5vw, 4.2rem);    /* 히어로 (35~67px) */
-    --text-h1: clamp(1.75rem, 3.2vw, 2.75rem);       /* 섹션 타이틀 (28~44px) */
-    --text-h2: clamp(1.35rem, 2.2vw, 1.85rem);       /* 서브 타이틀·카드 헤딩 (21.6~29.6px) */
-    --text-h3: 1.15rem;                              /* 소제목 (18.4px) */
+    --font-script: "Nanum Brush Script", "Noto Serif KR", cursive;
+    /* 근거: hcbc 히어로 clamp(2.4rem,7vw,5.6rem) 실측 · master 2차 ② 제목 clamp 상한 5.6rem · 극적 대비 */
+    --text-display: clamp(2.6rem, 7vw, 5.6rem);
+    --text-script: clamp(3rem, 9vw, 7rem);
+    --text-h1: clamp(1.9rem, 3.6vw, 3rem);
+    --text-h2: clamp(1.35rem, 2.2vw, 1.85rem);
+    --text-h3: 1.15rem;
     --text-body: 1rem;
-    --text-body-sm: 0.875rem;
-    --text-caption: 0.75rem;
-    /* 근거: master 기준 격상 ① 모듈러 스케일 1.25 — 위 역할 토큰 사이 중간 단계(수치·큰 표시용) */
+    --text-body-sm: 0.9rem;
+    --text-caption: 0.72rem;
     --fs-1: 1.25rem;
     --fs-2: 1.5625rem;
     --fs-3: clamp(1.625rem, 1.2rem + 1.6vw, 1.953rem);
     --fs-4: clamp(1.875rem, 1.3rem + 2.4vw, 2.441rem);
-    /* 근거: 벤치마크 §5(2) 행간 1.22/1.35/1.68/1.85 · 자간 -0.025em/0/0.08em */
-    --lh-tight: 1.22;
-    --lh-heading: 1.35;
-    --lh-body: 1.68;
+    /* 근거: 벤치마크 §5(2) 행간 1.22/1.35/1.68/1.85 · 자간 -0.025em/0 · master 2차 ② 라벨 자간 넓게(hcbc eyebrow 실측 ~0.18em) */
+    --lh-tight: 1.18;
+    --lh-heading: 1.3;
+    --lh-body: 1.7;
     --lh-loose: 1.85;
     --tracking-tight: -0.025em;
     --tracking-normal: 0;
-    --tracking-wide: 0.08em;
-    --measure: 45ch;   /* 근거: 조사/01_디자인_레퍼런스.md §4 한글 행폭 30~45자 */
+    --tracking-wide: 0.18em;
+    --measure: 45ch;
 
     /* ---------- 간격 · 그리드 ---------- */
-    /* 근거: 벤치마크 §5(3) --container-max 1160 · --container-narrow 760 · --gutter clamp(16px,4vw,32px) · gap 24/40/64 · master ② 8pt 그리드 */
+    /* 근거: 벤치마크 §5(3) 1160/760 · gutter clamp(16px,4vw,32px) · master 2차 ③ 여백 크게 → 섹션 상하 clamp(72px,10vw,128px) */
     --wrap: 1160px;
     --wrap-narrow: 760px;
-    --gutter: clamp(16px, 4vw, 32px);
+    --gutter: clamp(20px, 4vw, 40px);
     --s-1: 8px;  --s-2: 16px; --s-3: 24px; --s-4: 32px; --s-5: 40px;
     --s-6: 48px; --s-8: 64px; --s-10: 80px; --s-12: 96px; --s-15: 120px;
     --gap-sm: var(--s-3); --gap-md: var(--s-5); --gap-lg: var(--s-8);
-    /* 근거: 벤치마크 §5(3) --section-pad-y clamp(56px,8vh,96px) 채택(master ② 120/72 는 보류 — 충돌 시 벤치마크 실측 우선 지시) */
-    --section-y: clamp(56px, 8vh, 96px);
-    /* 근거: 벤치마크 §5(3) radius 2px(카드)·4px(버튼)·9999px(알약 CTA) · §4-4 */
+    --section-y: clamp(4.5rem, 10vw, 8rem);
+    /* 근거: 벤치마크 §5(3) radius 2px(카드)·4px(버튼)·9999px(알약) · master 2차 둥근 큰 카드 금지 */
     --radius-sm: 2px;
     --radius-md: 4px;
     --radius-pill: 9999px;
-
-    /* ---------- 사진 ---------- */
-    /* 근거: 벤치마크 §5(4)-1 filter saturate(0.85) contrast(0.95) 톤다운 */
-    --photo-filter: saturate(.85) contrast(.95);
+    /* 근거: 오너 지정 5곳(cedarcrestchurch.com·passioncitychurch.com) 인셋 미디어 프레임 둥근 모서리 — 미디어 프레임 전용(카드는 직각 유지) */
+    --radius-media: 12px;
 
     /* ---------- 모션 (1종: 스크롤 등장 페이드 · CSS only) ---------- */
-    /* 근거: master 기준 격상 ⑥ · 벤치마크 §2 hcbc 0.2s·Passion 0.25s transition */
     --ease-out: cubic-bezier(.2,.7,.2,1);
     --dur-fast: 250ms;
     --dur-reveal: 700ms;
-    --reveal-shift: 20px;
+    --reveal-shift: 18px;
   }
 }
