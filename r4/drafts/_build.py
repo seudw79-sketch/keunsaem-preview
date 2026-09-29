@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """[초안] 홈 히어로 갤러리 3안 생성기 — 본편 r4/index.html 을 복사해 히어로 프레임만 바꾼다(문안 불변).
-사용: python3 r4/_drafts/_build.py   → r4/_drafts/hero_gallery_{A,B,C}.html
+사용: python3 r4/drafts/_build.py   → r4/drafts/hero_gallery_{A,B,C}.html
 검사: 생성 후 각 초안의 보이는 글자 = 본편 index 의 보이는 글자 + 초안 표지(제목·하단 알약) 뿐인지 대조(다르면 exit 1).
 """
 import re, sys, html

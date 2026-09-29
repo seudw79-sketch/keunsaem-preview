@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""[초안] 캡처·넘침 측정 — verify.py 의 measure/capture 를 _drafts 폴더에 그대로 적용. 산출: 캡처_R4/_drafts/*.png · _drafts/_measure.json"""
+"""[초안] 캡처·넘침 측정 — verify.py 의 measure/capture 를 drafts 폴더에 그대로 적용. 산출: 캡처_R4/_drafts/*.png · drafts/_measure.json"""
 import importlib.util, json, sys
 from pathlib import Path
 D = Path(__file__).resolve().parent
