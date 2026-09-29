@@ -1,7 +1,7 @@
-== R4 → 라이브 배포 [dry-run] 20260930_035201 ==
+== R4 → 라이브 배포 [dry-run] 20260930_035915 ==
 SRC=/Users/sdw79/SDWjavis/_레포/keunsaem-preview/r4
 LIVE=/Users/sdw79/SDWjavis/_레포/ksmc31
-라이브 HEAD(배포 전)=fda20814f1f79f8c5cb19b50239f1f8c4db15f1a (main) · preview HEAD=77ede767ca267ff3e7e368283e5017d61f4f4c2c
+라이브 HEAD(배포 전)=fda20814f1f79f8c5cb19b50239f1f8c4db15f1a (main) · preview HEAD=8e6060543984e416d1dcacb2bff2cb61577a39ab
 -- 검증 --
 치환 잔여 0 (절대 jubo 링크·../데이터·사진/web — 코드 영역 기준)
 내부 링크·자원 183건 검사 · 깨짐 0건 
@@ -22,7 +22,8 @@ NEW      assets/r4.css
 NEW      assets/tokens.css
 NEW      사진/r4/  (18 장 · 1.3M)
 REPLACE  sitemap.xml  (896 → 1299 bytes)
-무수정   jubo*.html · latest.json · 주보목록.json · 칼럼목록.json · 통독_*.json · robots.txt · CNAME · google*/naver* 확인파일 · 시안E_* · 사진/web/ · assets/og-jubo-2026.jpg·youtube_qr.png
+REPLACE  robots.txt  (+1줄 Disallow: /재정.html · master 판단 1)
+무수정   jubo*.html · latest.json · 주보목록.json · 칼럼목록.json · 통독_*.json · CNAME · google*/naver* 확인파일 · 시안E_* · 사진/web/ · assets/og-jubo-2026.jpg·youtube_qr.png
 -- sitemap diff --
 1a2
 > <!-- R4 라이브 배포용 sitemap 갱신안 (master [배포 준비] ② 2026-09-30) · 기존 sitemap.xml 의 시안E_* 9항목 → R4 한글 파일명 · 재정.html 은 기존과 같이 미등재(robots 가 재정 페이지를 Disallow) · jubo.html 유지 · 한글 경로는 RFC3986 percent-encoding -->
@@ -49,6 +50,9 @@ REPLACE  sitemap.xml  (896 → 1299 bytes)
 \ No newline at end of file
 ---
 > </urlset>
+-- robots diff --
+3a4
+> Disallow: /재정.html
 == DRY-RUN 종료 — 라이브 무변경 · 백업 미생성 · 커밋 없음 ==
 실행하려면: r4/_evidence/deploy_to_live.sh --apply   (백업 /Users/sdw79/SDWjavis/_레포/_레포밖_보관/ksmc31_pre_r4_<ts>/ 생성 후 복사·커밋 · push 없음)
 dry-run exit=0
