@@ -2,7 +2,7 @@
 
 ## 결과 한 줄
 master 검수 4건(a~d) + codex R1 3건 + gemini R1 8건(+푸터 © 허용)을 한 번에 반영해 홈 3차를 만들었다. 결정론 검증(문안 대조·링크·hex·넘침·캡처) 전부 통과, 드로어 열림 상태까지 실측 캡처로 확인.
-라이브: https://seudw79-sketch.github.io/keunsaem-preview/r4/index.html (push 해시는 보고 메시지에)
+라이브: https://seudw79-sketch.github.io/keunsaem-preview/r4/index.html — **push ab44788 · 라이브 200 · 3차 마크업 반영 확인**(nav-toggle·hero__script·「세 기둥」 grep, push 후 4번째 폴링 ≈40초)
 
 ## 반영 내역 (지적 → 무엇을 어떻게 바꿨나)
 | 출처 | 지적 | 반영 | 파일:위치 |
