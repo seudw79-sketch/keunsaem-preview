@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""[초안] 히어로 갤러리 B안 액자 작품 — ksmc31/사진/web/pastor_full.jpg 의 십자가를 사람 없이 정사각으로 잘라 인화지 톤으로."""
+"""[초안] ※원본 영역이 500px 이라 1000px 로 2배 확대 — 레티나에서 약간 부드럽게 보임(gemini r1 ⑤). 고화질 원판이 생기면 SRC 만 바꿔 재실행.
+ 히어로 갤러리 B안 액자 작품 — ksmc31/사진/web/pastor_full.jpg 의 십자가를 사람 없이 정사각으로 잘라 인화지 톤으로."""
 from PIL import Image, ImageEnhance, ImageOps, ImageFilter
 import os
 SRC = "/Users/sdw79/SDWjavis/_레포/ksmc31/사진/web/pastor_full.jpg"

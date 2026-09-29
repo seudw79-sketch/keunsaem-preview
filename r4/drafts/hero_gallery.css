@@ -3,6 +3,7 @@
    본편 미적용. 문안(표어·부제·버튼 3개)은 본편 index 와 한 글자도 다르지 않고, 벽·빛·배치만 바꾼다.
    채택 시: --p-* 줄은 assets/tokens.css TIER1 으로, 나머지는 assets/r4.css components 로 이관.
    규칙 유지: hex 리터럴은 --p-* 줄에만. 사람 사진 0 · 외부 JS 0 · 외부 이미지 0.
+   이관 규칙(gemini r1 ③): 본편에 옮길 때 마크업은 본편 index 의 히어로를 고쳐 쓴다 — 초안의 ../새가족.html 은 drafts 폴더 전용 경로이므로 복사하지 않는다(본편은 새가족.html).
    ============================================================ */
 :root {
   /* 근거: 갤러리 화이트큐브 벽 = 순백 배제, 종이톤(--p-paper-050)보다 한 단계 회백 */
@@ -29,8 +30,9 @@
 /* 벽 라벨(미술관 작품 설명 카드 문법): 부제 + 링크 3개를 작게 */
 .hg-label { text-align: left; max-width: 30ch; font-family: var(--font-sans); }
 .hg-label .hero__sub { margin: 0; font-family: var(--font-sans); font-size: var(--text-body-sm); line-height: 1.75; max-width: none; color: var(--muted); }
-.hg-label .hero__links { justify-content: flex-start; gap: 6px 18px; margin-top: var(--s-2); }
-.hg-label .btn { padding: 0; border: 0; background: none; min-height: 0; border-radius: 0; font-size: var(--text-body-sm); font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; box-shadow: none; }
+.hg-label .hero__links { justify-content: flex-start; gap: 0 18px; margin-top: 10px; }
+.hg-label .btn { padding: 0; border: 0; background: none; min-height: 0; border-radius: 0; font-size: var(--text-body-sm); font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; box-shadow: none; padding-block: 6px; }
+/* 근거: gemini r1 ④ — 터치 영역 세로 26px 이상(WCAG 2.5.8 24px) */
 .hg-label .btn--primary { color: var(--accent); }
 .hg-rule { display: block; width: 32px; height: 1px; background: var(--gold); margin-bottom: var(--s-2); }
 
@@ -87,7 +89,10 @@
   .hg .hero__frame { min-height: clamp(520px, 80svh, 680px); }
   .hg-a .hero__lockup { padding-bottom: 0; }
   .hg-a .hero__frame { flex-direction: column; justify-content: center; }
-  .hg-a .hg-label { position: static; margin: var(--s-4) auto calc(11% + var(--s-4)); max-width: 30ch; }
+  .hg-a .hg-label { position: static; margin: var(--s-4) auto calc(11% + var(--s-4)); max-width: 30ch; text-align: center; }
+  /* 근거: gemini r1 ① — 모바일에서 가운데 표어와 라벨 축 일치 */
+  .hg-a .hg-rule { margin: 0 auto var(--s-2); }
+  .hg-a .hg-label .hero__links { justify-content: center; }
   .hg-a .hg-floor { height: 9%; }
   .hg-b .hero__frame { grid-template-columns: 1fr; gap: var(--s-5); padding: var(--s-8) var(--s-3); }
   .hg-art { width: min(78vw, 320px); padding: 14px; border-width: 4px; }
