@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- R4 라이브 배포용 sitemap 갱신안 (master [배포 준비] ② 2026-09-30) · 기존 sitemap.xml 의 시안E_* 9항목 → R4 한글 파일명 · 재정.html 은 기존과 같이 미등재(robots 가 재정 페이지를 Disallow) · jubo.html 유지 · 한글 경로는 RFC3986 percent-encoding -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ksmc31.kr/</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://ksmc31.kr/%EA%B5%90%ED%9A%8C%EC%86%8C%EA%B0%9C.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://ksmc31.kr/%EC%98%88%EB%B0%B0%EC%95%88%EB%82%B4.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://ksmc31.kr/%EC%83%88%EA%B0%80%EC%A1%B1.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://ksmc31.kr/%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://ksmc31.kr/%EC%98%A8%EB%9D%BC%EC%9D%B8%EC%98%88%EB%B0%B0.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://ksmc31.kr/%EC%A3%BC%EB%B3%B4.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://ksmc31.kr/%EC%B9%BC%EB%9F%BC.html</loc><lastmod>2026-09-30</lastmod></url>
+  <url><loc>https://ksmc31.kr/jubo.html</loc></url>
+</urlset>
