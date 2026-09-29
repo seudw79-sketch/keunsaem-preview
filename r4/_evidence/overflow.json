@@ -30,5 +30,23 @@
    "scrollHeight": 4391,
    "overflow": false
   }
+ },
+ "아카데미": {
+  "390": {
+   "scrollWidth": 390,
+   "clientWidth": 390,
+   "scrollHeight": 3052,
+   "maxRight": 390,
+   "overflow": false,
+   "method": "iframe-wrapper"
+  },
+  "1280": {
+   "scrollWidth": 1280,
+   "clientWidth": 1280,
+   "scrollHeight": 3353,
+   "maxRight": 1280,
+   "overflow": false,
+   "method": "window"
+  }
  }
 }

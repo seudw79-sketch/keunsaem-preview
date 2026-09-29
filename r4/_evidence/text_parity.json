@@ -12,5 +12,11 @@
    "새가족 안내"
   ],
   "parity": false
+ },
+ "아카데미": {
+  "page": "아카데미",
+  "nodes": 54,
+  "unmatched": [],
+  "parity": true
  }
 }
