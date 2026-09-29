@@ -53,18 +53,28 @@ done
 
 # 3. 스테이지 검증 — 잔여 경로 0 · 내부 링크 전수 실존(스테이지∪라이브) · 문안 parity(verify.py 재사용) · 재정 스크립트 동일
 say "-- 검증 --"
-left="$(grep -l -E "https://ksmc31\.kr/jubo_|\.\./(jubo|latest|주보목록|칼럼목록|통독)|사진/web/" "${PAGES[@]/#/$STAGE/}" || true)"
-[[ -z "$left" ]] || { say "중단: 치환 잔여가 있는 페이지: $left"; exit 5; }
-say "치환 잔여 0 (절대 jubo 링크·../데이터·사진/web)"
 STAGE="$STAGE" LIVE="$LIVE" SRC="$SRC" python3 - <<'PY'
 import os, re, sys, json, importlib.util
 from pathlib import Path
 STAGE=Path(os.environ["STAGE"]); LIVE=Path(os.environ["LIVE"]); SRC=Path(os.environ["SRC"])
 pages=["index","교회소개","예배안내","새가족","아카데미","온라인예배","재정","주보","칼럼"]
+def code_only(raw):
+    # HTML 주석과 줄머리 // JS 주석은 코드가 아니다(근거 주석에 ../·사진/web 문자열이 남는 것은 정상)
+    raw=re.sub(r"<!--.*?-->","",raw,flags=re.S)
+    return re.sub(r"(?m)^\s*//.*$","",raw)
+# 3-0 치환 잔여 0 (코드 영역만)
+residue={}
+for pg in pages:
+    code=code_only((STAGE/f"{pg}.html").read_text(encoding="utf-8"))
+    hits=re.findall(r"https://ksmc31\.kr/jubo_|\.\./(?:jubo|latest|주보목록|칼럼목록|통독)|사진/web/",code)
+    if hits: residue[pg]=hits
+if residue:
+    print("중단: 치환 잔여(코드 영역):", residue); sys.exit(5)
+print("치환 잔여 0 (절대 jubo 링크·../데이터·사진/web — 코드 영역 기준)")
 # 3-a 내부 링크·자원 실존 (스테이지 우선, 없으면 라이브)
 broken=[]; n=0
 for pg in pages:
-    raw=(STAGE/f"{pg}.html").read_text(encoding="utf-8"); raw=re.sub(r"<!--.*?-->","",raw,flags=re.S)
+    raw=code_only((STAGE/f"{pg}.html").read_text(encoding="utf-8"))
     for m in re.finditer(r'(?:href|src)="([^"]+)"',raw):
         u=m.group(1)
         if u.startswith(("http://","https://","tel:","mailto:","data:")): continue
