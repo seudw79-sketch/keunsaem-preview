@@ -28,8 +28,12 @@ PAGES = {
     "칼럼": COMMON + [LIVE/"시안E_칼럼.html", LIVE/"칼럼목록.json"],
 }
 # 구조 라벨·기호(문안 아님) 허용목록 — 여기 있는 것만 출처 없이 허용
-ALLOW = {"↗","→","←","·","—","/","01","02","03","365","오늘의 통독 강의 ↗","처음 오시는 분께",
-         "← 이전 회차","다음 회차 →","바로가기","주 메뉴","새가족 안내 ↗","예배안내 ↗","오시는 길 ↗","성경 아카데미 ↗"}
+ALLOW = {"↗","→","←","↓","·","—","/","01","02","03","365","오늘의 통독 강의 ↗","처음 오시는 분께",
+         "← 이전 회차","다음 회차 →","바로가기","주 메뉴","새가족 안내 ↗","예배안내 ↗","오시는 길 ↗","성경 아카데미 ↗",
+         # master 지정 문구(2026-09-30 3차 (d)·gemini R1 ④) — 세 기둥 섹션 eyebrow
+         "세 기둥",
+         # master 허용(2026-09-30 gemini R1 전달) — 푸터 사실 표기 한 줄
+         "© 2026 큰샘교회"}
 # 런타임 합성값(통독 회차 표기 — 시안E JS 가 r.일+'일차' 로 만든다) 허용 패턴
 ALLOW_RE = [re.compile(r"^\d{1,3}일차$"), re.compile(r"^\d{1,3} / 365$")]
 
@@ -82,8 +86,8 @@ def text_parity(page):
         if not n or n in ALLOW or any(rx.match(n) for rx in ALLOW_RE): continue
         total+=1
         if n in hay: continue
-        # 화살표 기호(↗ → ←)는 링크 장식 — 떼고 본문만 대조
-        base=re.sub(r"\s*[↗→←]\s*$","",n).strip()
+        # 화살표 기호(↗ → ← ↓)는 링크 장식 — 떼고 본문만 대조 (↓=gemini R1 ⑦ 페이지 내 이동)
+        base=re.sub(r"\s*[↗→←↓]\s*$","",n).strip()
         if base and base in hay: continue
         # 구분자로 쪼개 조각 단위 대조(조각마다 출처 존재해야 함)
         pieces=[x.strip() for x in re.split(r"\s[·—/]\s|·|\s—\s",n) if x.strip()]

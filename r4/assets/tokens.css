@@ -60,7 +60,9 @@
     --font-script: "Nanum Brush Script", "Noto Serif KR", cursive;
     /* 근거: hcbc 히어로 clamp(2.4rem,7vw,5.6rem) 실측 · master 2차 ② 제목 clamp 상한 5.6rem · 극적 대비 */
     --text-display: clamp(2.6rem, 7vw, 5.6rem);
-    --text-script: clamp(3rem, 9vw, 7rem);
+    /* 근거: codex R1 ①(2026-09-30 master 전달) — 히어로 H1 은 세리프 clamp(2.2rem,5.5vw,4.2rem)(벤치마크 233행) · 캘리는 짧은 보조 구절로 축소 */
+    --text-hero: clamp(2.2rem, 5.5vw, 4.2rem);
+    --text-script: clamp(1.9rem, 4vw, 2.75rem);
     --text-h1: clamp(1.9rem, 3.6vw, 3rem);
     --text-h2: clamp(1.35rem, 2.2vw, 1.85rem);
     --text-h3: 1.15rem;

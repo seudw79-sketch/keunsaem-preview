@@ -1,13 +1,13 @@
 {
  "r4.css": {
-  "comment_open": 13,
-  "comment_close": 13,
+  "comment_open": 20,
+  "comment_close": 20,
   "balanced": true,
   "hex_outside_tokens": []
  },
  "tokens.css": {
-  "comment_open": 20,
-  "comment_close": 20,
+  "comment_open": 21,
+  "comment_close": 21,
   "balanced": true,
   "hex_outside_tokens": []
  },
