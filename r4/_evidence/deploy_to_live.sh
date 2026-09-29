@@ -71,10 +71,10 @@ for pg in pages:
 if residue:
     print("중단: 치환 잔여(코드 영역):", residue); sys.exit(5)
 print("치환 잔여 0 (절대 jubo 링크·../데이터·사진/web — 코드 영역 기준)")
-# 3-a 내부 링크·자원 실존 (스테이지 우선, 없으면 라이브)
+# 3-a 내부 링크·자원 실존 (스테이지 우선, 없으면 라이브) — <script> 안의 JS 문자열 템플릿('+esc(…)+')은 href 가 아니므로 제외
 broken=[]; n=0
 for pg in pages:
-    raw=code_only((STAGE/f"{pg}.html").read_text(encoding="utf-8"))
+    raw=code_only((STAGE/f"{pg}.html").read_text(encoding="utf-8")); raw=re.sub(r"<script.*?</script>","",raw,flags=re.S)
     for m in re.finditer(r'(?:href|src)="([^"]+)"',raw):
         u=m.group(1)
         if u.startswith(("http://","https://","tel:","mailto:","data:")): continue
