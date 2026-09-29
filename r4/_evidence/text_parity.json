@@ -8,10 +8,8 @@
  "교회소개": {
   "page": "교회소개",
   "nodes": 75,
-  "unmatched": [
-   "새가족 안내"
-  ],
-  "parity": false
+  "unmatched": [],
+  "parity": true
  },
  "아카데미": {
   "page": "아카데미",

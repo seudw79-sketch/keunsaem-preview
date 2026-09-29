@@ -54,5 +54,61 @@
    540
   ],
   "bytes": 64785
+ },
+ "tile_c1a.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 62097
+ },
+ "tile_c1b.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 47335
+ },
+ "tile_c1c.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 65806
+ },
+ "tile_c2c.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 102779
+ },
+ "tile_c3a.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 68638
+ },
+ "tile_c3b.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 55035
+ },
+ "tile_c3c.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 46524
+ },
+ "tile_c4b.jpg": {
+  "size": [
+   720,
+   540
+  ],
+  "bytes": 59751
  }
 }

@@ -41,8 +41,10 @@ warm = Image.new("RGB", ab.size, (232, 214, 186))
 ab = Image.blend(ab, warm, 0.08)
 save(ab, "about.jpg", q=82)
 
-# 3) 갤러리 6장: 4:3 동일 크롭 → 720×540 → 약한 세피아 duotone(저채도)
-GALLERY = ["c2a", "c2b", "c4c", "g7", "c4a", "g8"]                           # alt 원문이 있는 사진만(시안E_교회소개·시안E_홈)
+# 3) 갤러리 타일: 4:3 동일 크롭 → 720×540 → 약한 세피아 duotone(저채도)
+#    홈 6장(c2a·c2b·c4c·g7·c4a·g8) + 교회소개 12장(c1a~c4c, 시안E_교회소개 원문 순서) — 같은 파이프라인이라 홈 타일 바이트 불변(md5 대조)
+GALLERY = ["c2a", "c2b", "c4c", "g7", "c4a", "g8",                            # alt 원문이 있는 사진만(시안E_교회소개·시안E_홈)
+           "c1a", "c1b", "c1c", "c2c", "c3a", "c3b", "c3c", "c4b"]             # 교회소개 갤러리 추가분(2026-09-30)
 for n in GALLERY:
     g = Image.open(os.path.join(SRC, f"{n}.jpg")).convert("RGB")
     w, h = g.size

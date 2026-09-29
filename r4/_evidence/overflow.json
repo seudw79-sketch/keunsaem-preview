@@ -19,16 +19,20 @@
  },
  "교회소개": {
   "390": {
-   "scrollWidth": 500,
-   "clientWidth": 500,
-   "scrollHeight": 5669,
-   "overflow": false
+   "scrollWidth": 390,
+   "clientWidth": 390,
+   "scrollHeight": 5386,
+   "maxRight": 390,
+   "overflow": false,
+   "method": "iframe-wrapper"
   },
   "1280": {
    "scrollWidth": 1280,
    "clientWidth": 1280,
-   "scrollHeight": 4391,
-   "overflow": false
+   "scrollHeight": 4531,
+   "maxRight": 1280,
+   "overflow": false,
+   "method": "window"
   }
  },
  "아카데미": {
