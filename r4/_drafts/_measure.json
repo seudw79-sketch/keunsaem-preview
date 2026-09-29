@@ -1,0 +1,32 @@
+{
+ "hero_gallery_모음": {
+  "390": {
+   "scrollWidth": 390,
+   "clientWidth": 390,
+   "scrollHeight": 3231,
+   "maxRight": 390,
+   "overflow": false,
+   "method": "iframe-wrapper"
+  },
+  "1280": {
+   "scrollWidth": 1280,
+   "clientWidth": 1280,
+   "scrollHeight": 2097,
+   "maxRight": 1220,
+   "overflow": false,
+   "method": "window"
+  },
+  "cap390": {
+   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/_drafts/hero_gallery_모음_390.png",
+   "exists": true,
+   "bytes": 102983,
+   "method": "iframe-wrapper"
+  },
+  "cap1280": {
+   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/_drafts/hero_gallery_모음_1280.png",
+   "exists": true,
+   "bytes": 337064,
+   "method": "window"
+  }
+ }
+}

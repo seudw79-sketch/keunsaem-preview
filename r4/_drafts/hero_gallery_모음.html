@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[초안] 홈 첫 화면 — 전시회 느낌 3안 비교</title>
+<meta name="robots" content="noindex">
+<!-- [초안] 오너 수정 #1-(2) 2026-09-30 · 검토용 비교 페이지(본편 아님) · 생성=_build.py·_capture.py -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="../assets/tokens.css">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--body);font:400 var(--text-body)/var(--lh-body) var(--font-sans);word-break:keep-all}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:var(--s-8) var(--gutter) var(--s-12)}
+  .tag{display:inline-block;font-size:var(--text-caption);letter-spacing:var(--tracking-wide);font-weight:600;color:var(--accent)}
+  h1{font:500 var(--text-h1)/var(--lh-heading) var(--font-serif);color:var(--heading);margin:var(--s-1) 0 var(--s-3);letter-spacing:var(--tracking-tight)}
+  .lead{max-width:62ch;margin:0 0 var(--s-2)}
+  ul.rules{margin:var(--s-3) 0 var(--s-8);padding:var(--s-3) var(--s-4);list-style:none;background:var(--surface);border:1px solid var(--line-light)}
+  ul.rules li{padding:4px 0}
+  ul.rules li::before{content:"· ";color:var(--gold)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:var(--s-5)}
+  .card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line-light)}
+  .card a.shot{display:block;border-bottom:1px solid var(--line-light)}
+  .card img{display:block;width:100%;height:auto;aspect-ratio:1280/1000;object-fit:cover}
+  .card .body{padding:var(--s-3) var(--s-3) var(--s-4)}
+  .card h2{font:500 var(--text-h2)/var(--lh-heading) var(--font-serif);color:var(--heading);margin:0 0 var(--s-1)}
+  .card p{margin:0 0 var(--s-1);font-size:var(--text-body-sm)}
+  .card .go{display:inline-block;margin-top:var(--s-1);font-weight:600;color:var(--accent);text-underline-offset:4px}
+  .card--now{opacity:.85}
+  .foot{margin-top:var(--s-8);font-size:var(--text-body-sm);color:var(--muted)}
+</style>
+</head><body>
+<main class="wrap">
+  <span class="tag">[초안] 오너 검토용 · 본편 아님</span>
+  <h1>홈 첫 화면 — 「전시회에 온 느낌」 세 가지 안</h1>
+  <p class="lead">요청하신 “더 고급스럽고 깔끔하게, 우리 홈페이지가 전시회(갤러리)에 온 것 같은 느낌”을 세 가지 방향으로 만들어 보았습니다. 사진을 누르면 실제 페이지가 열리고, 아래로 내리면 나머지 홈 화면도 그대로 이어집니다. 휴대폰으로 열어 보셔도 됩니다.</p>
+  <ul class="rules">
+    <li>글자는 지금 홈과 한 글자도 다르지 않습니다 — 표어 「말씀을 읽고 배우고 가르치자」, 그 아래 안내 두 줄, 버튼 세 개.</li>
+    <li>바뀐 것은 뒤쪽 벽의 느낌·빛·배치뿐입니다.</li>
+    <li>사람이 나오는 사진은 쓰지 않았고, 인터넷에서 가져온 사진도 없습니다. B안의 십자가는 우리 예배당 사진에서 십자가 부분만 잘라 낸 것입니다.</li>
+    <li>마음에 드는 안을 골라 주시면 본편에 옮기고, 섞고 싶은 부분(예: A의 벽 + C의 조명)도 말씀만 주시면 됩니다.</li>
+  </ul>
+  <div class="grid">
+    <article class="card">
+      <a class="shot" href="hero_gallery_A.html"><img src="img/cap_A.jpg" alt="" loading="lazy" width="960" height="750"></a>
+      <div class="body"><h2>A · 화이트 큐브</h2>
+        <p>미술관의 하얀 전시실 벽. 위에서 은은한 조명이 떨어지고, 아래에는 바닥선이 보입니다. 표어는 벽에 붙인 큰 글씨처럼, 안내 문장은 오른쪽 아래 작품 설명 카드처럼 놓았습니다.</p>
+        <p>가장 깔끔하고 조용한 안입니다.</p>
+        <a class="go" href="hero_gallery_A.html">A안 열어 보기 →</a></div>
+    </article>
+    <article class="card">
+      <a class="shot" href="hero_gallery_B.html"><img src="img/cap_B.jpg" alt="" loading="lazy" width="960" height="750"></a>
+      <div class="body"><h2>B · 액자 전시</h2>
+        <p>우리 예배당 십자가를 액자에 넣어 전시 작품처럼 걸고, 그 옆에 표어를 전시 제목처럼 두었습니다.</p>
+        <p>“갤러리에 왔다”는 느낌이 가장 직접적인 안입니다. 원본 사진이 작아 확대하면 약간 부드럽게 보입니다.</p>
+        <a class="go" href="hero_gallery_B.html">B안 열어 보기 →</a></div>
+    </article>
+    <article class="card">
+      <a class="shot" href="hero_gallery_C.html"><img src="img/cap_C.jpg" alt="" loading="lazy" width="960" height="750"></a>
+      <div class="body"><h2>C · 야간 전시관</h2>
+        <p>어두운 먹색 벽에 한 줄기 조명이 표어에만 떨어집니다. 저녁 전시관에 들어선 것처럼 차분하고 무게감이 있습니다.</p>
+        <p>가장 인상이 강한 안입니다. 첫 화면만 어둡고, 아래 내용은 지금처럼 밝은 종이색입니다.</p>
+        <a class="go" href="hero_gallery_C.html">C안 열어 보기 →</a></div>
+    </article>
+    <article class="card card--now">
+      <a class="shot" href="../index.html"><img src="img/cap_now.jpg" alt="" loading="lazy" width="960" height="750"></a>
+      <div class="body"><h2>비교용 · 지금 본편</h2>
+        <p>오늘 아침 수정(영문 이름·「큰샘교회」 줄 삭제)이 반영된 현재 홈입니다. 배경은 예배당 십자가 벽을 흐리게 만든 것입니다.</p>
+        <a class="go" href="../index.html">지금 홈 열어 보기 →</a></div>
+    </article>
+  </div>
+  <p class="foot">[초안] 2026-09-30 · 이 페이지와 세 안은 검색에 나오지 않도록 막아 두었습니다(noindex).</p>
+</main>
+</body></html>
