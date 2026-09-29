@@ -38,6 +38,11 @@ cp "$SRC/assets/r4.css" "$SRC/assets/tokens.css" "$STAGE/assets/"
 photos="$(cat "${PAGES[@]/#/$SRC/}" | grep -o 'src="사진/web/[^"]*"' | sed 's#src="사진/web/##; s#"$##' | sort -u)"
 n_photo=0; while IFS= read -r ph; do [[ -n "$ph" ]] || continue; [[ -f "$SRC/사진/web/$ph" ]] || { say "중단: 사진 없음 $ph"; exit 4; }; cp "$SRC/사진/web/$ph" "$STAGE/사진/r4/$ph"; n_photo=$((n_photo+1)); done <<< "$photos"
 cp "$SRC/_evidence/sitemap.proposed.xml" "$STAGE/sitemap.xml"
+# robots: 라이브 robots.txt + `Disallow: /재정.html` 1줄 (master 판단 1 · 2026-09-30) — 제안 파일을 통째로 스테이지(라이브 손편집 금지)
+cp "$SRC/_evidence/robots.proposed.txt" "$STAGE/robots.txt"
+grep -qx 'Disallow: /시안E_재정.html' "$STAGE/robots.txt" && grep -qx 'Disallow: /재정.html' "$STAGE/robots.txt" && grep -qx 'Sitemap: https://ksmc31.kr/sitemap.xml' "$STAGE/robots.txt" || { say "중단: robots.proposed.txt 에 필수 3줄(시안E_재정·재정 Disallow·Sitemap)이 없다"; exit 4; }
+# 라이브 robots 의 기존 줄이 제안본에 전부 남아 있어야 한다(삭제 0 · 추가만)
+while IFS= read -r line; do [[ -z "$line" ]] || grep -qxF "$line" "$STAGE/robots.txt" || { say "중단: 라이브 robots 줄이 제안본에서 사라짐: $line"; exit 4; }; done < "$LIVE/robots.txt"
 
 # 2. 링크·경로 치환 (deploy_notes.md §1~§3 — 문안 무변경 · 경로만)
 for p in "${PAGES[@]}"; do
@@ -109,8 +114,10 @@ for p in "${PAGES[@]}"; do if [[ -f "$LIVE/$p" ]]; then say "REPLACE  $p  ($(sta
 for f in assets/r4.css assets/tokens.css; do [[ -f "$LIVE/$f" ]] && say "REPLACE  $f" || say "NEW      $f"; done
 say "NEW      사진/r4/  ($n_photo 장 · $(du -sh "$STAGE/사진/r4" | cut -f1))"
 say "REPLACE  sitemap.xml  ($(stat -f%z "$LIVE/sitemap.xml") → $(stat -f%z "$STAGE/sitemap.xml") bytes)"
-say "무수정   jubo*.html · latest.json · 주보목록.json · 칼럼목록.json · 통독_*.json · robots.txt · CNAME · google*/naver* 확인파일 · 시안E_* · 사진/web/ · assets/og-jubo-2026.jpg·youtube_qr.png"
+say "REPLACE  robots.txt  (+1줄 Disallow: /재정.html · master 판단 1)"
+say "무수정   jubo*.html · latest.json · 주보목록.json · 칼럼목록.json · 통독_*.json · CNAME · google*/naver* 확인파일 · 시안E_* · 사진/web/ · assets/og-jubo-2026.jpg·youtube_qr.png"
 say "-- sitemap diff --"; diff "$LIVE/sitemap.xml" "$STAGE/sitemap.xml" || true
+say "-- robots diff --"; diff "$LIVE/robots.txt" "$STAGE/robots.txt" || true
 
 if [[ "$MODE" == "dry-run" ]]; then
   say "== DRY-RUN 종료 — 라이브 무변경 · 백업 미생성 · 커밋 없음 =="
@@ -126,8 +133,9 @@ for p in "${PAGES[@]}"; do cp "$STAGE/$p" "$LIVE/$p"; done
 cp "$STAGE/assets/r4.css" "$STAGE/assets/tokens.css" "$LIVE/assets/"
 mkdir -p "$LIVE/사진/r4"; cp "$STAGE/사진/r4/"* "$LIVE/사진/r4/"
 cp "$STAGE/sitemap.xml" "$LIVE/sitemap.xml"
-git -C "$LIVE" add -- "${PAGES[@]}" assets/r4.css assets/tokens.css 사진/r4 sitemap.xml
-git -C "$LIVE" commit -q -m "R4 홈페이지 리뉴얼 라이브 배포 — 9페이지(index 교체·한글 파일명 8)·assets/r4.css·tokens.css·사진/r4(${n_photo}장)·sitemap 갱신. preview $SRC_HEAD 기준. 백업 $BK" -m "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+cp "$STAGE/robots.txt" "$LIVE/robots.txt"
+git -C "$LIVE" add -- "${PAGES[@]}" assets/r4.css assets/tokens.css 사진/r4 sitemap.xml robots.txt
+git -C "$LIVE" commit -q -m "R4 홈페이지 리뉴얼 라이브 배포 — 9페이지(index 교체·한글 파일명 8)·assets/r4.css·tokens.css·사진/r4(${n_photo}장)·sitemap 갱신·robots Disallow /재정.html 추가. preview $SRC_HEAD 기준. 백업 $BK" -m "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 NEW_HEAD="$(git -C "$LIVE" rev-parse HEAD)"
 say "== APPLY 완료 (push 없음) =="
 say "라이브 커밋: $LIVE_HEAD → $NEW_HEAD"

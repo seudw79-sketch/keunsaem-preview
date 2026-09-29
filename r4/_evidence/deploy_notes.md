@@ -18,6 +18,7 @@
 | assets/r4.css · assets/tokens.css | 신규(기존 assets/ 2파일과 이름 충돌 0) | r4/assets |
 | 사진/r4/*.jpg (18장) | 신규 폴더 | r4/사진/web 중 참조분 |
 | sitemap.xml | **교체** | r4/_evidence/sitemap.proposed.xml(§4) |
+| robots.txt | **교체**(+1줄 `Disallow: /재정.html` · 기존 줄 삭제 0 — 스크립트가 기계 확인) | r4/_evidence/robots.proposed.txt(master 판단 1 · 2026-09-30) |
 | 그 외 전부 | 무수정 | — |
 
 ## 2. 링크·경로 치환 (스크립트 §2 — 스테이지 사본에만 · SRC 무수정 · 문안 무변경)
@@ -46,11 +47,13 @@
 - 되돌리기 B(백업 복원): `rsync -a --delete --exclude .git <백업>/ ksmc31/` 후 `git status` 확인
 - push 이후 되돌리기는 master 지시(revert 커밋 → push) — 스크립트 범위 밖.
 
-## 6. master 판단 필요 (배포 전)
-1. **robots.txt**: 기존 `Disallow: /시안E_재정.html` 만 있다. 새 `재정.html` 도 같은 잠금 페이지 — `Disallow: /재정.html` 한 줄 추가 여부(master 지시는 robots 무수정 → 추가하려면 별도 승인).
-2. **사진 배치 `사진/r4/`**(§0 충돌 해법) 승인 여부 — 대안은 라이브 사진/web 덮어쓰기(시안E/jubo 렌더 변경 감수).
-3. **시안E_* 잔존**: jubo 7건이 시안E 를 링크하므로 배포 후 주보→옛 페이지 경로가 남는다. jubo*.html 은 무수정 대상이라 이번엔 그대로 둔다 — 후속(주보 생성기 템플릿 링크 교체)은 별도 티켓.
-4. preview 의 r4/index.html 에 canonical `https://ksmc31.kr/` 이 들어갔다(중복 색인 방지) — preview 에서도 그대로 둘지.
+## 6. master 판단 4건 — 전부 확정 (master [판단·배포 4건] 2026-09-30)
+1. **robots.txt** `Disallow: /재정.html` 1줄 추가 — **승인**(재정.html=시안E_재정과 동일 잠금 페이지·기존 패턴과 일관·저위험). → `robots.proposed.txt` 를 스크립트가 REPLACE, 기존 줄 보존을 기계 확인.
+2. **사진 `사진/r4/` 별도 배치** — **승인**(시안E/jubo 렌더 보존이 사진/web 덮어쓰기보다 안전).
+3. **시안E_* 잔존** — 이번 라운드 그대로, **후속 티켓으로 이관 승인**(jubo 생성기 템플릿의 시안E 링크 교체는 별도).
+4. **preview index canonical `https://ksmc31.kr/` 유지** — **승인**.
+
+`--apply`·push 는 오너 「올려」 확인 후 master 가 직접 지시한다(worker 자율 실행 금지).
 
 ## 7. 실행 순서 (오너 「올려」 승인 후)
 1. `bash r4/_evidence/deploy_to_live.sh` (dry-run 재확인) → 2. `bash r4/_evidence/deploy_to_live.sh --apply` → 3. 보고(커밋 해시·백업 경로) → 4. master 지시로 `git -C ksmc31 push origin main` → 5. 라이브 9페이지 200·유튜브 임베드·주보 링크 실확인.

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /시안E_재정.html
+Disallow: /재정.html
+Sitemap: https://ksmc31.kr/sitemap.xml
