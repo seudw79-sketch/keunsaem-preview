@@ -7,19 +7,19 @@
  },
  "교회소개": {
   "page": "교회소개",
-  "nodes": 75,
+  "nodes": 74,
   "unmatched": [],
   "parity": true
  },
  "아카데미": {
   "page": "아카데미",
-  "nodes": 54,
+  "nodes": 53,
   "unmatched": [],
   "parity": true
  },
  "온라인예배": {
   "page": "온라인예배",
-  "nodes": 41,
+  "nodes": 40,
   "unmatched": [],
   "parity": true
  },
@@ -31,25 +31,25 @@
  },
  "칼럼": {
   "page": "칼럼",
-  "nodes": 38,
+  "nodes": 37,
   "unmatched": [],
   "parity": true
  },
  "예배안내": {
   "page": "예배안내",
-  "nodes": 62,
+  "nodes": 61,
   "unmatched": [],
   "parity": true
  },
  "새가족": {
   "page": "새가족",
-  "nodes": 45,
+  "nodes": 44,
   "unmatched": [],
   "parity": true
  },
  "주보": {
   "page": "주보",
-  "nodes": 62,
+  "nodes": 61,
   "unmatched": [],
   "parity": true
  }
