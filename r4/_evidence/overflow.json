@@ -66,5 +66,23 @@
    "overflow": false,
    "method": "window"
   }
+ },
+ "재정": {
+  "390": {
+   "scrollWidth": 390,
+   "clientWidth": 390,
+   "scrollHeight": 900,
+   "maxRight": 390,
+   "overflow": false,
+   "method": "iframe-wrapper"
+  },
+  "1280": {
+   "scrollWidth": 1280,
+   "clientWidth": 1280,
+   "scrollHeight": 813,
+   "maxRight": 835,
+   "overflow": false,
+   "method": "window"
+  }
  }
 }

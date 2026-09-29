@@ -24,5 +24,11 @@
   "nodes": 42,
   "unmatched": [],
   "parity": true
+ },
+ "재정": {
+  "page": "재정",
+  "nodes": 6,
+  "unmatched": [],
+  "parity": true
  }
 }

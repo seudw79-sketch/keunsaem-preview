@@ -236,5 +236,14 @@
    "재정.html",
    "칼럼.html"
   ]
+ },
+ "재정": {
+  "page": "재정",
+  "internal": [
+   "assets/tokens.css",
+   "index.html"
+  ],
+  "external": [],
+  "broken": []
  }
 }
