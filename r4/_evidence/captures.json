@@ -2,37 +2,37 @@
  "index_390": {
   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/index_390.png",
   "exists": true,
-  "bytes": 1017277,
+  "bytes": 1017276,
   "method": "iframe-wrapper"
  },
  "index_1280": {
   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/index_1280.png",
   "exists": true,
-  "bytes": 2185306,
+  "bytes": 2185309,
   "method": "window"
  },
  "교회소개_390": {
   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/교회소개_390.png",
   "exists": true,
-  "bytes": 944011,
+  "bytes": 944006,
   "method": "iframe-wrapper"
  },
  "교회소개_1280": {
   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/교회소개_1280.png",
   "exists": true,
-  "bytes": 2491061,
+  "bytes": 2491078,
   "method": "window"
  },
  "아카데미_390": {
   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/아카데미_390.png",
   "exists": true,
-  "bytes": 190776,
+  "bytes": 190779,
   "method": "iframe-wrapper"
  },
  "아카데미_1280": {
   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/아카데미_1280.png",
   "exists": true,
-  "bytes": 377409,
+  "bytes": 377416,
   "method": "window"
  },
  "온라인예배_390": {
@@ -74,13 +74,37 @@
  "예배안내_390": {
   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/예배안내_390.png",
   "exists": true,
-  "bytes": 316700,
+  "bytes": 316453,
   "method": "iframe-wrapper"
  },
  "예배안내_1280": {
   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/예배안내_1280.png",
   "exists": true,
-  "bytes": 1033773,
+  "bytes": 1033763,
+  "method": "window"
+ },
+ "새가족_390": {
+  "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/새가족_390.png",
+  "exists": true,
+  "bytes": 110246,
+  "method": "iframe-wrapper"
+ },
+ "새가족_1280": {
+  "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/새가족_1280.png",
+  "exists": true,
+  "bytes": 139282,
+  "method": "window"
+ },
+ "주보_390": {
+  "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/주보_390.png",
+  "exists": true,
+  "bytes": 158126,
+  "method": "iframe-wrapper"
+ },
+ "주보_1280": {
+  "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/주보_1280.png",
+  "exists": true,
+  "bytes": 186164,
   "method": "window"
  }
 }

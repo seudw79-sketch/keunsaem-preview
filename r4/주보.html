@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>온라인 주보 · 큰샘교회</title>
+<meta name="description" content="큰샘교회 온라인 주보 · 이번 주 예배 순서와 교회 소식 · 매주 갱신">
+<!-- 근거: 디자인=r4/assets/tokens.css·r4.css(3차 ab44788) 무수정 링크만 · 헤더(드로어)·푸터=index.html 3차 마크업 그대로 · 페이지 고유 CSS 는 @layer pages 만(master 2026-09-30 03:xx 지시) -->
+<!-- 근거: 문안=ksmc31/시안E_주보.html 문자 그대로(page-head·이번 주 주보·주보 펼쳐 보기·지난 주보·연도→월→주일 note) + 주보목록.json 7건(표기·제호·설교제목 실값) + latest.json(이번 주 카드) — 창작 0 -->
+<!-- 근거: 링크 정책=master 회신 2026-09-30 00:2x·[3차 접수] 03:xx — 주보목록 7건은 https://ksmc31.kr/jubo_YYMMDD.html?v=YYYYMMDD 절대링크(preview 에 없는 파일 복사 금지) · 카드형 목록 · 이번 주 카드는 홈과 같이 ../jubo.html?v=… (라이브 이관 시 치환=deploy_notes.md §1) -->
+<!-- 근거: 런타임=시안E_주보.html 스크립트 의도 그대로(latest.json·주보목록.json 을 읽어 저절로 늘어난다 · 없으면 정직하게 표기) — 경로는 r4/ 기준 ../ · preview 의 주보목록.json 이 라이브보다 오래돼(deploy_notes §2) 정적 7건과 합집합으로 그린다 -->
+<!-- 근거: 폰트 링크=index.html(3차)과 동일 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Nanum+Brush+Script&display=swap" rel="stylesheet"><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/tokens.css"><link rel="stylesheet" href="assets/r4.css">
+<style>@layer pages{
+  .page-top{padding-top:76px}
+  @media(max-width:640px){.page-top{padding-top:64px}}
+  .issue{margin-top:var(--s-3)}
+  .cards article p{margin-top:0}
+}</style>
+</head><body>
+
+<!-- 근거: index.html 3차 헤더 그대로(모바일 CSS-only 체크박스 드로어 · 체크박스 이름 「메뉴」=구조 라벨) -->
+<header class="nav"><div class="wrap"><a class="brand" href="index.html"><strong>큰샘교회</strong><small>KEUNSAEM CHURCH</small></a>
+<input type="checkbox" id="nav-toggle" class="nav__toggle" aria-label="메뉴" aria-controls="site-nav">
+<label for="nav-toggle" class="nav__burger" aria-hidden="true"><span></span></label>
+<nav id="site-nav" aria-label="주 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a><a class="nav__cta" href="새가족.html">새가족 안내</a></nav></div></header>
+
+<main>
+<!-- 근거: 시안E_주보.html page-head(kicker 「주보」·h1 「온라인 주보」·p) 그대로 · 페이지 제목 크기=부서3 4페이지와 동일(title--display) -->
+<section class="section page-top" data-block="page-head"><div class="wrap">
+  <div class="head reveal"><span class="eyebrow">주보</span><h1 class="title title--display">온라인 주보</h1></div>
+  <p class="lead">이번 주 예배 순서와 교회 소식입니다. 매주 갱신됩니다.</p>
+</div></section>
+
+<!-- 근거: 시안E_주보.html 블록1 「이번 주 주보」(h3 id jb2-title·갱신일 p id jb2-date·버튼 「주보 펼쳐 보기」 id jb2-link) — 정적 스냅샷=latest.json(ksmc31 2026-09-27) 실값 · 런타임은 ../latest.json 으로 갱신 · 이 페이지의 틴트 블록 1개 -->
+<section class="section section--tint" data-block="this-week"><div class="wrap two reveal">
+  <div><h2 class="title">이번 주 주보</h2></div>
+  <div><span class="num">2026년 9월 27일</span><h3 class="title" id="jb2-title">2026년 9월 27일 주보</h3><p class="note issue" id="jb2-date">갱신일 확인 중</p>
+    <div class="actions"><a class="btn btn--primary" id="jb2-link" href="../jubo.html?v=20260927">주보 펼쳐 보기</a></div></div>
+</div></section>
+
+<!-- 근거: 시안E_주보.html 블록2 「지난 주보」 + note 원문 · 카드 7장=주보목록.json 실값(표기·설교제목·제호 — 제호 「자동」은 시안E JS 규칙대로 표시하지 않음) · 링크=https://ksmc31.kr/<파일>?v=YYYYMMDD 절대(master 정책) · 카드 링크 문안 「주보 보기」=대장 카드 블록 · 런타임 JS 가 ../주보목록.json 과 합집합으로 다시 그린다 -->
+<section class="section section--line" data-block="archive"><div class="wrap">
+  <div class="head reveal"><h2 class="title">지난 주보</h2><p class="note" style="margin-top:12px">교회의 역사입니다. 연도 → 월 → 주일 순으로 쌓입니다.</p></div>
+  <div class="cols cards reveal" id="jb-archive">
+    <article><span class="num">2026년 9월 27일</span><h3>광야에서도 신실하신 하나님</h3><p>제 39 호</p><a class="go" href="https://ksmc31.kr/jubo_260927.html?v=20260927">주보 보기 →</a></article>
+    <article><span class="num">2026년 9월 20일</span><h3>다시 하나님 앞으로</h3><p>제 38 호</p><a class="go" href="https://ksmc31.kr/jubo_260920.html?v=20260920">주보 보기 →</a></article>
+    <article><span class="num">2026년 9월 13일</span><h3>구원하시고 함께 하시는 하나님</h3><p>제 37 호</p><a class="go" href="https://ksmc31.kr/jubo_260913.html?v=20260913">주보 보기 →</a></article>
+    <article><span class="num">2026년 9월 6일</span><h3>약속을 지키시는 하나님</h3><a class="go" href="https://ksmc31.kr/jubo_260906.html?v=20260906">주보 보기 →</a></article>
+    <article><span class="num">2026년 8월 30일</span><h3>우연이 아니라 성령님이 하십니다</h3><a class="go" href="https://ksmc31.kr/jubo_260830.html?v=20260830">주보 보기 →</a></article>
+    <article><span class="num">2026년 8월 23일</span><h3>생명의 성령의 법이 나를 살린다</h3><a class="go" href="https://ksmc31.kr/jubo_260823.html?v=20260823">주보 보기 →</a></article>
+    <article><span class="num">2026년 6월 21일</span><h3>어떤 안경을 쓰고 있습니까?</h3><p>제 25 호</p><a class="go" href="https://ksmc31.kr/jubo_260621.html?v=20260621">주보 보기 →</a></article>
+  </div>
+</div></section>
+</main>
+
+<!-- 근거: index.html 3차 푸터 그대로(© 한 줄=master 허용) -->
+<footer class="footer" data-block="footer"><div class="wrap"><div class="footer__grid">
+  <div><div class="footer__name">큰샘교회</div><p>기독교대한감리회 큰샘교회<br>KEUNSAEM METHODIST CHURCH</p><p style="margin-top:16px">경기 광명시 기아로 23 (소하동) 4층<br><a href="tel:010-2534-0407">010-2534-0407</a></p></div>
+  <div><h4>예배</h4><p>주일 오전 11시<br>주일 성경공부 오후 1시</p></div>
+  <div><h4>바로가기</h4><div class="footer__links"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="주보.html">온라인 주보</a><a href="재정.html">교회 재정</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">유튜브</a></div></div>
+</div><div class="footer__copy">기독교대한감리회 큰샘교회 · KEUNSAEM METHODIST CHURCH<br>© 2026 큰샘교회</div></div></footer>
+
+<script>
+// 근거: 시안E_주보.html 스크립트 ① — 이번 주 카드는 latest.json 만 본다(주보 생성기가 그 한 파일을 덮어쓴다). 경로는 r4/ 기준 상위(../). file:// 캡처는 위 스냅샷.
+if(location.protocol!=='file:')fetch('../latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(d){
+  if(!d)return;
+  if(d.주보_제목)document.getElementById('jb2-title').textContent=d.주보_제목;
+  if(d.주보_링크)document.getElementById('jb2-link').href='../'+d.주보_링크;
+  document.getElementById('jb2-date').textContent='마지막 갱신 '+(d.갱신일||d.주보_날짜||'확인 필요');
+}).catch(function(){});
+// 근거: 시안E_주보.html 스크립트 ② — 주보목록.json 하나만 읽어 저절로 늘어난다(최신이 앞). 링크는 master 정책대로 https://ksmc31.kr/<파일>?v=YYYYMMDD 절대.
+//       preview 의 ../주보목록.json 은 라이브보다 오래될 수 있어(deploy_notes §2) 정적 7건과 날짜 기준 합집합으로 그린다 — 라이브에서는 JSON 이 곧 전체다.
+(function(){
+  var box=document.getElementById('jb-archive');if(!box||location.protocol==='file:')return;
+  var 정적=[];box.querySelectorAll('article').forEach(function(a){var go=a.querySelector('.go');var m=/jubo_(\d{6})\.html\?v=(\d{8})/.exec(go?go.href:'');if(!m)return;var v=m[2];정적.push({날짜:v.slice(0,4)+'-'+v.slice(4,6)+'-'+v.slice(6,8),표기:a.querySelector('.num').textContent,설교제목:a.querySelector('h3').textContent,제호:(a.querySelector('p')||{}).textContent||'자동',파일:'jubo_'+m[1]+'.html'});});
+  fetch('../주보목록.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(d){
+    var list=(d&&d.주보)||[];if(!list.length)return;
+    var 합={};list.concat(정적).forEach(function(x){var k=String(x.날짜||'');if(k&&!합[k])합[k]=x;});
+    var keys=Object.keys(합).sort().reverse();
+    var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+    box.innerHTML=keys.map(function(k){var x=합[k];var v=k.replace(/-/g,'');var ho=x.제호&&x.제호!=='자동'?'<p>'+esc(x.제호)+'</p>':'';
+      return '<article><span class="num">'+esc(x.표기||k)+'</span><h3>'+esc(x.설교제목||'')+'</h3>'+ho+'<a class="go" href="https://ksmc31.kr/'+esc(x.파일||'jubo.html')+'?v='+v+'">주보 보기 →</a></article>';}).join('');
+  }).catch(function(){});
+})();
+</script></body></html>

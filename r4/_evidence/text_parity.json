@@ -13,13 +13,13 @@
  },
  "아카데미": {
   "page": "아카데미",
-  "nodes": 54,
+  "nodes": 55,
   "unmatched": [],
   "parity": true
  },
  "온라인예배": {
   "page": "온라인예배",
-  "nodes": 42,
+  "nodes": 41,
   "unmatched": [],
   "parity": true
  },
@@ -37,6 +37,18 @@
  },
  "예배안내": {
   "page": "예배안내",
+  "nodes": 62,
+  "unmatched": [],
+  "parity": true
+ },
+ "새가족": {
+  "page": "새가족",
+  "nodes": 46,
+  "unmatched": [],
+  "parity": true
+ },
+ "주보": {
+  "page": "주보",
   "nodes": 62,
   "unmatched": [],
   "parity": true
