@@ -256,5 +256,47 @@
    "예배안내.html",
    "주보.html"
   ]
+ },
+ "예배안내": {
+  "page": "예배안내",
+  "internal": [
+   "assets/tokens.css",
+   "assets/r4.css",
+   "index.html",
+   "교회소개.html",
+   "예배안내.html",
+   "아카데미.html",
+   "칼럼.html",
+   "재정.html",
+   "주보.html",
+   "온라인예배.html",
+   "새가족.html",
+   "사진/web/naver_map.jpg",
+   "교회소개.html",
+   "예배안내.html",
+   "주보.html",
+   "재정.html",
+   "아카데미.html",
+   "칼럼.html"
+  ],
+  "external": [
+   "https://fonts.googleapis.com",
+   "https://fonts.gstatic.com",
+   "https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Nanum+Brush+Script&display=swap",
+   "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css",
+   "https://www.youtube.com/embed/videoseries?list=PLRKz01U8iI5IuYm8JnLfkFt7JzxVyiqZW",
+   "https://www.youtube.com/playlist?list=PLN0CvF5J-mpCg0_mjw8a0yT6LHErhrvxZ",
+   "https://www.youtube.com/channel/UCD0aYL334AT347vJiXFMdPg",
+   "https://map.naver.com/p/search/%ED%81%B0%EC%83%98%EA%B0%90%EB%A6%AC%EA%B5%90%ED%9A%8C",
+   "https://map.naver.com/p/search/%ED%81%B0%EC%83%98%EA%B0%90%EB%A6%AC%EA%B5%90%ED%9A%8C",
+   "https://map.kakao.com/?q=%EA%B2%BD%EA%B8%B0%20%EA%B4%91%EB%AA%85%EC%8B%9C%20%EA%B8%B0%EC%95%84%EB%A1%9C%2023",
+   "tel:010-2534-0407",
+   "https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw"
+  ],
+  "broken": [
+   "주보.html",
+   "새가족.html",
+   "주보.html"
+  ]
  }
 }
