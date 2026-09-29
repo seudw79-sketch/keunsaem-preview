@@ -1,0 +1,54 @@
+== R4 → 라이브 배포 [dry-run] 20260930_035201 ==
+SRC=/Users/sdw79/SDWjavis/_레포/keunsaem-preview/r4
+LIVE=/Users/sdw79/SDWjavis/_레포/ksmc31
+라이브 HEAD(배포 전)=fda20814f1f79f8c5cb19b50239f1f8c4db15f1a (main) · preview HEAD=77ede767ca267ff3e7e368283e5017d61f4f4c2c
+-- 검증 --
+치환 잔여 0 (절대 jubo 링크·../데이터·사진/web — 코드 영역 기준)
+내부 링크·자원 183건 검사 · 깨짐 0건 
+문안 parity: {'index': True, '교회소개': True, '예배안내': True, '새가족': True, '아카데미': True, '온라인예배': True, '재정': True, '주보': True, '칼럼': True}
+재정 잠금 스크립트 동일: True
+index 메타: {'og:url': True, 'canonical': True, 'ld+json Church': True}
+-- 배포 목록 --
+REPLACE  index.html  (43303 → 22154 bytes)
+NEW      교회소개.html  (10860 bytes)
+NEW      예배안내.html  (10422 bytes)
+NEW      새가족.html  (5925 bytes)
+NEW      아카데미.html  (8518 bytes)
+NEW      온라인예배.html  (6819 bytes)
+NEW      재정.html  (8191 bytes)
+NEW      주보.html  (10126 bytes)
+NEW      칼럼.html  (8299 bytes)
+NEW      assets/r4.css
+NEW      assets/tokens.css
+NEW      사진/r4/  (18 장 · 1.3M)
+REPLACE  sitemap.xml  (896 → 1299 bytes)
+무수정   jubo*.html · latest.json · 주보목록.json · 칼럼목록.json · 통독_*.json · robots.txt · CNAME · google*/naver* 확인파일 · 시안E_* · 사진/web/ · assets/og-jubo-2026.jpg·youtube_qr.png
+-- sitemap diff --
+1a2
+> <!-- R4 라이브 배포용 sitemap 갱신안 (master [배포 준비] ② 2026-09-30) · 기존 sitemap.xml 의 시안E_* 9항목 → R4 한글 파일명 · 재정.html 은 기존과 같이 미등재(robots 가 재정 페이지를 Disallow) · jubo.html 유지 · 한글 경로는 RFC3986 percent-encoding -->
+3,6c4,11
+<   <url><loc>https://ksmc31.kr/</loc></url>
+<   <url><loc>https://ksmc31.kr/%EC%8B%9C%EC%95%88E_%EA%B5%90%ED%9A%8C%EC%86%8C%EA%B0%9C.html</loc></url>
+<   <url><loc>https://ksmc31.kr/%EC%8B%9C%EC%95%88E_%EC%98%88%EB%B0%B0%EC%95%88%EB%82%B4.html</loc></url>
+<   <url><loc>https://ksmc31.kr/%EC%8B%9C%EC%95%88E_%EC%A3%BC%EB%B3%B4.html</loc></url>
+---
+>   <url><loc>https://ksmc31.kr/</loc><lastmod>2026-09-30</lastmod></url>
+>   <url><loc>https://ksmc31.kr/%EA%B5%90%ED%9A%8C%EC%86%8C%EA%B0%9C.html</loc><lastmod>2026-09-30</lastmod></url>
+>   <url><loc>https://ksmc31.kr/%EC%98%88%EB%B0%B0%EC%95%88%EB%82%B4.html</loc><lastmod>2026-09-30</lastmod></url>
+>   <url><loc>https://ksmc31.kr/%EC%83%88%EA%B0%80%EC%A1%B1.html</loc><lastmod>2026-09-30</lastmod></url>
+>   <url><loc>https://ksmc31.kr/%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8.html</loc><lastmod>2026-09-30</lastmod></url>
+>   <url><loc>https://ksmc31.kr/%EC%98%A8%EB%9D%BC%EC%9D%B8%EC%98%88%EB%B0%B0.html</loc><lastmod>2026-09-30</lastmod></url>
+>   <url><loc>https://ksmc31.kr/%EC%A3%BC%EB%B3%B4.html</loc><lastmod>2026-09-30</lastmod></url>
+>   <url><loc>https://ksmc31.kr/%EC%B9%BC%EB%9F%BC.html</loc><lastmod>2026-09-30</lastmod></url>
+8,12c13
+<   <url><loc>https://ksmc31.kr/%EC%8B%9C%EC%95%88E_%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8.html</loc></url>
+<   <url><loc>https://ksmc31.kr/%EC%8B%9C%EC%95%88E_%EC%B9%BC%EB%9F%BC.html</loc></url>
+<   <url><loc>https://ksmc31.kr/%EC%8B%9C%EC%95%88E_%EC%98%A8%EB%9D%BC%EC%9D%B8%EC%98%88%EB%B0%B0.html</loc></url>
+<   <url><loc>https://ksmc31.kr/%EC%8B%9C%EC%95%88E_%EC%83%88%EA%B0%80%EC%A1%B1.html</loc></url>
+< </urlset>
+\ No newline at end of file
+---
+> </urlset>
+== DRY-RUN 종료 — 라이브 무변경 · 백업 미생성 · 커밋 없음 ==
+실행하려면: r4/_evidence/deploy_to_live.sh --apply   (백업 /Users/sdw79/SDWjavis/_레포/_레포밖_보관/ksmc31_pre_r4_<ts>/ 생성 후 복사·커밋 · push 없음)
+dry-run exit=0
