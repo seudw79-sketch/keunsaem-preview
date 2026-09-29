@@ -30,5 +30,11 @@
   "nodes": 6,
   "unmatched": [],
   "parity": true
+ },
+ "칼럼": {
+  "page": "칼럼",
+  "nodes": 38,
+  "unmatched": [],
+  "parity": true
  }
 }

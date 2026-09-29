@@ -56,5 +56,17 @@
   "exists": true,
   "bytes": 18153,
   "method": "window"
+ },
+ "칼럼_390": {
+  "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/칼럼_390.png",
+  "exists": true,
+  "bytes": 257831,
+  "method": "iframe-wrapper"
+ },
+ "칼럼_1280": {
+  "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/칼럼_1280.png",
+  "exists": true,
+  "bytes": 283950,
+  "method": "window"
  }
 }
