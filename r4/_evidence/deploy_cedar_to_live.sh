@@ -56,9 +56,11 @@ cp "$R4EV/robots.proposed.txt" "$STAGE/robots.txt"
 grep -qx 'Disallow: /시안E_재정.html' "$STAGE/robots.txt" && grep -qx 'Disallow: /재정.html' "$STAGE/robots.txt" && grep -qx 'Sitemap: https://ksmc31.kr/sitemap.xml' "$STAGE/robots.txt" || { say "중단: robots.proposed.txt 에 필수 3줄이 없다"; exit 4; }
 while IFS= read -r line; do [[ -z "$line" ]] || grep -qxF "$line" "$STAGE/robots.txt" || { say "중단: 라이브 robots 줄이 제안본에서 사라짐: $line"; exit 4; }; done < "$LIVE/robots.txt"
 
-# 2. 경로 치환 — 시더 전용 표(루트까지 세 단 → 루트 · 사진 두 단 → 사진/cedar/ · LATEST_URL 절대→상대). 문안 무변경 · 경로만
+# 2. 경로 치환 — 시더 전용 표(루트까지 세 단 → 루트 · 사진 두 단 → 사진/cedar/ · LATEST_URL 절대→상대 · 주보 절대 링크 https://ksmc31.kr/jubo_→상대(R4 표와 동일 · 같은 도메인 안이라 상대가 정본)). 문안 무변경 · 경로만
 for p in "${PAGES[@]}"; do
   sed -i '' \
+    -e 's#https://ksmc31\.kr/jubo_#jubo_#g' \
+    -e "s#https://ksmc31\.kr/'+esc(#'+esc(#g" \
     -e 's#\.\./\.\./\.\./jubo\.html#jubo.html#g' \
     -e "s#fetch('\.\./\.\./\.\./#fetch('#g" \
     -e "s#'\.\./\.\./\.\./'+d\.#d.#g" \
