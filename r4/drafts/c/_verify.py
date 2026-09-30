@@ -109,15 +109,21 @@ def text_parity(page):
         unmatched.append(n)
     return {"page":page,"nodes":total,"unmatched":unmatched,"parity":len(unmatched)==0}
 
-# 홈에서 master 승인으로 뺀 r4 블록(2026-09-30): hero·times(첫 판면이 대신) · latest-sermon(첫 판면과 중복) · intro·gallery(성도 사진 — 명화 방향)
-# · pillars 는 빈 칸이라 뺀 것이며 글을 채우면 복귀. footer 는 전 페이지 공통 꼬리로 대체(교회명·주소·전화·© 는 꼬리에 실림).
+# 홈에서 뺀 r4 블록 — master 승인(2026-09-30): hero(첫 판면이 대신) · latest-sermon(첫 판면과 중복) · intro·gallery(성도 사진 — 명화 방향).
+# ★pillars(세 기둥 = 오너 목회 3축)는 빈 칸이라 뺀 것이지 없애기로 한 것이 아님 — 오너가 글을 채우면 복귀(_build.py keep 에 "pillars" 추가 + 여기 APPROVED_DROP 에서 제거).
+# footer 는 전 페이지 공통 꼬리로 대체(교회명·주소·전화·© 는 꼬리에 실림). times 는 hero 안 예배 시간 줄(같은 값이 worship 블록에 있음).
+# 이 목록과 _build.py build_index() 의 주석·keep 은 같은 사실을 적는다 — 한쪽을 바꾸면 다른 쪽도.
 APPROVED_DROP={"index":{"hero","times","latest-sermon","pillars","intro","gallery","footer"}}
 DROP_ALL={"page-head","footer"}   # page-head 는 첫 판면(spread)으로 옮겨져야 하므로 그 글자는 따로 검사
 
 def _blocks(raw):
+    """data-block → 원문. 같은 이름이 두 번 나오면 덮어쓰지 않고 '이름#2' 로 따로 보관한다(codex r2: 덮어쓰기면 한쪽 누락이 가려진다)."""
     raw=re.sub(r"<!--.*?-->","",raw,flags=re.S)
     out={}
-    for m in re.finditer(r'<section\b[^>]*data-block="([^"]+)"[^>]*>.*?</section>',raw,re.S): out[m.group(1)]=m.group(0)
+    for m in re.finditer(r'<section\b[^>]*data-block="([^"]+)"[^>]*>.*?</section>',raw,re.S):
+        k=m.group(1); i=2
+        while k in out: k=f"{m.group(1)}#{i}"; i+=1
+        out[k]=m.group(0)
     return out
 def _nodes(frag):
     frag=re.sub(r"<script.*?</script>","",frag,flags=re.S); frag=re.sub(r"<br\s*/?>","\n",frag)
@@ -139,15 +145,22 @@ def completeness(page):
     drop=DROP_ALL|APPROVED_DROP.get(page,set())
     expected=[b for b in sb if b not in drop]
     missing_blocks=[b for b in expected if b not in gb]
-    gen_nodes=set(_nodes(re.sub(r"<!--.*?-->","",gen,flags=re.S)))
+    # 블록 단위 · 문장 순서·개수까지 같아야 한다(페이지 전체 set 비교는 중복 문장·순서·개수를 무시해 통째로 빠진 문단을 놓칠 수 있다 — codex r2 수용).
+    # 이식은 원문 그대로이므로 '같은 블록의 문장 열이 완전히 같다'가 기준. 다르면 첫 어긋난 자리(위치·원문·생성)를 찍는다.
     missing_nodes=[]
+    dup=[k for k in list(sb)+list(gb) if "#" in k]
+    if dup: missing_nodes.append("같은 data-block 이름이 두 번: "+", ".join(sorted(set(dup))))
     for b in expected:
         if b in gb:
-            for n in _nodes(sb[b]):
-                if n not in gen_nodes: missing_nodes.append(f"{b}: {n}")
-    if "page-head" in sb and page!="재정":   # 첫 판면으로 옮긴 글자(eyebrow·h1·lead)도 있어야 한다
+            sn=_nodes(sb[b]); gn=_nodes(gb[b])
+            if sn!=gn:
+                i=next((i for i in range(max(len(sn),len(gn))) if i>=len(sn) or i>=len(gn) or sn[i]!=gn[i]),0)
+                missing_nodes.append(f"{b}: 원문 {len(sn)}문장 vs 생성 {len(gn)}문장 · 첫 어긋남 #{i+1} 원문={sn[i] if i<len(sn) else '(없음)'!r} 생성={gn[i] if i<len(gn) else '(없음)'!r}")
+    if "page-head" in sb and page!="재정":   # 첫 판면으로 옮긴 글자(eyebrow·h1·lead) — 순서는 바뀌어도 되나 전부 있어야 한다
+        spread=re.search(r'<section class="spread">.*?</section>',gen,re.S)
+        sp_nodes=_nodes(spread.group(0)) if spread else []
         for n in _nodes(sb["page-head"]):
-            if n not in gen_nodes: missing_nodes.append(f"page-head→spread: {n}")
+            if n not in sp_nodes: missing_nodes.append(f"page-head→spread: {n}")
     return {"page":page,"src_blocks":len(sb),"expected_blocks":len(expected),"gen_blocks":len(gb),
             "dropped_approved":sorted(b for b in sb if b in drop),"missing_blocks":missing_blocks,"missing_nodes":missing_nodes,
             "complete":not missing_blocks and not missing_nodes}

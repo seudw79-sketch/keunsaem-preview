@@ -236,9 +236,9 @@ def build_index():
     <dl class="meta">
 {chr(10).join(meta_rows)}
     </dl>'''
-    # 홈에 싣는 r4 섹션(순서 고정) — 뺀 것은 master 승인(2026-09-30): hero(첫 판면이 대신) · latest-sermon(첫 판면과 중복) · intro·gallery(성도 사진 — 명화 방향).
-    # ★pillars(세 기둥 = 오너 목회 3축)는 빈 칸이라 뺀 것이지 없애기로 한 것이 아님 — 오너가 글을 채우면 keep 에 "pillars" 를 넣어 복귀시킨다.
-    # 검증기 _verify.py APPROVED_DROP 이 같은 목록을 들고 누락을 감시한다 — 여기 바꾸면 거기도 같이.
+    # 홈에 싣는 r4 섹션(순서 고정). 뺀 블록 — master 승인(2026-09-30): hero(첫 판면이 대신) · latest-sermon(첫 판면과 중복) · intro·gallery(성도 사진 — 명화 방향).
+    # ★pillars(세 기둥 = 오너 목회 3축)는 빈 칸이라 뺀 것이지 없애기로 한 것이 아님 — 오너가 글을 채우면 복귀(아래 keep 에 "pillars" 추가 + _verify.py APPROVED_DROP 에서 제거).
+    # 이 주석·keep 과 _verify.py APPROVED_DROP 은 같은 사실을 적는다 — 한쪽을 바꾸면 다른 쪽도.
     keep = ["today", "sermons", "worship", "visitors", "location"]
     body = [s for _, s in sections(main, keep=keep)]
     # 통독 스크립트는 r4 원문 그대로(IIFE) · latest.json 갱신은 첫 판면 id 에 맞춰 여기서 씀
