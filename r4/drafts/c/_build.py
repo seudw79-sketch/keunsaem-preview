@@ -16,7 +16,28 @@ R4 = C.parent.parent                          # r4 (본편 · 읽기만)
 SRC = C / "_src"
 SITE = json.load(open(SRC / "site.json", encoding="utf-8"))
 PLATES = json.load(open(SRC / "plates.json", encoding="utf-8"))
-LATEST = json.load(open(SITE["latest_json"], encoding="utf-8"))
+PREVIEW = R4.parent                          # keunsaem-preview 루트
+
+def load_latest():
+    """latest.json — 라이브(ksmc31.kr)를 먼저 받아 정본으로 쓴다. 실패하면 로컬 사본으로 내려앉고 빌드는 계속하되 눈에 띄게 경고(master 조건: 빌드가 네트워크에 의존하지 않게).
+    받아온 값이 로컬 사본과 다르면 경고 + 사본 자동 갱신(페이지 스크립트·r4 주보 스크립트가 이 사본을 읽으므로 갈라짐 방지 · 2026-09-30 실측 사고)."""
+    import urllib.request
+    local_path = PREVIEW / SITE["latest_local"]
+    local = json.load(open(local_path, encoding="utf-8")) if local_path.exists() else None
+    try:
+        with urllib.request.urlopen(SITE["latest_live_url"], timeout=8) as r:
+            live = json.load(r)
+    except Exception as e:
+        print("=" * 72 + f"\n★경고: 라이브 {SITE['latest_live_url']} 을 못 받았다({type(e).__name__}) — 로컬 사본으로 빌드한다: "
+              f"{local_path.name} · 설교_날짜={local.get('설교_날짜') if local else '없음'}\n" + "=" * 72, file=sys.stderr)
+        if local is None: raise SystemExit("latest.json 로컬 사본도 없음 — 빌드 중단")
+        return local
+    if live != local:
+        print(f"★경고: 라이브 latest.json({live.get('설교_날짜')}) ≠ 로컬 사본({local.get('설교_날짜') if local else '없음'}) → 사본을 라이브 값으로 갱신했다: {local_path}", file=sys.stderr)
+        local_path.write_text(json.dumps(live, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return live
+
+LATEST = load_latest()
 
 if "--timetable" in sys.argv:
     SITE["hero_timetable"] = sys.argv[sys.argv.index("--timetable") + 1]
@@ -215,8 +236,8 @@ def build_index():
     # 통독 스크립트는 r4 원문 그대로(IIFE) · latest.json 갱신은 첫 판면 id 에 맞춰 여기서 씀
     iife = next(s for s in scripts if "오늘회차" in s)
     iife = re.search(r"\(function\(\)\{.*?\}\)\(\);", iife, re.S).group(0)
-    latest_js = """// latest.json 정본으로 첫 판면·최근 설교·주보만 갱신(빌드 값이 먼저 보이고, 열 때 최신값으로 덮는다). 경로는 r4/drafts/c/ 기준 상위 3단(../../../).
-if(location.protocol!=='file:')fetch('../../../latest.json',{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){
+    latest_js = f"var LATEST_URL={json.dumps(SITE['latest_url'])};  // site.json latest_url — 미리보기=절대 URL · 라이브 배포=상대경로(site.json _latest_note)\n" + """// latest.json 정본으로 첫 판면·최근 설교·주보만 갱신(빌드 값이 먼저 보이고, 열 때 최신값으로 덮는다). 주보 링크는 미리보기 루트 기준(../../../).
+if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){
   if(d.설교_제목&&d.설교_날짜&&/^https:\\/\\/www.youtube.com\\/watch\\?v=/.test(d.설교_링크)){
     var parts=d.설교_날짜.split('·'),ymd=parts[0].trim().split('-');
     document.getElementById('sm-title').textContent=d.설교_제목;

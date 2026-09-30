@@ -1,28 +1,77 @@
 {
- "_meta": {"schema": "r4/drafts/plates_스키마.md §7", "decided": "master 티켓 T-HOME-C-EXPAND 2026-09-30 · nav_mode 는 오너 답 전 open"},
+ "_meta": {
+  "schema": "r4/drafts/plates_스키마.md §7",
+  "decided": "master 티켓 T-HOME-C-EXPAND 2026-09-30 · nav_mode 는 오너 답 전 open"
+ },
  "hero_timetable": "below",
  "nav_mode": "open",
  "nav_placement": "pushed",
  "nav": [
-  {"label": "교회소개", "file": "교회소개.html"},
-  {"label": "예배안내", "file": "예배안내.html"},
-  {"label": "성경 아카데미", "file": "아카데미.html"},
-  {"label": "신앙 칼럼", "file": "칼럼.html"},
-  {"label": "교회 재정", "file": "재정.html"},
-  {"label": "온라인 주보", "file": "주보.html"},
-  {"label": "온라인 예배", "file": "온라인예배.html"},
-  {"label": "새가족 안내", "file": "새가족.html"}
+  {
+   "label": "교회소개",
+   "file": "교회소개.html"
+  },
+  {
+   "label": "예배안내",
+   "file": "예배안내.html"
+  },
+  {
+   "label": "성경 아카데미",
+   "file": "아카데미.html"
+  },
+  {
+   "label": "신앙 칼럼",
+   "file": "칼럼.html"
+  },
+  {
+   "label": "교회 재정",
+   "file": "재정.html"
+  },
+  {
+   "label": "온라인 주보",
+   "file": "주보.html"
+  },
+  {
+   "label": "온라인 예배",
+   "file": "온라인예배.html"
+  },
+  {
+   "label": "새가족 안내",
+   "file": "새가족.html"
+  }
  ],
  "worship": [
-  {"dt": "주일예배", "dd": "오전 11시"},
-  {"dt": "성경공부", "dd": "주일 오후 1시"},
-  {"dt": "아침예배", "dd": "오전 7시"}
+  {
+   "dt": "주일예배",
+   "dd": "오전 11시"
+  },
+  {
+   "dt": "성경공부",
+   "dd": "주일 오후 1시"
+  },
+  {
+   "dt": "아침예배",
+   "dd": "오전 7시"
+  }
  ],
  "address": "경기 광명시 기아로 23 (소하동) 4층",
  "phone": "010-2534-0407",
  "church": "큰샘교회",
  "church_full": "기독교대한감리회 큰샘교회",
  "copyright": "© 2026 큰샘교회",
- "latest_json": "/Users/sdw79/SDWjavis/_레포/ksmc31/latest.json",
- "pages": ["index", "교회소개", "예배안내", "새가족", "아카데미", "온라인예배", "재정", "주보", "칼럼"]
+ "latest_live_url": "https://ksmc31.kr/latest.json",
+ "latest_local": "latest.json",
+ "latest_url": "https://ksmc31.kr/latest.json",
+ "_latest_note": "latest_live_url=빌드 때 받아오는 정본(실패하면 latest_local=미리보기 저장소 루트 사본으로 내려앉고 경고) · latest_url=페이지 스크립트가 열 때 읽는 주소. ★미리보기(github.io) 배포용 = 절대 URL(CORS * 실측 2026-09-30) / 라이브(ksmc31.kr) 배포 시에는 latest_url 을 상대경로 'latest.json' 으로 바꿔야 한다 — 이 값이 갈라지는 유일한 칸(master 조건 2026-09-30)",
+ "pages": [
+  "index",
+  "교회소개",
+  "예배안내",
+  "새가족",
+  "아카데미",
+  "온라인예배",
+  "재정",
+  "주보",
+  "칼럼"
+ ]
 }

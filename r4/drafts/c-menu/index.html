@@ -108,8 +108,9 @@
 </div></section>
 </main>
 <script>
-// latest.json 정본으로 첫 판면·최근 설교·주보만 갱신(빌드 값이 먼저 보이고, 열 때 최신값으로 덮는다). 경로는 r4/drafts/c/ 기준 상위 3단(../../../).
-if(location.protocol!=='file:')fetch('../../../latest.json',{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){
+var LATEST_URL="https://ksmc31.kr/latest.json";  // site.json latest_url — 미리보기=절대 URL · 라이브 배포=상대경로(site.json _latest_note)
+// latest.json 정본으로 첫 판면·최근 설교·주보만 갱신(빌드 값이 먼저 보이고, 열 때 최신값으로 덮는다). 주보 링크는 미리보기 루트 기준(../../../).
+if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){
   if(d.설교_제목&&d.설교_날짜&&/^https:\/\/www.youtube.com\/watch\?v=/.test(d.설교_링크)){
     var parts=d.설교_날짜.split('·'),ymd=parts[0].trim().split('-');
     document.getElementById('sm-title').textContent=d.설교_제목;
