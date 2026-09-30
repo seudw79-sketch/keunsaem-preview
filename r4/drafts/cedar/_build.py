@@ -15,6 +15,28 @@ date, _, verse = LATEST["설교_날짜"].partition("·")
 y, m, d = date.strip().split("-")
 label = f"이번 주일 · {int(m)}월 {int(d)}일"
 vid = LATEST["설교_링크"].split("v=")[1].split("&")[0]
+
+def load_verse():
+    """성경 봉독 본문 — 대장 출처는 그 주 주보(jubo_<yymmdd>.html <ol class='bib'>)뿐이다(latest.json·site.json 에는 장절만 있음 · 2026-09-30 확인).
+    라이브 https://ksmc31.kr/ 를 먼저, 실패하면 로컬 ksmc31 저장소 사본. 둘 다 없으면 [] — 그때는 장절만 크게 두지 않고 여백을 줄인다(지어내기 0)."""
+    import urllib.request, sys as _s
+    m = re.search(r"v=(\d{4})(\d{2})(\d{2})", LATEST.get("주보_링크", ""))
+    if not m: return [], "주보_링크에 날짜 없음"
+    fname = f"jubo_{m.group(1)[2:]}{m.group(2)}{m.group(3)}.html"
+    html_txt = None; src = ""
+    try:
+        with urllib.request.urlopen("https://ksmc31.kr/" + fname, timeout=8) as r: html_txt = r.read().decode("utf-8", "replace"); src = "https://ksmc31.kr/" + fname
+    except Exception as e:
+        local = Path("/Users/sdw79/SDWjavis/_레포/ksmc31") / fname
+        if local.exists(): html_txt = local.read_text(encoding="utf-8"); src = str(local); print(f"★경고: 라이브 {fname} 못 받음({type(e).__name__}) — 로컬 사본 사용", file=_s.stderr)
+    if not html_txt: return [], f"{fname} 없음"
+    ol = re.search(r"<ol class=['\"]bib['\"]>(.*?)</ol>", html_txt, re.S)
+    if not ol: return [], f"{fname} 에 성경 봉독 본문 없음"
+    items = re.findall(r"<li value=['\"](\d+)['\"]>(.*?)</li>", ol.group(1), re.S)
+    return [(n, re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", s))).strip()) for n, s in items], src
+
+VERSES, VERSE_SRC = load_verse()
+print(f"성구 본문: {len(VERSES)}절 · 출처={VERSE_SRC}")
 nav = "".join(f'<a href="{esc(n["file"])}">{esc(n["label"])}</a>' for n in SITE["nav"])   # cedar 안 하위 8페이지로(2026-09-30 master 실측: ../c/ 로 나가던 결함 수정 — 사이트가 사이트로 작동하지 않았다)
 times = " · ".join(f'{esc(w["dt"])} {esc(w["dd"])}' for w in SITE["worship"])
 
@@ -82,7 +104,11 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 .light h2{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1.25;text-transform:lowercase}
 .light .verse{font-size:18px;line-height:1.7;margin-top:8px}
 .light .wrap.light--verse{display:block;text-align:center}
-.light--verse .verse{font-family:var(--serif);font-weight:700;font-size:clamp(26px,3.2vw,40px);line-height:1.4;margin:0 auto;max-width:24ch}  /* 성구 = 구역의 주인공(master 보강1) */
+.light--verse .verse{font-family:var(--serif);font-weight:700;font-size:clamp(26px,3.2vw,40px);line-height:1.4;margin:0 auto;max-width:24ch}  /* 본문이 대장에 없을 때만 장절이 주인공 */
+.light--verse .scripture{font-family:var(--serif);font-weight:700;font-size:clamp(19px,2vw,26px);line-height:1.75;margin:0 auto 10px;max-width:38ch;color:#000}  /* 성구 본문 = 주인공(master 3판 3) · 출처 그 주 주보 성경 봉독 */
+.light--verse .vn{font-size:.6em;vertical-align:super;margin-right:.35em;color:var(--dark)}
+.light--verse .verse--ref{font-size:15px;font-weight:400;margin-top:18px;color:var(--dark);letter-spacing:.06em}
+.light--slim{padding:3rem 0}  /* 본문 없을 때 빈 느낌만 줄임 */
 .light .muted{font-size:14px;margin-top:12px;color:#000}
 /* 진회색 구역 — 다음 구역으로 내림(master 6) */
 .dark{background:var(--dark);color:#fff;padding:6rem 0}
@@ -260,6 +286,8 @@ def home_guide():
     blocks = {}
     for m in _re.finditer(r"(?:<!--[^\n]*?-->\s*)*<section\b[^>]*data-block=\"([^\"]+)\"[^>]*>.*?</section>", main, _re.S):
         blocks[m.group(1)] = m.group(0)
+    # 사람 사진 0(오너 방향 · master 3판 2): 교회소개 카드의 사진 요소만 뺀다(문안 불변 · alt 는 사진의 일부라 문안 아님 — _verify APPROVED_NODE_DROP 에 선언) · 1열
+    blocks["intro"] = re.sub(r'<div class="photo photo--43">.*?</div>\s*', '', blocks["intro"], flags=re.S).replace('class="wrap two two--photo reveal"', 'class="wrap reveal"')
     body = "\n".join(repath(blocks[k]) for k in HOME_KEEP)
     body = _re.sub(r'<section\b([^>]*?)class="', r'<section\1class="reveal ', body)   # id 가 class 앞에 오는 태그도 처리(첫 판에서 class 중복 생성 실측)
     iife = next(s for s in scripts if "오늘회차" in s)
@@ -299,8 +327,9 @@ __CSS__
   </div>
 </div>
 {WAVE}</section>
-<section class="light"><div class="wrap reveal light--verse">
-  <p class="verse" id="sm-verse">{esc(verse.strip())}</p>
+<section class="light{' light--slim' if not VERSES else ''}"><div class="wrap reveal light--verse">
+  {"".join(f'<p class="scripture"><span class="vn">{n}</span>{esc(s)}</p>' for n, s in VERSES)}
+  <p class="verse{' verse--ref' if VERSES else ''}" id="sm-verse">{esc(verse.strip())}</p>
 </div></section>
 __HOME_GUIDE__
 <section class="dark"><div class="wrap reveal">

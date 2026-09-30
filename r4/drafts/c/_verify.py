@@ -29,6 +29,11 @@ PAGES = {
     "주보": COMMON + [LIVE/"시안E_주보.html"],
     "칼럼": COMMON + [LIVE/"시안E_칼럼.html", LIVE/"칼럼목록.json"],
 }
+# 이번 주 주보(latest.json 주보_링크 → jubo_<yymmdd>.html)를 홈 출처에 추가 — 성경 봉독 본문의 유일한 대장(2026-09-30)
+try:
+    _m=re.search(r"v=(\d{4})(\d{2})(\d{2})", json.loads((LIVE/"latest.json").read_text(encoding="utf-8")).get("주보_링크",""))
+    if _m: PAGES["index"]=PAGES["index"]+[LIVE/f"jubo_{_m.group(1)[2:]}{_m.group(2)}{_m.group(3)}.html"]
+except Exception: pass
 # 구조 라벨·기호(문안 아님) 허용목록 — 여기 있는 것만 출처 없이 허용
 # 04=교회소개 네 가지 4열 번호(구조 라벨 · 01~03 과 동급) — ★주석은 반드시 별도 줄에(세트 리터럴 줄 끝 주석이 뒤 항목을 삼킨 사고 2026-09-30)
 ALLOW = {"↗","→","←","↓","·","—","/","01","02","03","04","365","오늘의 통독 강의 ↗","처음 오시는 분께",
@@ -114,6 +119,8 @@ def text_parity(page):
 # footer 는 전 페이지 공통 꼬리로 대체(교회명·주소·전화·© 는 꼬리에 실림). times 는 hero 안 예배 시간 줄(같은 값이 worship 블록에 있음).
 # 이 목록과 _build.py build_index() 의 주석·keep 은 같은 사실을 적는다 — 한쪽을 바꾸면 다른 쪽도.
 APPROVED_DROP={"index":{"hero","times","latest-sermon","pillars","intro","gallery","footer"}}
+# 문안이 아닌 요소(사진)를 뺄 때 사라지는 alt 문구 — 선언된 것만 누락 검사에서 제외(조용한 건너뛰기 금지 · 시더 홈 사람 사진 0 · 2026-09-30)
+APPROVED_NODE_DROP={}
 DROP_ALL={"page-head","footer"}   # page-head 는 첫 판면(spread)으로 옮겨져야 하므로 그 글자는 따로 검사
 
 def _blocks(raw):
@@ -152,7 +159,7 @@ def completeness(page):
     if dup: missing_nodes.append("같은 data-block 이름이 두 번: "+", ".join(sorted(set(dup))))
     for b in expected:
         if b in gb:
-            sn=_nodes(sb[b]); gn=_nodes(gb[b])
+            sn=[n for n in _nodes(sb[b]) if n not in APPROVED_NODE_DROP.get(page,set())]; gn=_nodes(gb[b])
             if sn!=gn:
                 i=next((i for i in range(max(len(sn),len(gn))) if i>=len(sn) or i>=len(gn) or sn[i]!=gn[i]),0)
                 missing_nodes.append(f"{b}: 원문 {len(sn)}문장 vs 생성 {len(gn)}문장 · 첫 어긋남 #{i+1} 원문={sn[i] if i<len(sn) else '(없음)'!r} 생성={gn[i] if i<len(gn) else '(없음)'!r}")

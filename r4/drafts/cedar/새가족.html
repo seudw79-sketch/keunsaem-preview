@@ -69,7 +69,11 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 .light h2{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1.25;text-transform:lowercase}
 .light .verse{font-size:18px;line-height:1.7;margin-top:8px}
 .light .wrap.light--verse{display:block;text-align:center}
-.light--verse .verse{font-family:var(--serif);font-weight:700;font-size:clamp(26px,3.2vw,40px);line-height:1.4;margin:0 auto;max-width:24ch}  /* 성구 = 구역의 주인공(master 보강1) */
+.light--verse .verse{font-family:var(--serif);font-weight:700;font-size:clamp(26px,3.2vw,40px);line-height:1.4;margin:0 auto;max-width:24ch}  /* 본문이 대장에 없을 때만 장절이 주인공 */
+.light--verse .scripture{font-family:var(--serif);font-weight:700;font-size:clamp(19px,2vw,26px);line-height:1.75;margin:0 auto 10px;max-width:38ch;color:#000}  /* 성구 본문 = 주인공(master 3판 3) · 출처 그 주 주보 성경 봉독 */
+.light--verse .vn{font-size:.6em;vertical-align:super;margin-right:.35em;color:var(--dark)}
+.light--verse .verse--ref{font-size:15px;font-weight:400;margin-top:18px;color:var(--dark);letter-spacing:.06em}
+.light--slim{padding:3rem 0}  /* 본문 없을 때 빈 느낌만 줄임 */
 .light .muted{font-size:14px;margin-top:12px;color:#000}
 /* 진회색 구역 — 다음 구역으로 내림(master 6) */
 .dark{background:var(--dark);color:#fff;padding:6rem 0}
