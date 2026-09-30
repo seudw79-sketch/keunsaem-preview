@@ -36,14 +36,17 @@ a{color:inherit}img{display:block;max-width:100%;height:auto}
 .wrap{width:min(1200px,calc(100% - 40px));margin:0 auto}
 /* 맨 위 배너 — 왼쪽 정렬(master 1) · §7: .mo-9 12.8px 500 자간 .075em 흰 · 띠 .mo-4 padding 7px(바탕은 §1 검정 vs 선언 #404140 — master 답 전 §1) */
 .banner{width:min(1200px,calc(100% - 40px));margin:14px auto 0;display:flex;justify-content:flex-start}
-.banner span{display:inline-block;background:#000;color:#fff;font-size:12.8px;font-weight:500;letter-spacing:.075em;line-height:1.2;padding:7px 16px;border-radius:1600px;white-space:nowrap;overflow-x:auto;max-width:100%}
+.banner span{display:inline-block;background:var(--dark);color:#fff;font-size:12.8px;font-weight:500;letter-spacing:.075em;line-height:1.2;padding:7px 16px;white-space:nowrap;overflow-x:auto;max-width:100%}  /* 바탕 #404140 띠 = master 판정(선언 .mo-4) · 모서리 선언 없음 */
 /* 떠 있는 흰 카드 헤더 — §1: #FFF · radius 16px · shadow rgba(0,0,0,.2) 0 0 16px · padding 20px (§7 .mo-5 일치) */
-.hd{position:sticky;top:12px;z-index:10;margin:16px auto 0;width:min(1200px,calc(100% - 40px));background:#FFF;border-radius:16px;box-shadow:rgba(0,0,0,.2) 0 0 16px;padding:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hd{position:sticky;top:12px;z-index:10;margin:16px auto 0;width:min(1200px,calc(100% - 40px));background:#FFF;border-radius:16px;box-shadow:rgba(0,0,0,.2) 0 0 16px;padding:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;transition:box-shadow .2s ease,padding .2s ease}
+.hd.is-stuck{box-shadow:rgba(0,0,0,.3) 0 4px 20px;padding:14px 20px}  /* A3 ② 스크롤 내리면 그림자 진해지고 살짝 줄어듦 */
+.sentinel{height:1px}
 .logo{font-family:var(--serif);font-weight:700;font-size:22px;text-decoration:none;letter-spacing:-.01em;margin-right:auto}
 /* 메뉴 — §7 ①②: 12.8px · 400 · lh 1 · 자간 .1em · 안쪽 여백 .75em(12px) · 대문자화 없음(한글) · hover 청록 */
 .nav{display:flex;gap:0;align-items:center}
 .nav a{font-size:12.8px;font-weight:400;line-height:1;letter-spacing:.1em;padding:12px;text-decoration:none}
-.nav a:hover{color:var(--teal-text)}
+.nav a{transition:color .2s ease}
+.nav a:hover{color:var(--teal-surface)}  /* .mo-1f hover #47ab9d (원판 선언 · 장식적 순간색) */
 /* VISIT 자리 알약 = 「새가족 안내」 — §7: .9em(14.4px) · 600 · 자간 .075em · padding .575em 1.15em · 1px solid 청록 · radius 100em */
 .pill{font-size:14.4px;font-weight:600;letter-spacing:.075em;padding:.575em 1.15em;border:1px solid var(--teal-surface);border-radius:100em;color:var(--teal-text);text-decoration:none;white-space:nowrap;margin-left:8px}
 .pill:hover{background:var(--teal-surface);color:#fff}
@@ -59,16 +62,18 @@ a{color:inherit}img{display:block;max-width:100%;height:auto}
 /* 첫 화면 — §7 .mu-1: 위 calc(8rem+80px) 아래 calc(8rem+40px) · 왼쪽 영상 16:9 모서리 2em · 오른쪽 라벨→제목→버튼 둘(성구 줄 없음 · master 4) */
 .hero{position:relative;padding:calc(8rem + 80px - 96px) 0 calc(8rem + 40px);overflow:hidden}
 .hero .wrap{display:grid;grid-template-columns:7fr 5fr;gap:48px;align-items:center}
-.media{position:relative;display:block;width:100%;padding-top:56.25%;height:0;overflow:hidden;border-radius:2em;background:#000}
+.media{position:relative;display:block;width:100%;padding-top:56.25%;height:0;overflow:hidden;border-radius:2em;background:#000;transition:transform .3s ease,box-shadow .3s ease}
+.media:hover{transform:scale(1.02);box-shadow:rgba(0,0,0,.25) 0 12px 32px}  /* A3 ④ */
 .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .media::after{content:"";position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:rgba(255,255,255,.92)}
 .media::before{content:"";position:absolute;left:50%;top:50%;z-index:1;margin:-13px 0 0 -9px;border-style:solid;border-width:13px 0 13px 24px;border-color:transparent transparent transparent #000}
 .label{font-size:16px;font-weight:400;color:var(--teal-text)}
 h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.6px;text-transform:lowercase;color:#000;margin-top:12px;letter-spacing:-.01em}
 /* 버튼 — §1: 16px · radius 1600px · 투명 · 1px solid #000 · 글자 청록(§7 선언은 #000 — master 답 전 §1) · 자간 §7 .075em · 굵기 600 */
-.btn{display:inline-block;margin-top:24px;padding:.575em 1.15em;font-size:16px;font-weight:600;letter-spacing:.075em;border-radius:1600px;background:transparent;border:1px solid #000;color:var(--teal-text);text-decoration:none}
+.btn{display:inline-block;margin-top:24px;padding:.575em 1.15em;font-size:16px;font-weight:600;letter-spacing:.075em;border-radius:1600px;background:transparent;border:1px solid #000;color:#000;text-decoration:none;transition:background .2s ease,color .2s ease}  /* 글자 #000 = master 판정(선언 .mu-2x) · hover .mu-2y */
 .btn:hover{background:#000;color:#fff}
-.more{display:inline-block;margin-left:18px;margin-top:24px;font-size:16px;font-weight:600;letter-spacing:.075em;color:var(--teal-text);text-decoration:none;border:0}
+.more{display:inline-block;margin-left:18px;margin-top:24px;font-size:16px;font-weight:600;letter-spacing:.075em;color:var(--teal-text);text-decoration:none;border:0;transition:color .2s ease}
+.more:hover{color:var(--dark)}  /* .mu-30 hover #404140 */
 /* 물결 — §7 ⑥: 150px · 첫 구역 하단 · 연회색 · 곡선은 우리가 그림 */
 .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:150px;display:block;fill:var(--light)}
 /* 연회색 구역(master 6 · §7 ⑤: #b2aeaa + linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c) · padding 6rem) — 성구 줄이 여기로 옮겨짐(내용 손실 0) */
@@ -83,11 +88,21 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 .dark h2{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1.25;text-transform:lowercase}
 .dark p{font-size:18px;line-height:1.7}
 .dark .btn{border-color:#fff;color:#fff}.dark .btn:hover{background:#fff;color:var(--dark)}
+/* A3 ① 스크롤 진입 등장 — 20px 아래서 .55s ease-out · 1회(JS IntersectionObserver 가 .in 부여 · JS 없으면 그냥 보임) */
+.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease-out,transform .55s ease-out}
+.js .reveal.in{opacity:1;transform:none}
+/* A3 ⑥ 움직임 줄이기 — 전부 끔 */
+@media (prefers-reduced-motion: reduce){.js .reveal{opacity:1;transform:none;transition:none}.hd,.btn,.more,.nav a,.media{transition:none}.media:hover{transform:none}}
 .ft{padding:28px 0 40px;font-size:13px;color:var(--dark);text-align:center}
 .ft a{text-decoration:none}
 @media(max-width:960px){.nav{display:none}.hero .wrap{grid-template-columns:1fr;gap:28px}h1.title{font-size:40px;line-height:1.15}.light .wrap,.dark .wrap{grid-template-columns:1fr}.hero{padding-top:56px}}
 @media(max-width:640px){.pill{display:none}.hd{top:8px;padding:16px}.banner span{font-size:11px}}
 </style>'''
+
+A3JS = r'''// A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역 등장(1회) ②헤더 카드 스크롤 반응(센티널 이탈) · reduced-motion 이면 아무것도 안 함
+(function(){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('js');
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});io.observe(document.getElementById('top-sentinel'));})();'''
 
 page = f'''<!DOCTYPE html>
 <html lang="ko">
@@ -102,6 +117,7 @@ page = f'''<!DOCTYPE html>
 __CSS__
 </head>
 <body>
+<div class="sentinel" id="top-sentinel"></div>
 <div class="banner"><span>{times}</span></div>
 <header class="hd">
   <a class="logo" href="index.html">{esc(SITE["church"])}</a>
@@ -112,7 +128,7 @@ __CSS__
   <nav id="drawer" class="drawer" aria-label="전체 메뉴">{nav}</nav>
 </header>
 <main>
-<section class="hero"><div class="wrap">
+<section class="hero"><div class="wrap reveal">
   <a class="media" id="sm-thumb" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/{esc(vid)}/hqdefault.jpg" alt="" loading="eager"></a>
   <div>
     <p class="label" id="sm-label">{esc(label)}</p>
@@ -121,11 +137,11 @@ __CSS__
   </div>
 </div>
 {WAVE}</section>
-<section class="light"><div class="wrap">
+<section class="light"><div class="wrap reveal">
   <div><h2 id="sm-title2">{esc(LATEST["설교_제목"])}</h2><p class="verse" id="sm-verse">{esc(verse.strip())}</p></div>
   <div><p class="muted" id="sm-label2">{esc(label)}</p></div>
 </div></section>
-<section class="dark"><div class="wrap">
+<section class="dark"><div class="wrap reveal">
   <div><h2>오시는 길</h2><p class="muted">{esc(SITE["church_full"])}</p></div>
   <div><p>{esc(SITE["address"])}<br><a href="tel:{esc(SITE["phone"])}">{esc(SITE["phone"])}</a></p>
     <a class="btn" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 ↗</a></div>
@@ -133,6 +149,7 @@ __CSS__
 </main>
 <footer class="ft"><span>{esc(SITE["copyright"])}</span> · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span></footer>
 <script>
+__A3JS__
 var LATEST_URL={json.dumps(SITE["latest_url"])};
 if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(d){{
   if(d.설교_제목&&d.설교_날짜&&/^https:\\/\\/www.youtube.com\\/watch\\?v=/.test(d.설교_링크)){{
@@ -148,6 +165,6 @@ if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(funct
 </body>
 </html>
 '''
-page = page.replace('__CSS__', CSS)
+page = page.replace('__CSS__', CSS).replace('__A3JS__', A3JS)
 (D / "index.html").write_text(page, encoding="utf-8")
 print("cedar/index.html", len(page), "B")
