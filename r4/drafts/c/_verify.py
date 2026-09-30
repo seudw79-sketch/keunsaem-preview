@@ -34,6 +34,9 @@ try:
     _m=re.search(r"v=(\d{4})(\d{2})(\d{2})", json.loads((LIVE/"latest.json").read_text(encoding="utf-8")).get("주보_링크",""))
     if _m: PAGES["index"]=PAGES["index"]+[LIVE/f"jubo_{_m.group(1)[2:]}{_m.group(2)}{_m.group(3)}.html"]
 except Exception: pass
+# 시더 전용 대장(오너 지시 데이터 · cedar/_src/*.json)을 출처에 추가 — R4 가 cedar 일 때만 의미 있음(파일 있으면 항상 포함해도 무해)
+_cedar_src = Path(__file__).resolve().parent.parent / "cedar" / "_src"
+if (_cedar_src / "academy.json").exists(): PAGES["아카데미"] = PAGES["아카데미"] + [_cedar_src / "academy.json"]
 # 구조 라벨·기호(문안 아님) 허용목록 — 여기 있는 것만 출처 없이 허용
 # 04=교회소개 네 가지 4열 번호(구조 라벨 · 01~03 과 동급) — ★주석은 반드시 별도 줄에(세트 리터럴 줄 끝 주석이 뒤 항목을 삼킨 사고 2026-09-30)
 ALLOW = {"↗","→","←","↓","·","—","/","01","02","03","04","365","오늘의 통독 강의 ↗","처음 오시는 분께",

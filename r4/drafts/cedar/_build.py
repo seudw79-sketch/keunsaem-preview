@@ -8,6 +8,7 @@ from pathlib import Path
 D = Path(__file__).resolve().parent
 PREVIEW = D.parent.parent.parent
 SITE = json.load(open(D.parent / "c" / "_src" / "site.json", encoding="utf-8"))
+SRC_CEDAR = D / "_src"   # cedar 전용 대장(academy.json 등)
 LATEST = json.load(open(PREVIEW / "latest.json", encoding="utf-8"))
 esc = lambda s: html.escape(str(s), quote=True)
 
@@ -416,6 +417,16 @@ def build_sub(pg, n):
             # 사람 사진 0(master 2026-09-30 20:1x): about.jpg · 「교회의 시간들」 타일 제거 — 문안 불변 · alt 는 _verify APPROVED_NODE_DROP 선언. ★pastor.jpg(담임목사)는 보류 — 오너 답 전 손대지 않음
             # 오너 수정 2(2026-09-30): 「왼쪽에 글씨 오른쪽 공간에 사진 하나, 컬러 말고」 → about.jpg 를 2열 그대로 두고 CSS grayscale(1)(원본 파일 불변 · 되돌리기 한 줄). 리뷰어 F(800 가운데)는 이 지시가 덮음. 행사 타일은 뺀 그대로.
             pass
+        if pg == "아카데미":   # 오너 지시(2026-09-30): YRG 시리즈를 맨 위에 · 기존 시리즈는 아래로 · 구조(아카데미>시리즈>회차) 그대로 · 영상은 자리표시 · 회차는 날짜만(제목·주소 미정 — 지어내지 않음). 데이터 = _src/academy.json(대장)
+            acad = json.load(open(SRC_CEDAR / "academy.json", encoding="utf-8"))
+            for s_ in acad["series_prepend"]:
+                rows = "".join(f'<div class="row"><span class="num">{i:02d}</span><div><h3><time datetime="{esc(e["date"])}">{esc(e["label"])}</time></h3></div></div>' for i, e in enumerate(s_["episodes"], 1))
+                blk = (f'<section class="section section--tint" data-block="{esc(s_["id"])}"><div class="wrap">'
+                       f'<div class="head reveal"><span class="eyebrow">{esc(s_["eyebrow"])}</span><h2 class="title">{esc(s_["title"])}</h2></div>'
+                       f'<div class="rows reveal">{rows}</div>'
+                       f'<p class="note" style="margin-top:16px">{esc(acad["_meta"]["placeholder_note"])}</p>'
+                       f'</div></section>')
+                secs.insert(0, blk)
         body = repath("\n".join(secs))
         if pg == "새가족":   # 오너 수정 3(2026-09-30): 제목 <br> 제거 → 「처음 오신 분 안내」 한 줄 · 아래 문장은 한 줄(폭 확보) — 문구 불변 · _verify CEDAR_TEXT_JOIN 선언
             body = body.replace('<h2 class="title">처음 오신<br>분 안내</h2>', '<h2 class="title">처음 오신 분 안내</h2>', 1)
