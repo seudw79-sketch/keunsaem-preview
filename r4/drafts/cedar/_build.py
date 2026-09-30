@@ -386,7 +386,13 @@ def build_sub(pg, n):
     else:
         title, main, scripts = read_r4(pg)
         eyebrow, h1, lead = page_head(main)
-        body = repath("\n".join(sections(main, drop=("page-head",))))
+        secs = sections(main, drop=("page-head",))
+        if pg == "교회소개":
+            # 사람 사진 0(master 2026-09-30 20:1x): about.jpg · 「교회의 시간들」 타일 제거 — 문안 불변 · alt 는 _verify APPROVED_NODE_DROP 선언. ★pastor.jpg(담임목사)는 보류 — 오너 답 전 손대지 않음
+            secs = [re.sub(r'<div class="photo photo--43">\s*<img[^>]*about\.jpg[^>]*>\s*</div>\s*', '', s, flags=re.S) for s in secs]
+            secs = [re.sub(r'<div class="photo">\s*<img[^>]*tile_[^>]*>\s*</div>\s*', '', s, flags=re.S) for s in secs]
+            secs = [s.replace('class="wrap two two--photo reveal"', 'class="wrap reveal"') for s in secs]
+        body = repath("\n".join(secs))
         body = _re.sub(r'<section\b([^>]*?)class="', r'<section\1class="reveal ', body)
         body_html = (f'<main>\n<section class="subhero"><div class="wrap reveal"><p class="label">{eyebrow}</p><h1 class="title">{h1}</h1>'
                      + (f'<p class="lead">{lead}</p>' if lead else "") + f'</div>{WAVE}</section>\n<section class="body">\n{body}\n</section>\n</main>\n'
