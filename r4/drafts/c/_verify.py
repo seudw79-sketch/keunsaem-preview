@@ -128,7 +128,7 @@ APPROVED_DROP={"index":{"hero","times","latest-sermon","pillars","intro","galler
 APPROVED_NODE_DROP={}
 # 시더(cedar) 판 전용 승인 제외 — 사유: 사람 사진 0(오너 방향) · gallery 는 사진 0 이면 존재 이유 없음(master 판정 2026-09-30). 검사 호출부가 R4.name=="cedar" 일 때 이 값을 쓴다
 CEDAR_APPROVED_DROP={"index":{"hero","times","latest-sermon","gallery","location","footer"},"교회소개":{"gallery"}}
-CEDAR_APPROVED_NODE_DROP={"index":{"정자 앞에 함께 선 큰샘교회 가족들"}}   # 교회소개 about.jpg 는 오너 수정 2 로 복귀(흑백) → 제외 해제
+CEDAR_APPROVED_NODE_DROP={}   # about.jpg 는 홈·교회소개 모두 오너 지시로 복귀(흑백) → 제외 선언 전부 해제(2026-09-30)
 # 선언된 문장 결합(오너 수정 3 · <br> 제거로 두 노드가 한 노드가 됨 · 문구 불변): (페이지, (원문 연속 노드…), 생성 노드)
 CEDAR_TEXT_JOIN={"새가족":[(("처음 오신","분 안내"),"처음 오신 분 안내")],"index":[(("처음 오신","분 안내"),"처음 오신 분 안내")]}
 DROP_ALL={"page-head","footer"}   # page-head 는 첫 판면(spread)으로 옮겨져야 하므로 그 글자는 따로 검사

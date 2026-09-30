@@ -297,8 +297,8 @@ def home_guide():
     blocks = {}
     for m in _re.finditer(r"(?:<!--[^\n]*?-->\s*)*<section\b[^>]*data-block=\"([^\"]+)\"[^>]*>.*?</section>", main, _re.S):
         blocks[m.group(1)] = m.group(0)
-    # 사람 사진 0(오너 방향 · master 3판 2): 교회소개 카드의 사진 요소만 뺀다(문안 불변 · alt 는 사진의 일부라 문안 아님 — _verify APPROVED_NODE_DROP 에 선언) · 1열
-    blocks["intro"] = re.sub(r'<div class="photo photo--43">.*?</div>\s*', '', blocks["intro"], flags=re.S).replace('class="wrap two two--photo reveal"', 'class="wrap reveal"')
+    # 오너 지시(2026-09-30 19:5x 「교회소개 사진넣어」): 홈 교회소개 카드도 교회소개 페이지와 같은 방식 — about.jpg 그대로(r4 마크업 불변) · 글 왼쪽·사진 오른쪽·흑백은 CSS(.two--photo 규칙 공유) · 사진이 글보다 커지지 않게 폭 5fr 고정 · 앞선 '사진 제거'는 이 지시로 철회
+    pass
     # 오너 수정 3(2026-09-30) — 홈 「처음 오신 분 안내」 카드: 제목 <br> 제거(한 줄) · 아래 문장 한 줄 띄워 한 줄에(steps-oneline · 문구 불변 · _verify CEDAR_TEXT_JOIN 선언)
     blocks["visitors"] = blocks["visitors"].replace('<h2 class="title">처음 오신<br>분 안내</h2>', '<h2 class="title">처음 오신 분 안내</h2>', 1).replace('<div class="wrap two reveal">', '<div class="wrap two reveal steps-oneline">', 1)
     body = "\n".join(repath(blocks[k]) for k in HOME_KEEP)
