@@ -157,7 +157,7 @@ def completeness(page):
                 i=next((i for i in range(max(len(sn),len(gn))) if i>=len(sn) or i>=len(gn) or sn[i]!=gn[i]),0)
                 missing_nodes.append(f"{b}: 원문 {len(sn)}문장 vs 생성 {len(gn)}문장 · 첫 어긋남 #{i+1} 원문={sn[i] if i<len(sn) else '(없음)'!r} 생성={gn[i] if i<len(gn) else '(없음)'!r}")
     if "page-head" in sb and page!="재정":   # 첫 판면으로 옮긴 글자(eyebrow·h1·lead) — 순서는 바뀌어도 되나 전부 있어야 한다
-        spread=re.search(r'<section class="spread">.*?</section>',gen,re.S)
+        spread=re.search(r'<section class="(?:spread|subhero)">.*?</section>',gen,re.S)   # subhero = 시더 틀 첫 화면(같은 역할)
         sp_nodes=_nodes(spread.group(0)) if spread else []
         for n in _nodes(sb["page-head"]):
             if n not in sp_nodes: missing_nodes.append(f"page-head→spread: {n}")

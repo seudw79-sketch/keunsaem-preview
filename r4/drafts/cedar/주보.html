@@ -1,27 +1,14 @@
-#!/usr/bin/env python3
-"""T-HOME-CEDAR — cedarcrestchurch.com 의 틀(수치·배치)만 따르고 내용은 큰샘교회 것으로 채운 홈 1장 생성.
-입력: ../c/_src/site.json(메뉴 8·예배 시간·주소 — c/ 와 같은 정본) · 미리보기 루트 latest.json(이번 주 설교 · c/ 빌드가 라이브와 동기화)
-출력: ./index.html · 규격은 master 실측 computed style(2026-09-30) 그대로 — 남의 로고·사진·영상·문구·SVG 파일은 쓰지 않는다(물결은 우리가 그림).
-"""
-import json, html, re
-from pathlib import Path
-D = Path(__file__).resolve().parent
-PREVIEW = D.parent.parent.parent
-SITE = json.load(open(D.parent / "c" / "_src" / "site.json", encoding="utf-8"))
-LATEST = json.load(open(PREVIEW / "latest.json", encoding="utf-8"))
-esc = lambda s: html.escape(str(s), quote=True)
-
-date, _, verse = LATEST["설교_날짜"].partition("·")
-y, m, d = date.strip().split("-")
-label = f"이번 주일 · {int(m)}월 {int(d)}일"
-vid = LATEST["설교_링크"].split("v=")[1].split("&")[0]
-nav = "".join(f'<a href="../c/{esc(n["file"])}">{esc(n["label"])}</a>' for n in SITE["nav"])   # 하위 8페이지는 아직 c/ 것을 가리킨다(cedar 하위는 오너 확인 뒤)
-times = " · ".join(f'{esc(w["dt"])} {esc(w["dd"])}' for w in SITE["worship"])
-
-# 물결 곡선 — 우리가 그린 것(외부 SVG 파일 사용 0)
-WAVE = '<svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,100 L0,58 C250,30 500,30 750,58 C830,68 920,84 1000,92 L1000,100 Z"/></svg>'  # 우리가 그린 곡선 · viewBox 만 원판과 같음
-
-CSS = r'''<style>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>온라인 주보 · 큰샘교회</title>
+<!-- T-HOME-CEDAR · 생성: r4/drafts/cedar/_build.py — 손으로 고치지 말 것. 규격=master 실측(cedarcrestchurch.com computed style 2026-09-30) · 내용=site.json·latest.json -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Noto+Serif+KR:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
 /* 규격 = master 실측(§1) + CSS 선언값(§7 · 선택자 근거) — 근사치 금지 · 값 그대로. html 16px 기준 em→px.
    제목 글꼴: Poynter(상용) 대체 → 한글 Noto Serif KR 700 · 영문 Playfair Display 700 · lowercase 는 한글 무효.
    ★색 두 토큰(master 판정): 읽는 글자 --teal-text #2A7D71(흰 위 4.92:1) · 장식 면 --teal-surface #47AB9D(원판). 오너가 원판 색 그대로를 원하면 --teal-text 만 #47AB9D 로 되돌린다. */
@@ -195,157 +182,84 @@ p{max-width:60ch}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
-</style>'''
-
-A3JS = r'''// A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역 등장(1회) ②헤더 카드 스크롤 반응(센티널 이탈) · reduced-motion 이면 아무것도 안 함
-(function(){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('js');
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});io.observe(document.getElementById('top-sentinel'));})();'''
-
-page = f'''<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>{esc(SITE["church"])}</title>
-<!-- T-HOME-CEDAR · 생성: r4/drafts/cedar/_build.py — 손으로 고치지 말 것. 규격=master 실측(cedarcrestchurch.com computed style 2026-09-30) · 내용=site.json·latest.json -->
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Noto+Serif+KR:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-__CSS__
+</style>
+<style>/* r4/주보.html 페이지 전용 규칙(토큰 매핑) */
+  
+  @media(max-width:640px){}
+  .issue{margin-top:16px}
+  .cards article p{margin-top:0}
+</style>
 </head>
 <body>
 <div class="sentinel" id="top-sentinel"></div>
-<div class="banner"><span>{times}</span></div>
+<div class="banner"><span>주일예배 오전 11시 · 성경공부 주일 오후 1시 · 아침예배 오전 7시</span></div>
 <header class="hd">
-  <a class="logo" href="index.html">{esc(SITE["church"])}</a>
+  <a class="logo" href="index.html">큰샘교회</a>
   <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="drawer">
-  <nav id="site-nav" class="nav" aria-label="주 메뉴">{nav}</nav>
+  <nav id="site-nav" class="nav" aria-label="주 메뉴"><a href="../c/교회소개.html">교회소개</a><a href="../c/예배안내.html">예배안내</a><a href="../c/아카데미.html">성경 아카데미</a><a href="../c/칼럼.html">신앙 칼럼</a><a href="../c/재정.html">교회 재정</a><a href="../c/주보.html">온라인 주보</a><a href="../c/온라인예배.html">온라인 예배</a><a href="../c/새가족.html">새가족 안내</a></nav>
   <a class="pill" href="../c/새가족.html">새가족 안내</a>
   <label for="tg" class="burger" aria-hidden="true"><span></span></label>
-  <nav id="drawer" class="drawer" aria-label="전체 메뉴">{nav}</nav>
+  <nav id="drawer" class="drawer" aria-label="전체 메뉴"><a href="../c/교회소개.html">교회소개</a><a href="../c/예배안내.html">예배안내</a><a href="../c/아카데미.html">성경 아카데미</a><a href="../c/칼럼.html">신앙 칼럼</a><a href="../c/재정.html">교회 재정</a><a href="../c/주보.html">온라인 주보</a><a href="../c/온라인예배.html">온라인 예배</a><a href="../c/새가족.html">새가족 안내</a></nav>
 </header>
 <main>
-<section class="hero"><div class="wrap reveal">
-  <a class="media" id="sm-thumb" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/{esc(vid)}/hqdefault.jpg" alt="" loading="eager"></a>
-  <div>
-    <p class="label" id="sm-label">{esc(label)}</p>
-    <h1 class="title" id="sm-title">{esc(LATEST["설교_제목"])}</h1>
-    <a class="btn" id="sm-link" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener">설교 영상 보기</a><a class="more" href="../c/온라인예배.html">지난 설교</a>
-  </div>
-</div>
-{WAVE}</section>
-<section class="light"><div class="wrap reveal">
-  <div><h2 id="sm-title2">{esc(LATEST["설교_제목"])}</h2><p class="verse" id="sm-verse">{esc(verse.strip())}</p></div>
-  <div><p class="muted" id="sm-label2">{esc(label)}</p></div>
+<section class="subhero"><div class="wrap reveal"><p class="label">주보</p><h1 class="title">온라인 주보</h1><p class="lead">이번 주 예배 순서와 교회 소식입니다. 매주 갱신됩니다.</p></div><svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,100 L0,58 C250,30 500,30 750,58 C830,68 920,84 1000,92 L1000,100 Z"/></svg></section>
+<section class="body">
+<!-- 근거: 시안E_주보.html 블록1 「이번 주 주보」(h3 id jb2-title·갱신일 p id jb2-date·버튼 「주보 펼쳐 보기」 id jb2-link) — 정적 스냅샷=latest.json(ksmc31 2026-09-27) 실값 · 런타임은 ../latest.json 으로 갱신 · 이 페이지의 틴트 블록 1개 -->
+<section class="reveal section section--tint" data-block="this-week"><div class="wrap two reveal">
+  <div><h2 class="title">이번 주 주보</h2></div>
+  <div><span class="num">2026년 9월 27일</span><h3 class="title" id="jb2-title">2026년 9월 27일 주보</h3><p class="note issue" id="jb2-date">갱신일 확인 중</p>
+    <div class="actions"><a class="btn btn--primary" id="jb2-link" href="../../../jubo.html?v=20260927">주보 펼쳐 보기</a></div></div>
 </div></section>
+<!-- 근거: 시안E_주보.html 블록2 「지난 주보」 + note 원문 · 카드 7장=주보목록.json 실값(표기·설교제목·제호 — 제호 「자동」은 시안E JS 규칙대로 표시하지 않음) · 링크=https://ksmc31.kr/<파일>?v=YYYYMMDD 절대(master 정책) · 카드 링크 문안 「주보 보기」=대장 카드 블록 · 런타임 JS 가 ../주보목록.json 과 합집합으로 다시 그린다 -->
+<section class="reveal section section--line" data-block="archive"><div class="wrap">
+  <div class="head reveal"><h2 class="title">지난 주보</h2><p class="note" style="margin-top:12px">교회의 역사입니다. 연도 → 월 → 주일 순으로 쌓입니다.</p></div>
+  <div class="cols cards reveal" id="jb-archive">
+    <article><span class="num">2026년 9월 27일</span><h3>광야에서도 신실하신 하나님</h3><p>제 39 호</p><a class="go" href="https://ksmc31.kr/jubo_260927.html?v=20260927">주보 보기 →</a></article>
+    <article><span class="num">2026년 9월 20일</span><h3>다시 하나님 앞으로</h3><p>제 38 호</p><a class="go" href="https://ksmc31.kr/jubo_260920.html?v=20260920">주보 보기 →</a></article>
+    <article><span class="num">2026년 9월 13일</span><h3>구원하시고 함께 하시는 하나님</h3><p>제 37 호</p><a class="go" href="https://ksmc31.kr/jubo_260913.html?v=20260913">주보 보기 →</a></article>
+    <article><span class="num">2026년 9월 6일</span><h3>약속을 지키시는 하나님</h3><a class="go" href="https://ksmc31.kr/jubo_260906.html?v=20260906">주보 보기 →</a></article>
+    <article><span class="num">2026년 8월 30일</span><h3>우연이 아니라 성령님이 하십니다</h3><a class="go" href="https://ksmc31.kr/jubo_260830.html?v=20260830">주보 보기 →</a></article>
+    <article><span class="num">2026년 8월 23일</span><h3>생명의 성령의 법이 나를 살린다</h3><a class="go" href="https://ksmc31.kr/jubo_260823.html?v=20260823">주보 보기 →</a></article>
+    <article><span class="num">2026년 6월 21일</span><h3>어떤 안경을 쓰고 있습니까?</h3><p>제 25 호</p><a class="go" href="https://ksmc31.kr/jubo_260621.html?v=20260621">주보 보기 →</a></article>
+  </div>
+</div></section>
+</section>
+</main>
+<script>
+// 근거: 시안E_주보.html 스크립트 ① — 이번 주 카드는 latest.json 만 본다(주보 생성기가 그 한 파일을 덮어쓴다). 경로는 r4/ 기준 상위(../). file:// 캡처는 위 스냅샷.
+if(location.protocol!=='file:')fetch('../../../latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(d){
+  if(!d)return;
+  if(d.주보_제목)document.getElementById('jb2-title').textContent=d.주보_제목;
+  if(d.주보_링크)document.getElementById('jb2-link').href='../../../../../'+d.주보_링크;
+  document.getElementById('jb2-date').textContent='마지막 갱신 '+(d.갱신일||d.주보_날짜||'확인 필요');
+}).catch(function(){});
+// 근거: 시안E_주보.html 스크립트 ② — 주보목록.json 하나만 읽어 저절로 늘어난다(최신이 앞). 링크는 master 정책대로 https://ksmc31.kr/<파일>?v=YYYYMMDD 절대.
+//       preview 의 ../주보목록.json 은 라이브보다 오래될 수 있어(deploy_notes §2) 정적 7건과 날짜 기준 합집합으로 그린다 — 라이브에서는 JSON 이 곧 전체다.
+(function(){
+  var box=document.getElementById('jb-archive');if(!box||location.protocol==='file:')return;
+  var 정적=[];box.querySelectorAll('article').forEach(function(a){var go=a.querySelector('.go');var m=/jubo_(\d{6})\.html\?v=(\d{8})/.exec(go?go.href:'');if(!m)return;var v=m[2];정적.push({날짜:v.slice(0,4)+'-'+v.slice(4,6)+'-'+v.slice(6,8),표기:a.querySelector('.num').textContent,설교제목:a.querySelector('h3').textContent,제호:(a.querySelector('p')||{}).textContent||'자동',파일:'jubo_'+m[1]+'.html'});});
+  fetch('../../../주보목록.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(d){
+    var list=(d&&d.주보)||[];if(!list.length)return;
+    var 합={};list.concat(정적).forEach(function(x){var k=String(x.날짜||'');if(k&&!합[k])합[k]=x;});
+    var keys=Object.keys(합).sort().reverse();
+    var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+    box.innerHTML=keys.map(function(k){var x=합[k];var v=k.replace(/-/g,'');var ho=x.제호&&x.제호!=='자동'?'<p>'+esc(x.제호)+'</p>':'';
+      return '<article><span class="num">'+esc(x.표기||k)+'</span><h3>'+esc(x.설교제목||'')+'</h3>'+ho+'<a class="go" href="https://ksmc31.kr/'+esc(x.파일||'jubo.html')+'?v='+v+'">주보 보기 →</a></article>';}).join('');
+  }).catch(function(){});
+})();
+</script>
 <section class="dark"><div class="wrap reveal">
-  <div><h2>오시는 길</h2><p class="muted">{esc(SITE["church_full"])}</p></div>
-  <div><p>{esc(SITE["address"])}<br><a href="tel:{esc(SITE["phone"])}">{esc(SITE["phone"])}</a></p>
+  <div><h2>오시는 길</h2><p class="muted">기독교대한감리회 큰샘교회</p></div>
+  <div><p>경기 광명시 기아로 23 (소하동) 4층<br><a href="tel:010-2534-0407">010-2534-0407</a></p>
     <a class="btn" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 ↗</a></div>
 </div></section>
 </main>
-<footer class="ft"><span>{esc(SITE["copyright"])}</span> · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span></footer>
+<footer class="ft"><span>© 2026 큰샘교회</span> · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span></footer>
 <script>
-__A3JS__
-var LATEST_URL={json.dumps(SITE["latest_url"])};
-if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(d){{
-  if(d.설교_제목&&d.설교_날짜&&/^https:\\/\\/www.youtube.com\\/watch\\?v=/.test(d.설교_링크)){{
-    var p=d.설교_날짜.split('·'),ymd=p[0].trim().split('-');
-    document.getElementById('sm-title').textContent=d.설교_제목;
-    document.getElementById('sm-label').textContent='이번 주일 · '+parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';
-    document.getElementById('sm-verse').textContent=(p[1]||'').trim();document.getElementById('sm-title2').textContent=d.설교_제목;document.getElementById('sm-label2').textContent=document.getElementById('sm-label').textContent;
-    ['sm-link','sm-thumb'].forEach(function(id){{document.getElementById(id).href=d.설교_링크}});
-    var v=d.설교_링크.split('v=')[1].split('&')[0];document.getElementById('sm-thumb-img').src='https://i.ytimg.com/vi/'+v+'/hqdefault.jpg';
-  }}
-}}).catch(function(){{}});
+// A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역 등장(1회) ②헤더 카드 스크롤 반응(센티널 이탈) · reduced-motion 이면 아무것도 안 함
+(function(){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('js');
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});io.observe(document.getElementById('top-sentinel'));})();
 </script>
 </body>
 </html>
-'''
-page = page.replace('__CSS__', CSS).replace('__A3JS__', A3JS)
-(D / "index.html").write_text(page, encoding="utf-8")
-print("cedar/index.html", len(page), "B")
-
-
-# ── 하위 8페이지 — 본문은 r4 <main> 섹션을 그대로 이식(창작 0·누락 0 · c/_build.py 와 같은 방식) · 머리·첫 화면·꼬리만 시더 틀 · 홈 토큰 공유(master 2026-09-30) ──
-import re as _re
-R4 = PREVIEW / "r4"
-
-def repath(frag):
-    frag = _re.sub(r'(src|href|srcset)=(["\'])\.\./', r'\1=\2../../../', frag)
-    frag = frag.replace("'../", "'../../../").replace('"../"', '"../../../"')
-    frag = _re.sub(r'(src|href|srcset)=(["\'])사진/', r'\1=\2../../사진/', frag)
-    return frag
-
-def read_r4(page):
-    raw = (R4 / f"{page}.html").read_text(encoding="utf-8")
-    title = _re.search(r"<title>(.*?)</title>", raw, _re.S).group(1).strip()
-    main = _re.search(r"<main.*?</main>", raw, _re.S).group(0)
-    scripts = _re.findall(r"<script>.*?</script>", raw[raw.index("</main>"):], _re.S)
-    return title, main, scripts
-
-# r4 페이지 머리의 페이지 전용 <style>(영상 임베드 16:9 · 4열 그리드 · 시간표 행 등) — 본문 부품이 기대하는 규칙이라 같이 옮긴다(2026-09-30 예배안내 390 넘침 실측: iframe 폭 고정이 원인).
-# r4 토큰 이름은 시더 토큰으로 매핑 · page-top(첫 화면 여백)은 subhero 가 대신하므로 제외
-R4_TOKEN_MAP = {"var(--radius-media)": "16px", "var(--line-light)": "var(--line)", "var(--line)": "var(--line)", "var(--surface-tint)": "#fff",
-                "var(--s-3)": "16px", "var(--s-6)": "40px", "var(--s-2)": "12px", "var(--s-4)": "24px", "var(--muted)": "var(--dark)", "var(--ink)": "#000",
-                "var(--accent)": "var(--teal-text)", "var(--text-body-sm)": "14px", "var(--font-serif)": "var(--serif)", "var(--gap-md)": "24px", "var(--gap-sm)": "16px",
-                "var(--fs-3)": "clamp(22px,2.4vw,30px)", "var(--text-h2)": "19px", "var(--tracking-tight)": "-.02em", "var(--lh-body)": "1.6", "var(--text-caption)": "12.8px", "var(--tracking-wide)": ".1em", "var(--s-8)": "56px", "var(--text-h1)": "clamp(22px,2.6vw,32px)", "var(--s-5)": "32px", "var(--s-1)": "8px"}
-def page_css(page):
-    raw = (R4 / f"{page}.html").read_text(encoding="utf-8"); head = raw[:raw.find("<body")]
-    css = " ".join(_re.findall(r"<style[^>]*>(.*?)</style>", head, _re.S))
-    css = _re.sub(r"@layer pages\s*\{(.*)\}\s*$", r"\1", css.strip(), flags=_re.S)   # 레이어 껍질 제거(시더 CSS 는 레이어 없음)
-    css = _re.sub(r"\.page-top\{[^}]*\}", "", css); css = _re.sub(r"@media\([^)]*\)\{\s*\.page-top\{[^}]*\}\s*\}", "", css)
-    for k, v in R4_TOKEN_MAP.items(): css = css.replace(k, v)
-    left = [x for x in _re.findall(r"var\(--[a-z0-9-]+\)", css) if x not in ("var(--serif)","var(--sans)","var(--line)","var(--teal-text)","var(--dark)","var(--light)")]
-    assert not left, f"{page}: 시더 토큰에 없는 r4 변수 {sorted(set(left))} — R4_TOKEN_MAP 에 추가"
-    return "<style>/* r4/" + page + ".html 페이지 전용 규칙(토큰 매핑) */" + css + "</style>"
-
-def sections(main, drop=()):
-    out = []
-    for m in _re.finditer(r"(?:<!--[^\n]*?-->\s*)*<section\b[^>]*data-block=\"([^\"]+)\"[^>]*>.*?</section>", main, _re.S):
-        if m.group(1) in drop: continue
-        out.append(m.group(0))
-    return out
-
-def page_head(main):
-    m = _re.search(r'<section class="section page-top"[^>]*data-block="page-head".*?</section>', main, _re.S).group(0)
-    eyebrow = _re.search(r'<span class="eyebrow">(.*?)</span>', m, _re.S).group(1).strip()
-    h1 = _re.search(r"<h1[^>]*>(.*?)</h1>", m, _re.S).group(1).strip()
-    lead = _re.search(r'<p class="lead"[^>]*>(.*?)</p>', m, _re.S)
-    return eyebrow, h1, (lead.group(1).strip() if lead else "")
-
-# 홈 page 문자열에서 공통 조각을 잘라 쓴다(같은 문자열 → 9페이지 한 몸)
-_head_html = page[:page.index("<body>")]                                   # <!DOCTYPE …</head>
-_banner_header = page[page.index("<body>")+len("<body>"):page.index("<main>")]  # 센티널·배너·헤더 카드
-_dark_footer = page[page.index('<section class="dark">'):page.index("<script>")]  # 진회색 오시는 길 + 꼬리
-_a3 = A3JS
-
-SUBPAGES = ["교회소개", "예배안내", "새가족", "아카데미", "온라인예배", "재정", "주보", "칼럼"]
-
-def build_sub(pg, n):
-    if pg == "재정":
-        raw = (R4 / "재정.html").read_text(encoding="utf-8")
-        title = _re.search(r"<title>(.*?)</title>", raw, _re.S).group(1).strip()
-        card = _re.search(r'<div class="card">.*?</div>\s*(?=<script>)', raw, _re.S).group(0).strip()
-        script = _re.search(r"<script>.*?</script>", raw, _re.S).group(0)
-        assert 'id="pw"' in card and "SALT=" in script
-        body_html = f'<main>\n<section class="subhero"><div class="wrap reveal"><p class="label">No. {n:02d}</p><h1 class="title">교회 재정</h1></div>{WAVE}</section>\n<section class="body"><div class="section lock reveal">{card}</div></section>\n</main>\n{script}\n'
-    else:
-        title, main, scripts = read_r4(pg)
-        eyebrow, h1, lead = page_head(main)
-        body = repath("\n".join(sections(main, drop=("page-head",))))
-        body = body.replace('<section class="', '<section class="reveal ')
-        body_html = (f'<main>\n<section class="subhero"><div class="wrap reveal"><p class="label">{eyebrow}</p><h1 class="title">{h1}</h1>'
-                     + (f'<p class="lead">{lead}</p>' if lead else "") + f'</div>{WAVE}</section>\n<section class="body">\n{body}\n</section>\n</main>\n'
-                     + "".join(repath(s) + "\n" for s in scripts))
-    html_out = _head_html.replace(f"<title>{esc(SITE['church'])}</title>", f"<title>{esc(title)}</title>", 1)
-    if pg != "재정": html_out = html_out.replace("</head>", page_css(pg) + "\n</head>", 1)
-    html_out += "<body>" + _banner_header + body_html + _dark_footer + "<script>\n" + _a3 + "\n</script>\n</body>\n</html>\n"
-    return html_out
-
-if "--sub" in __import__("sys").argv:
-    for i, pg in enumerate(SUBPAGES, 2):
-        out = build_sub(pg, i)
-        (D / f"{pg}.html").write_text(out, encoding="utf-8")
-        print(f"cedar/{pg}.html {len(out):,}B")

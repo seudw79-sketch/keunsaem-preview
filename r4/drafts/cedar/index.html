@@ -84,6 +84,104 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 .ft a{text-decoration:none}
 @media(max-width:960px){.nav{display:none}.hero .wrap{grid-template-columns:1fr;gap:28px}h1.title{font-size:40px;line-height:1.15}.light .wrap,.dark .wrap{grid-template-columns:1fr}.hero{padding-top:56px}}
 @media(max-width:640px){.pill{display:none}.hd{top:8px;padding:16px}.banner span{font-size:11px}}
+
+
+/* ── 하위 8페이지: r4 본문 부품의 시더 스킨(c/c.css 도록 스킨을 시더 토큰으로 치환 · 마크업·문안은 r4 그대로) ── */
+:root{--line:#E5E2DF}
+.subhero{padding:56px 0 calc(6rem + 40px);position:relative;overflow:hidden}
+.subhero .label{font-size:16px;color:var(--teal-text)}
+.subhero h1.title{font-size:56px;line-height:61.6px}
+.subhero .lead{font-size:18px;line-height:1.7;margin-top:16px;max-width:36ch;color:var(--dark)}
+.body{background-color:var(--light);background-image:linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c);padding:3rem 0 4rem}
+.body .section{background:#fff;border-radius:16px;box-shadow:rgba(0,0,0,.2) 0 0 16px;margin:0 auto 24px;width:min(1200px,calc(100% - 40px));border:0;padding:clamp(28px,4vw,48px)}
+.body .section--tint{background:#fff}
+.body .title{font-family:var(--serif);font-weight:700;color:#000}
+.body .eyebrow{color:var(--teal-text);letter-spacing:.1em;font-size:12.8px;font-weight:600}
+.body .btn{margin-top:12px}
+.body .cols .go,.body .text-link{color:var(--teal-text);border-color:var(--line);transition:color .2s ease}
+.body .cols .go:hover,.body .text-link:hover{color:var(--dark)}
+.body .num{color:var(--dark)}
+.body .btn--primary{background:#000;color:#fff;border-color:#000}.body .btn--primary:hover{background:#fff;color:#000}
+/* ── r4 본문 부품의 도록 스킨 (마크업·문안은 r4 검증분 그대로 · 여기서는 보기만 바꾼다) ── */
+.section{padding:clamp(30px,5vh,64px) 20px;border-bottom:1px solid var(--line)}
+
+.wrap{max-width:1180px;margin:0 auto}
+.eyebrow{display:block;font-family:var(--sans);font-size:12.5px;letter-spacing:.14em;font-weight:500;color:var(--dark);margin-bottom:14px}
+.title{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.6vw,32px);line-height:1.35;letter-spacing:-.02em;color:var(--ink);max-width:22ch}
+.title--display{font-size:clamp(25px,3.1vw,40px)}
+.lead{font-size:16px;line-height:1.75;color:var(--ink);max-width:36ch}
+.note{font-size:13px;color:var(--dark);line-height:1.7}
+.head{margin-bottom:28px}
+.head .lead{margin-top:12px}
+p{max-width:60ch}
+
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,40px)}
+.cols>*{border-top:1px solid var(--line);padding-top:14px;min-width:0}
+.num{display:block;font-family:var(--serif);font-size:12.5px;letter-spacing:.12em;color:var(--dark);margin-bottom:12px}
+.cols h3{font-family:var(--serif);font-size:19px;line-height:1.4;margin-bottom:8px}
+.cols .big{display:block;font-family:var(--serif);font-size:clamp(22px,2.4vw,30px);line-height:1.2;color:var(--ink);letter-spacing:-.02em;margin-bottom:8px}
+.cols p{font-size:13.5px;color:var(--dark)}
+.cols .go,.text-link{display:inline-block;margin-top:12px;font-size:13.5px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+.cols .go:hover,.text-link:hover{border-color:var(--ink)}
+.empty-line{display:none}
+.rule{display:flex;align-items:center;gap:14px;margin-top:28px;font-family:var(--serif);font-size:19px;color:var(--ink)}
+.rule::before{content:"";width:64px;height:1px;background:var(--ink);flex:0 0 auto}
+
+.two{display:grid;grid-template-columns:5fr 7fr;gap:clamp(18px,3vw,40px);align-items:start}
+.two>*{min-width:0}
+.two--photo{grid-template-columns:4fr 8fr;align-items:center}
+.prose{display:grid;gap:14px}
+.prose p{line-height:1.85}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:3.5em 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.row .num{margin:0}
+.row h3{font-family:var(--serif);font-size:18px;margin-bottom:6px}
+.row p{font-size:13.5px;color:var(--dark);max-width:52ch}
+.row .note a{color:var(--ink)}
+.row .actions{margin-top:10px}
+
+.photo{position:relative;overflow:hidden;border:1px solid var(--line)}
+.photo img{width:100%;height:100%;object-fit:cover;filter:none}
+.photo--43{aspect-ratio:4/3}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tiles>*{min-width:0}
+.tiles .photo{aspect-ratio:4/3}
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,40px);align-items:center}
+.feature>*{min-width:0}
+.media{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line)}
+.media img{width:100%;height:100%;object-fit:cover;filter:none}
+.feature .meta{margin-top:12px;font-size:13.5px;color:var(--dark);border:0;padding:0}
+
+.reading{display:grid;grid-template-columns:5fr 7fr;gap:clamp(18px,3vw,40px);align-items:start;margin-top:28px;padding-top:28px;border-top:1px solid var(--line)}
+.reading>*{min-width:0}
+.reading h3{font-family:var(--serif);font-size:clamp(20px,2.2vw,26px)}
+.reading__now{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+.reading__now>div{border-top:1px solid var(--line);padding-top:10px}
+.reading__now span{display:block;font-size:12.5px;letter-spacing:.12em;color:var(--dark);margin-bottom:6px}
+.reading__now b{font-family:var(--serif);font-weight:500;font-size:clamp(22px,2.4vw,30px);color:var(--ink);letter-spacing:-.02em}
+.reading__nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.reading__nav button{background:transparent;border:1px solid var(--line);color:var(--ink);padding:9px 16px;border-radius:9999px;font-size:13.5px}
+.reading__nav button:hover{border-color:var(--ink)}
+.reading__nav span{font-size:13.5px;color:var(--dark);letter-spacing:.06em}
+.reading__links{margin-top:18px;display:flex;gap:16px;flex-wrap:wrap}
+
+.address{font-family:var(--serif);font-size:clamp(20px,2.2vw,26px);line-height:1.4;color:var(--ink);max-width:22ch}
+.phone{display:inline-block;font-size:16px;margin-top:12px;color:var(--ink)}
+
+/* ── 재정 잠금 카드(시안E 원본 마크업 · 로직 불변) — 공통 머리/꼬리 안 본문 자리 ── */
+.lock{min-height:52vh;display:flex;align-items:center}
+.lock .card{margin:0 auto;max-width:340px;width:100%;text-align:center;border:1px solid var(--line);padding:28px 24px}
+.lock h1{font-family:var(--serif);font-weight:500;font-size:22px;margin-bottom:8px}
+.lock p{color:var(--dark);font-size:14px;margin:0 auto 18px}
+.lock input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:0;font-size:16px;font-family:var(--sans);background:#fff;color:var(--ink)}
+.lock button{margin-top:10px;width:100%;padding:11px;border:1px solid var(--ink);border-radius:9999px;background:var(--ink);color:#fff;font-size:16px;font-family:var(--sans)}
+.lock #err{color:var(--ink);font-size:13px;min-height:1.2em;margin-top:8px}
+.lock a{display:inline-block;margin-top:14px;font-size:13px;text-decoration:none;border-bottom:1px solid var(--line)}
+
+
+/* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
+@media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
+@media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
 </style>
 </head>
 <body>
