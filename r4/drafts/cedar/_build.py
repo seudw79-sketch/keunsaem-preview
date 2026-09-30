@@ -222,7 +222,8 @@ p{max-width:60ch}
 
 
 .body .two--photo .photo img{filter:grayscale(1)}  /* 오너 수정 2: 교회소개 사진 흑백 — 컬러로 되돌리려면 이 줄 삭제 */
-.body .two--photo{grid-template-columns:5fr 7fr;align-items:center}
+.body .two--photo{grid-template-columns:7fr 5fr;align-items:center}
+.body .two--photo .photo{order:2}  /* 오너 원문 「왼쪽에 글씨 · 오른쪽 공간에 사진」 — 마크업(사진 먼저)은 r4 그대로, 화면 순서만 뒤집음(master 검수 2026-09-30: 첫 판은 좌우 반대였음) */
 /* 오너 수정 3: 새가족 안내 첫 카드 — 제목 한 줄 · 문장(lead) 한 줄 · 사이 한 줄 여백. 1280 기준 · 960 아래는 자연 흐름 */
 .body .steps-oneline{grid-template-columns:1fr;gap:24px}
 .body .steps-oneline .title{white-space:nowrap;max-width:none}
