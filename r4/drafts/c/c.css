@@ -5,9 +5,8 @@
    근거: r4/drafts/시안C_확장방안.md §1·§2 · plates_스키마.md §7(메뉴 색 실측) · master 티켓 T-HOME-C-EXPAND
    ============================================================ */
 :root{
-  --paper:#F4F2ED; --ink:#1A1C1E; --muted:#74777C; --rule:#D8D5CE;
-  /* 메뉴 글자색 — 시안C --muted 는 종이 위 4.02:1(AA 미달) → 잉크 쪽으로 올림. #55585D = 6.38:1 (WCAG 상대휘도 직접 계산 2026-09-30) */
-  --nav-ink:#55585D;
+  /* muted — 시안C 의 #74777C 는 종이 위 4.02:1(AA 4.5 미달 · 12.5px 캡션은 본문 기준) → #55585D(6.38:1)로 올림. master 판정 2026-09-30: 변수는 muted 하나(nav 전용 변수 금지 — 갈라짐 방지) · 위계는 색이 아니라 크기·굵기·위치 */
+  --paper:#F4F2ED; --ink:#1A1C1E; --muted:#55585D; --rule:#D8D5CE;
   --serif:"Noto Serif KR",serif;
   --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --gut:clamp(20px,5vw,56px);
@@ -32,13 +31,13 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
     padding:22px var(--gut) 18px;flex-wrap:wrap;border-bottom:1px solid var(--rule);position:relative}
 .hd[data-place="pushed"]{justify-content:space-between}
 .logo{font-family:var(--serif);font-weight:500;font-size:17px;letter-spacing:.02em;text-decoration:none}
-.nav{display:flex;gap:clamp(12px,2vw,26px);font-size:13.5px;color:var(--nav-ink);flex-wrap:wrap}
+.nav{display:flex;gap:clamp(12px,2vw,26px);font-size:13.5px;color:var(--muted);flex-wrap:wrap}
 .nav a{text-decoration:none;padding:2px 0}
 .nav a[aria-current="page"]{color:var(--ink);border-bottom:1px solid var(--ink)}
 .nav a:hover{color:var(--ink)}
 /* 여닫기 — 체크박스(시각 숨김·포커스 가능) + 라벨 버튼 · 외부 JS 0 (r4 내비와 같은 부품) */
 .nav-toggle{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.nav-btn{display:none;margin-left:auto;font-size:13.5px;letter-spacing:.06em;color:var(--nav-ink);cursor:pointer;padding:2px 0;border-bottom:1px solid var(--rule)}
+.nav-btn{display:none;margin-left:auto;font-size:13.5px;letter-spacing:.06em;color:var(--muted);cursor:pointer;padding:2px 0;border-bottom:1px solid var(--rule)}
 .nav-toggle:focus-visible ~ .nav-btn{outline:2px solid var(--ink);outline-offset:3px}
 /* 접힌 상태(nav_mode=collapsed · 오너 확인 대상) — 모든 폭에서 버튼 하나 */
 body[data-nav="collapsed"] .nav-btn{display:inline-block}

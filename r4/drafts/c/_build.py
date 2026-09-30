@@ -22,6 +22,11 @@ if "--timetable" in sys.argv:
     SITE["hero_timetable"] = sys.argv[sys.argv.index("--timetable") + 1]
 if "--nav" in sys.argv:
     SITE["nav_mode"] = sys.argv[sys.argv.index("--nav") + 1]
+# --out <폴더> : 형제 폴더(예: c-menu)에 찍는다 — css·도판·하위 페이지 링크는 ../c/ 를 가리켜 두 판이 파일까지 같게(메뉴 비교용 · master 순서 변경 2026-09-30)
+OUT = C; ASSET = ""
+if "--out" in sys.argv:
+    OUT = C.parent / sys.argv[sys.argv.index("--out") + 1]; OUT.mkdir(exist_ok=True); ASSET = "../c/"
+ONLY = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
 
 esc = lambda s: html.escape(str(s), quote=True)
 
@@ -51,7 +56,7 @@ def alt(p):
     return esc(s)
 
 def img_tag(p, spread):
-    w1200, w2400 = f"assets/plates/{p['file']}_1200.jpg", f"assets/plates/{p['file']}_2400.jpg"
+    w1200, w2400 = f"{ASSET}assets/plates/{p['file']}_1200.jpg", f"{ASSET}assets/plates/{p['file']}_2400.jpg"
     W, H = p["src_px"]; h2400 = round(H * 2400 / W)
     sizes = "(max-width:820px) 100vw, 63vw" if spread else "(max-width:640px) 50vw, 25vw"
     cls = "plate" + (" is-crop" if (spread and p["crop"]["partial"]) else "")
@@ -124,13 +129,13 @@ def head(title, page):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="c.css">
+<link rel="stylesheet" href="{ASSET}c.css">
 </head>
 <body data-nav="{esc(SITE["nav_mode"])}">
 '''
 
 def header(page):
-    links = "".join(f'<a href="{esc(n["file"])}"{" aria-current=\"page\"" if n["file"] == f"{page}.html" else ""}>{esc(n["label"])}</a>' for n in SITE["nav"])
+    links = "".join(f'<a href="{ASSET if n["file"] != "index.html" else ""}{esc(n["file"])}"{" aria-current=\"page\"" if n["file"] == f"{page}.html" else ""}>{esc(n["label"])}</a>' for n in SITE["nav"])
     return f'''<header class="hd" data-place="{esc(SITE["nav_placement"])}">
   <a class="logo" href="index.html">{esc(SITE["church"])}</a>
   <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="메뉴" aria-controls="site-nav">
@@ -256,5 +261,6 @@ if __name__ == "__main__":
         if page == "index": html_out = build_index()
         elif page == "재정": html_out = build_finance()
         else: html_out = build_page(page, n)
-        (C / f"{page}.html").write_text(html_out, encoding="utf-8")
-        print(f"[{page}] {len(html_out):,}B  hero_timetable={SITE['hero_timetable']} nav_mode={SITE['nav_mode']}")
+        if ONLY and page not in ONLY: continue
+        (OUT / f"{page}.html").write_text(html_out, encoding="utf-8")
+        print(f"[{OUT.name}/{page}] {len(html_out):,}B  hero_timetable={SITE['hero_timetable']} nav_mode={SITE['nav_mode']}")
