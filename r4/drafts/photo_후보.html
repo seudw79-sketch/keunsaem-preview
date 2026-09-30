@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[초안] 첫 화면 사진 후보 — 성경적 풍경</title>
+<meta name="robots" content="noindex">
+<!-- [초안] T-HOME-PHOTO 2026-09-30 · 생성=photo/_page.py · 사진 메타데이터=photo/selected.json(Wikimedia Commons API 원본) · AI 생성 이미지 0 · 본편 무수정 -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="../assets/tokens.css"><link rel="stylesheet" href="../assets/r4.css">
+<style>
+  :root{
+    --p-veil-light-top: rgba(246,245,241,.10);
+    --p-veil-light-mid: rgba(246,245,241,.46);
+    --p-veil-light-strong: rgba(246,245,241,.66);
+    --p-veil-dark-top: rgba(18,20,18,.18);
+    --p-veil-dark-mid: rgba(18,20,18,.50);
+  }
+  body{word-break:keep-all}
+  .intro,.wrap-n{max-width:var(--wrap-narrow);margin:0 auto;padding-inline:var(--gutter)}
+  .intro{padding-block:var(--s-8) var(--s-5)}
+  .intro .tag{font-size:var(--text-caption);letter-spacing:var(--tracking-wide);font-weight:600;color:var(--accent)}
+  .intro h1{font:500 var(--text-h1)/var(--lh-heading) var(--font-serif);color:var(--heading);margin:var(--s-1) 0 var(--s-3)}
+  .intro p,.intro li{font-size:var(--text-body-sm)}
+  .box{background:var(--surface);border:1px solid var(--line-light);padding:var(--s-2) var(--s-3);margin-top:var(--s-3)}
+  .sec-h{max-width:var(--wrap);margin:var(--s-8) auto var(--s-3);padding-inline:var(--gutter);font:500 var(--text-h2)/1.3 var(--font-serif);color:var(--heading)}
+  .hp{position:relative;min-height:clamp(560px,86svh,860px);display:grid;place-items:center;text-align:center;overflow:hidden;isolation:isolate}
+  .hp__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+  .hp::after{content:"";position:absolute;inset:0;z-index:-1}
+  .hp--light::after{background:linear-gradient(180deg,var(--p-veil-light-top),var(--p-veil-light-mid) 45%,var(--p-veil-light-top))}
+  .hp--strong::after{background:linear-gradient(180deg,var(--p-veil-light-top),var(--p-veil-light-strong) 42%,var(--p-veil-light-strong) 62%,var(--p-veil-light-top))}
+  .hp--low{place-items:end center}
+  .hp--low .hp__lockup{padding-bottom:clamp(20px,3vh,40px)}
+  .hp--low::after{background:linear-gradient(180deg,var(--p-veil-light-top) 0%,var(--p-veil-light-top) 45%,var(--p-veil-light-strong) 100%)}
+  .hp--dark::after{background:linear-gradient(180deg,var(--p-veil-dark-top),var(--p-veil-dark-mid) 45%,var(--p-veil-dark-top))}
+  .hp__lockup{padding:var(--s-12) var(--gutter);max-width:900px}
+  .hp h1{font-family:var(--font-serif);font-weight:500;font-size:clamp(2.4rem,6vw,4.6rem);line-height:var(--lh-tight);letter-spacing:var(--tracking-tight);color:var(--ink)}
+  .hp__sub{margin:var(--s-3) auto 0;font-family:var(--font-serif);font-size:var(--fs-1);color:var(--body)}
+  .hp__links{display:flex;justify-content:center;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-5)}
+  .hp--light .btn:not(.btn--primary){background:var(--nav-glass)}
+  .hp--dark h1,.hp--dark .hp__sub{color:var(--surface)}
+  .hp--dark .btn:not(.btn--primary){color:var(--surface);border-color:color-mix(in srgb,var(--surface) 55%,transparent)}
+  .hp__tag{position:absolute;left:var(--s-2);top:var(--s-2);padding:4px 10px;border-radius:var(--radius-pill);background:var(--button);color:var(--on-button);font:600 12px/1.5 var(--font-sans)}
+  .hp-note{background:var(--surface);border-bottom:1px solid var(--line-light);padding-block:var(--s-2) var(--s-3)}
+  .hp-note p,.pc figcaption p{margin:2px 0;font-size:13px;color:var(--muted)}
+  .hp-note p:first-child{color:var(--body);font-size:var(--text-body-sm)}
+  .c-who{color:var(--ink)!important;font-weight:600}
+  .theme{padding-block:var(--s-6);border-top:1px solid var(--line)}
+  .wrap-w{max-width:var(--wrap);margin:0 auto;padding-inline:var(--gutter)}
+  .theme h2{font:500 var(--text-h2)/1.3 var(--font-serif);color:var(--heading);margin:0}
+  .theme h2 span{font:600 var(--text-caption)/1 var(--font-sans);color:var(--gold);letter-spacing:var(--tracking-wide);margin-left:8px}
+  .blurb{margin:4px 0 var(--s-3);font-size:var(--text-body-sm);color:var(--muted)}
+  .pg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-4) var(--s-3)}
+  .pc{margin:0}
+  .pc img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;background:var(--surface-tint)}
+  .pc figcaption{padding-top:10px}
+  .pc a{color:var(--accent)}
+  @media (max-width:640px){.pg{grid-template-columns:1fr} .hp h1{font-size:2.3rem} .hp__sub{font-size:16px}}
+</style>
+</head><body>
+<header class="intro">
+  <span class="tag">[초안] 오너 검토용 · 본편 아님</span>
+  <h1>첫 화면 사진 후보 — 성경적 풍경 실사 28장</h1>
+  <p>「성경적인 풍경사진도 좋아, 꼭 우리교회 사진 아니어도 돼」·「만들지는 마」 말씀에 따라, <b>실제 사진만</b>(인공지능으로 만든 그림 0장) 모았습니다. 맨 위 세 장은 지금 표어를 그대로 얹어 첫 화면처럼 보여 드리고, 그 아래에 주제별 후보를 크게 놓았습니다. 사진을 누르면 크게 열립니다.</p>
+  <div class="box">
+    <p><b>사진을 어디서 가져왔나</b> — 전부 <b>위키미디어 공용(Wikimedia Commons)</b>에서, 그중에서도 사진가들의 심사를 통과한 「추천·우수 사진」 모음에서 골랐습니다(일부 성경 사진만 일반 등록 사진). 작가·라이선스·원본 크기는 각 사진의 원본 페이지 정보를 그대로 받아 적었고, 사진마다 출처 페이지 링크를 달았습니다.</p>
+    <p><b>라이선스</b> — CC BY-SA 4.0 18장 · CC BY-SA 3.0 6장 · Public domain 1장 · CC BY 4.0 1장 · CC BY 2.0 1장 · CC BY-SA 2.5 1장. 모두 <b>상업적 이용이 허락된</b> 라이선스만 남겼습니다. 다만 CC BY / CC BY-SA 사진을 쓰면 홈페이지 어딘가(예: 맨 아래)에 「사진: 작가 이름 / 라이선스」를 한 줄 적어야 합니다.</p>
+    <p><b>고른 기준</b> — 가로 2400픽셀 이상 · 가로로 긴 사진 · 얼굴이 크게 나온 사진 제외 · 유명 관광지로 바로 알아보이는 곳 제외 · 색이 과하게 진한 사진 제외(색 진하기를 기계로 재서 상위 25%를 뺌).</p>
+    <p class="note"><b>Unsplash·Pexels 는 이번에 빠졌습니다</b> — 두 곳 모두 자동 접속을 막는 확인 화면·열쇠(API 키)가 있어 작가·라이선스를 직접 확인할 수 없었습니다(무료 개발자 키를 발급받으면 같은 방식으로 추가할 수 있습니다).</p>
+  </div>
+</header>
+<h2 class="sec-h">1. 첫 화면에 얹어 본 세 장</h2>
+
+<section class="hp hp--light hp--strong" aria-labelledby="hp1">
+  <img class="hp__img" src="photo/img/hero_1.jpg" alt="" style="object-position:center 62%" fetchpriority="high">
+  <div class="hp__lockup"><h1 id="hp1">말씀을 읽고<br>배우고 가르치자</h1>
+    <p class="hp__sub">말씀과 기도로 세워지는 공동체입니다.</p>
+    <div class="hp__links"><a class="btn" href="../index.html#worship">예배안내 ↓</a><a class="btn" href="../index.html#location">오시는 길 ↓</a><a class="btn btn--primary" href="../새가족.html">새가족 안내 →</a></div></div>
+  <span class="hp__tag">미리보기 1 · 새벽 안개 들판</span>
+</section>
+<div class="hp-note"><div class="wrap-n"><p><b>미리보기 1 · 새벽 안개 들판</b> — 하늘이 넓게 비어 있어 표어가 가장 편하게 읽힙니다. 안개·새떼·홀로 선 나무 — 조용한 전시 사진 같은 느낌.</p><p class="c-who">Dietmar Rabich</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 5076×3384 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Kirchspiel,_B%C3%B6rnste,_Felder_und_B%C3%A4ume_--_2017_--_3238.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></div></div>
+<section class="hp hp--light hp--low" aria-labelledby="hp2">
+  <img class="hp__img" src="photo/img/hero_2.jpg" alt="" style="object-position:center 55%" loading="lazy">
+  <div class="hp__lockup"><h1 id="hp2">말씀을 읽고<br>배우고 가르치자</h1>
+    <p class="hp__sub">말씀과 기도로 세워지는 공동체입니다.</p>
+    <div class="hp__links"><a class="btn" href="../index.html#worship">예배안내 ↓</a><a class="btn" href="../index.html#location">오시는 길 ↓</a><a class="btn btn--primary" href="../새가족.html">새가족 안내 →</a></div></div>
+  <span class="hp__tag">미리보기 2 · 안개 낀 호숫가</span>
+</section>
+<div class="hp-note"><div class="wrap-n"><p><b>미리보기 2 · 안개 낀 호숫가</b> — 옅은 회청색 물과 금빛 갈대. 색이 적고 여백이 많아 가장 ‘깔끔’합니다. 풍경을 가리지 않도록 글자를 아래쪽 잔잔한 물 위에 두었습니다.</p><p class="c-who">Dominicus Johannes Bergsma</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 5184×3173 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Go%C3%ABngarijpsterpoelen_(Frysk)_Goai%C3%AFngarypster_Puollen_(d.j.b.)_24.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></div></div>
+<section class="hp hp--dark" aria-labelledby="hp3">
+  <img class="hp__img" src="photo/img/hero_3.jpg" alt="" style="object-position:center 45%" loading="lazy">
+  <div class="hp__lockup"><h1 id="hp3">말씀을 읽고<br>배우고 가르치자</h1>
+    <p class="hp__sub">말씀과 기도로 세워지는 공동체입니다.</p>
+    <div class="hp__links"><a class="btn" href="../index.html#worship">예배안내 ↓</a><a class="btn" href="../index.html#location">오시는 길 ↓</a><a class="btn btn--primary" href="../새가족.html">새가족 안내 →</a></div></div>
+  <span class="hp__tag">미리보기 3 · 빛이 드는 길</span>
+</section>
+<div class="hp-note"><div class="wrap-n"><p><b>미리보기 3 · 빛이 드는 길</b> — 나무 사이로 빛이 쏟아지는 길 — ‘말씀의 빛’이 가장 직접적으로 느껴집니다. 어두운 사진이라 글자를 밝게 바꿨습니다.</p><p class="c-who">Dietmar Rabich</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 5184×3456 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Umland,_Sonnenaufgang_--_2012_--_8069.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></div></div>
+<h2 class="sec-h">2. 주제별 후보 (주제마다 4장)</h2>
+<section class="theme"><div class="wrap-w">
+  <h2>광야와 길 <span>4장</span></h2><p class="blurb">사막의 능선·마른 들길 — 광야를 지나는 백성의 길</p>
+  <div class="pg">
+    <figure class="pc"><a href="photo/img/wilderness_85796664.jpg" target="_blank" rel="noopener"><img src="photo/img/wilderness_85796664.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">ZeevStein</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 3604×2240 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:%D7%9E%D7%9B%D7%AA%D7%A9_%D7%A8%D7%9E%D7%95%D7%9F_-_%D7%92%D7%9C%D7%99%D7%A9%D7%AA_%D7%A2%D7%A0%D7%A0%D7%99%D7%9D_(cropped).jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/wilderness_80034574.jpg" target="_blank" rel="noopener"><img src="photo/img/wilderness_80034574.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Daniel Kraft</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener">CC BY-SA 3.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4600×3456 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Dune_Namib_Naukluft_2.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/wilderness_131881906.jpg" target="_blank" rel="noopener"><img src="photo/img/wilderness_131881906.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Matti Blume</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4608×3456 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Shai_Hills,_Shai-Osudoku_(P1100035).jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/wilderness_9050283.jpg" target="_blank" rel="noopener"><img src="photo/img/wilderness_9050283.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">American Colony Jerusalem</p><p class="c-lic"> Public domain — 상업 이용 가능 · 표기 의무 없음(퍼블릭 도메인)</p><p class="c-src">원본 4525×1932 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:Egyptian_camel_transport3.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+  </div></div></section><section class="theme"><div class="wrap-w">
+  <h2>새벽·해질녘 빛 드는 들판 <span>4장</span></h2><p class="blurb">안개 낀 새벽 들판과 나무 사이로 드는 빛</p>
+  <div class="pg">
+    <figure class="pc"><a href="photo/img/dawnfield_63419309.jpg" target="_blank" rel="noopener"><img src="photo/img/dawnfield_63419309.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Dietmar Rabich</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 5076×3384 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Kirchspiel,_B%C3%B6rnste,_Felder_und_B%C3%A4ume_--_2017_--_3238.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/dawnfield_44683621.jpg" target="_blank" rel="noopener"><img src="photo/img/dawnfield_44683621.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Dietmar Rabich</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4801×3201 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_B%C3%B6rnste,_Weide_--_2015_--_9921.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/dawnfield_30298411.jpg" target="_blank" rel="noopener"><img src="photo/img/dawnfield_30298411.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Dietmar Rabich</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 5184×3456 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Umland,_Sonnenaufgang_--_2012_--_8069.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/dawnfield_184409488.jpg" target="_blank" rel="noopener"><img src="photo/img/dawnfield_184409488.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Jörg Braukmann</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 6900×3859 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:Fernsicht_vom_Witthoh_zu_den_Berner_Alpen.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+  </div></div></section><section class="theme"><div class="wrap-w">
+  <h2>밀밭·포도원·올리브나무 <span>4장</span></h2><p class="blurb">익은 밀밭, 오래된 올리브 숲, 포도원 언덕</p>
+  <div class="pg">
+    <figure class="pc"><a href="photo/img/harvest_73597977.jpg" target="_blank" rel="noopener"><img src="photo/img/harvest_73597977.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Dietmar Rabich</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 6712×4479 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:Korfu_(GR),_Agii_Douli,_Olivenhain_--_2018_--_1284-8.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/harvest_34265637.jpg" target="_blank" rel="noopener"><img src="photo/img/harvest_34265637.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Jacek Halicki</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4028×2668 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:2014_Pole_uprawne_w_Raszkowie.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/harvest_142444366.jpg" target="_blank" rel="noopener"><img src="photo/img/harvest_142444366.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">This Photo was taken by Timothy A. Gonsalves. Feel free to use my ph…</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 5298×3311 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:Olive_Groves_Fields_Spello_Umbria_Sep23_A7C_07785.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/harvest_36548296.jpg" target="_blank" rel="noopener"><img src="photo/img/harvest_36548296.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Christian Ferrer</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 7360×4600 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:Hills_and_vineyards,_Roquebrun.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+  </div></div></section><section class="theme"><div class="wrap-w">
+  <h2>물가·바다·배 <span>4장</span></h2><p class="blurb">고요한 호수의 작은 배, 갈릴리 바닷가</p>
+  <div class="pg">
+    <figure class="pc"><a href="photo/img/water_144492223.jpg" target="_blank" rel="noopener"><img src="photo/img/water_144492223.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Dominic Nelson</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 6000×4000 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:Phayao_-_Small_rowing_boat_moored_on_shores_of_Phayao_Lake_Jan_2024.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/water_77873419.jpg" target="_blank" rel="noopener"><img src="photo/img/water_77873419.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Dominicus Johannes Bergsma</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 5184×3173 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Go%C3%ABngarijpsterpoelen_(Frysk)_Goai%C3%AFngarypster_Puollen_(d.j.b.)_24.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/water_167905936.jpg" target="_blank" rel="noopener"><img src="photo/img/water_167905936.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Julian Herzog (Website)</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by/4.0" target="_blank" rel="noopener">CC BY 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요</p><p class="c-src">원본 5646×3769 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Derwent_Water_Landing_Stage_Keswick_2022.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/water_15121023.jpg" target="_blank" rel="noopener"><img src="photo/img/water_15121023.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Berthold Werner</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener">CC BY-SA 3.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 3872×2592 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Sea_of_Galilee_BW_2.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+  </div></div></section><section class="theme"><div class="wrap-w">
+  <h2>펼친 성경과 빛 <span>4장</span></h2><p class="blurb">펼친 성경과 촛불·창빛</p>
+  <div class="pg">
+    <figure class="pc"><a href="photo/img/bible_84283698.jpg" target="_blank" rel="noopener"><img src="photo/img/bible_84283698.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Veverve</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4096×2304 · 일반 등록 사진 · <a href="https://commons.wikimedia.org/wiki/File:Third_Millennium_Bible_without_paper_cover_-_some_psalms.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/bible_11454460.jpg" target="_blank" rel="noopener"><img src="photo/img/bible_11454460.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Billy Hathorn</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener">CC BY-SA 3.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4000×3000 · 일반 등록 사진 · <a href="https://commons.wikimedia.org/wiki/File:Open_Bible_in_chapel_at_Deaf_Smith_County,_TX,_Museum_IMG_4879.JPG" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/bible_59064518.jpg" target="_blank" rel="noopener"><img src="photo/img/bible_59064518.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Dietmar Rabich</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4825×3417 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:Heiligengrabe,_Kloster_Stift_zum_Heiligengrabe,_Stiftskirche_--_2017_--_9969.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/bible_99162495.jpg" target="_blank" rel="noopener"><img src="photo/img/bible_99162495.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">George Bannister from Woodville, MS, USA</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by/2.0" target="_blank" rel="noopener">CC BY 2.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요</p><p class="c-src">원본 2592×1944 · 일반 등록 사진 · <a href="https://commons.wikimedia.org/wiki/File:Open_Bible_(1697633779).jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+  </div></div></section><section class="theme"><div class="wrap-w">
+  <h2>돌벽·돌길·고대 유적 <span>4장</span></h2><p class="blurb">돌담이 이어지는 골짜기, 옛 돌기둥</p>
+  <div class="pg">
+    <figure class="pc"><a href="photo/img/stone_191191644.jpg" target="_blank" rel="noopener"><img src="photo/img/stone_191191644.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Julian Herzog (Website)</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 8048×5030 · Commons 추천 사진(Featured) · <a href="https://commons.wikimedia.org/wiki/File:Wasdale_Tree_under_Kirk_Fell_Lake_District_2025_01.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/stone_36275082.jpg" target="_blank" rel="noopener"><img src="photo/img/stone_36275082.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Kreuzschnabel</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener">CC BY-SA 3.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4608×3456 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:2014_Fremington_Edge.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/stone_35185273.jpg" target="_blank" rel="noopener"><img src="photo/img/stone_35185273.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Jebulon</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4592×3056 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Mur_de_pierres,_golfe,_%C3%8Ele_aux_Moines,_Morbihan,_France.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/stone_16501463.jpg" target="_blank" rel="noopener"><img src="photo/img/stone_16501463.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Luis Miguel Bugallo Sánchez (Lmbuga)</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener">CC BY-SA 3.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4334×2887 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Jameos_del_Agua_-_Lanzarote_-_A09.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+  </div></div></section><section class="theme"><div class="wrap-w">
+  <h2>양떼·목자 <span>4장</span></h2><p class="blurb">안개 속 양떼, 먼지 길을 걷는 양떼와 목자</p>
+  <div class="pg">
+    <figure class="pc"><a href="photo/img/sheep_8694470.jpg" target="_blank" rel="noopener"><img src="photo/img/sheep_8694470.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">--Böhringer</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/2.5" target="_blank" rel="noopener">CC BY-SA 2.5</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 4272×2848 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Schafe_in_Schoren.JPG" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/sheep_185592109.jpg" target="_blank" rel="noopener"><img src="photo/img/sheep_185592109.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">This Photo was taken by Timothy A. Gonsalves. Feel free to use my ph…</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 8221×5138 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Sheep_Flock_Daya_Chiker_Taza_Nov25_A7CR_09364.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/sheep_170514069.jpg" target="_blank" rel="noopener"><img src="photo/img/sheep_170514069.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Erfan.arafat</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 5440×3060 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Lady_shepherd,_leading_her_flock,_Dhofar,_Salalah,_Sultanate_of_Oman.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+    <figure class="pc"><a href="photo/img/sheep_22777707.jpg" target="_blank" rel="noopener"><img src="photo/img/sheep_22777707.jpg" alt="" loading="lazy"></a>
+      <figcaption><p class="c-who">Myrabella</p><p class="c-lic"> <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener">CC BY-SA 3.0</a> — 상업 이용 가능 · 작가·라이선스 표기 필요 · 사진을 고쳐 쓰면 같은 라이선스로 공개</p><p class="c-src">원본 3380×2244 · Commons 우수 사진(Quality) · <a href="https://commons.wikimedia.org/wiki/File:Causse_Mejean_Lacaune_ovins.jpg" target="_blank" rel="noopener">출처 페이지 ↗</a></p></figcaption></figure>
+  </div></div></section>
+<footer class="intro" style="padding-bottom:var(--s-12)"><p class="note">[초안] 2026-09-30 · 사진 원본 정보: <code>r4/drafts/photo/selected.json</code> · 수집 기록: <code>photo/_harvest.py</code>(후보 484장(추천·우수 모음 442 + 성경 일반 검색 42) → 색 진하기 필터 → 눈으로 고름 → 제목·설명 확인으로 랜드마크·성경 아닌 책 제외)</p></footer>
+</body></html>
