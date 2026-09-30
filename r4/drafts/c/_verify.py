@@ -191,6 +191,11 @@ def links(page):
     out={"page":page,"internal":[],"external":[],"broken":[]}
     # 저장소 밖 경로 금지(codex R1 · master 2026-09-30): 산출물 어디에도(속성·JS 문자열 포함) ../ 가 4단 이상 연속이면 실패 — 미리보기 루트는 r4/drafts/<판>/ 에서 3단
     for m in re.finditer(r'(?:\.\./){4,}[^"\'\s)]*',raw): out["broken"].append("저장소 밖 경로: "+m.group(0))
+    # 첫 화면 큰 카드 썸네일은 maxresdefault 여야 한다(오너 수정 5 · 480px hqdefault 를 560~1120px 로 늘려 뿌옇게 보임). 스크립트 교체 경로에 hqdefault 직접 지정도 금지
+    if R4.name=="cedar" and page=="index":
+        big=re.search(r'<img id="sm-thumb-img"[^>]*src="([^"]+)"',raw)
+        if big and "maxresdefault" not in big.group(1): out["broken"].append("첫 화면 썸네일 저해상: "+big.group(1))
+        if re.search(r"src='https://i\.ytimg\.com/vi/'\+[^;]*hqdefault",raw): out["broken"].append("스크립트가 hqdefault 를 직접 지정")
     for m in re.finditer(r'(?:href|src)="([^"]+)"',raw):
         u=m.group(1)
         if u.startswith(("http://","https://","tel:","mailto:","data:")): out["external"].append(u); continue

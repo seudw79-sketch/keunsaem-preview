@@ -196,6 +196,13 @@ p{max-width:60ch}
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
 </style>
+<script>
+/* 유튜브 썸네일 폴백 사슬(오너 수정 5 · 2026-09-30): maxresdefault → sddefault → hqdefault. onerror 뿐 아니라 '없는 썸네일에 200 으로 오는 120x90 회색판'(실측: 9/13 영상 maxres 가 404·120x90)도 naturalWidth<320 으로 걸러 다음 단계. data-i 로 단계를 남겨 무한 루프 없음. */
+window.__yt=function(img){var steps=(img.getAttribute('data-steps')||'maxresdefault,sddefault,hqdefault').split(','),i=parseInt(img.getAttribute('data-i')||'0',10),id=img.getAttribute('data-vid');
+  var bad=(img.complete&&img.naturalWidth>0&&img.naturalWidth<320)||(img.complete&&img.naturalWidth===0);
+  if(!bad||i>=steps.length-1)return; img.setAttribute('data-i',String(i+1)); img.src='https://i.ytimg.com/vi/'+id+'/'+steps[i+1]+'.jpg';};
+window.__ytSet=function(img,id){img.setAttribute('data-vid',id);img.setAttribute('data-i','0');img.src='https://i.ytimg.com/vi/'+id+'/maxresdefault.jpg';};
+</script>
 <style>/* r4/예배안내.html 페이지 전용 규칙(토큰 매핑) */
   
   @media(max-width:640px){}
@@ -265,13 +272,6 @@ p{max-width:60ch}
 </div></section>
 </section>
 </main>
-<section class="dark"><div class="wrap reveal">
-  <div><h2>기독교대한감리회 큰샘교회</h2></div>
-  <div><p>경기 광명시 기아로 23 (소하동) 4층<br><a href="tel:010-2534-0407">010-2534-0407</a></p>
-    <a class="btn" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 ↗</a></div>
-</div></section>
-</main>
-<footer class="ft"><span>© 2026 큰샘교회</span> · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span></footer>
 <script>
 // A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역 등장(1회) ②헤더 카드 스크롤 반응(센티널 이탈) · reduced-motion 이면 아무것도 안 함
 (function(){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('js');

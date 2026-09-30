@@ -305,6 +305,14 @@ def home_guide():
     iife = _re.search(r"\(function\(\)\{.*?\}\)\(\);", iife, _re.S).group(0)
     return '<section class="body">\n' + body + '\n</section>\n', repath(iife)
 
+YTJS = r'''<script>
+/* 유튜브 썸네일 폴백 사슬(오너 수정 5 · 2026-09-30): maxresdefault → sddefault → hqdefault. onerror 뿐 아니라 '없는 썸네일에 200 으로 오는 120x90 회색판'(실측: 9/13 영상 maxres 가 404·120x90)도 naturalWidth<320 으로 걸러 다음 단계. data-i 로 단계를 남겨 무한 루프 없음. */
+window.__yt=function(img){var steps=(img.getAttribute('data-steps')||'maxresdefault,sddefault,hqdefault').split(','),i=parseInt(img.getAttribute('data-i')||'0',10),id=img.getAttribute('data-vid');
+  var bad=(img.complete&&img.naturalWidth>0&&img.naturalWidth<320)||(img.complete&&img.naturalWidth===0);
+  if(!bad||i>=steps.length-1)return; img.setAttribute('data-i',String(i+1)); img.src='https://i.ytimg.com/vi/'+id+'/'+steps[i+1]+'.jpg';};
+window.__ytSet=function(img,id){img.setAttribute('data-vid',id);img.setAttribute('data-i','0');img.src='https://i.ytimg.com/vi/'+id+'/maxresdefault.jpg';};
+</script>'''
+
 page = f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -316,6 +324,7 @@ page = f'''<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Noto+Serif+KR:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 __CSS__
+__YTJS__
 </head>
 <body>
 <div class="sentinel" id="top-sentinel"></div>
@@ -330,7 +339,7 @@ __CSS__
 </header>
 <main>
 <section class="hero"><div class="wrap reveal">
-  <a class="media" id="sm-thumb" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/{esc(vid)}/hqdefault.jpg" alt="" loading="eager"></a>
+  <a class="media" id="sm-thumb" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/{esc(vid)}/maxresdefault.jpg" data-vid="{esc(vid)}" data-i="0" data-steps="maxresdefault,sddefault,hqdefault" onerror="__yt(this)" onload="__yt(this)" alt="" loading="eager"></a>
   <div>
     <p class="label" id="sm-label">{esc(label)}</p>
     <h1 class="title" id="sm-title">{esc(LATEST["설교_제목"])}</h1>
@@ -361,7 +370,7 @@ if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(funct
     document.getElementById('sm-verse').textContent=(p[1]||'').trim();
     ['sm-link','sm-thumb'].forEach(function(id){{document.getElementById(id).href=d.설교_링크}});
     var st=document.getElementById('sermon-title'),sd=document.getElementById('sermon-date'),sl=document.getElementById('sermon-link');if(st)st.textContent=d.설교_제목;if(sd){{sd.textContent=d.설교_날짜;sd.dateTime=d.설교_날짜.slice(0,10);}}if(sl)sl.href=d.설교_링크;
-    var v=d.설교_링크.split('v=')[1].split('&')[0];document.getElementById('sm-thumb-img').src='https://i.ytimg.com/vi/'+v+'/hqdefault.jpg';
+    var v=d.설교_링크.split('v=')[1].split('&')[0];__ytSet(document.getElementById('sm-thumb-img'),v);
   }}
   var jt=document.getElementById('jb-title'),jl=document.getElementById('jb-link');if(d.주보_제목&&jt)jt.textContent=d.주보_제목;if(d.주보_링크&&jl)jl.href='../../../'+d.주보_링크;
 }}).catch(function(){{}});
@@ -371,7 +380,7 @@ __TONGDOK__
 </html>
 '''
 _guide, _iife = home_guide()
-page = page.replace('__CSS__', CSS).replace('__A3JS__', A3JS).replace('__HOME_GUIDE__', _guide).replace('__TONGDOK__', _iife)
+page = page.replace('__CSS__', CSS).replace('__A3JS__', A3JS).replace('__YTJS__', YTJS).replace('__HOME_GUIDE__', _guide).replace('__TONGDOK__', _iife)
 (D / "index.html").write_text(page, encoding="utf-8")
 print("cedar/index.html", len(page), "B")
 

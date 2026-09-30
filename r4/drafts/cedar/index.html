@@ -196,6 +196,13 @@ p{max-width:60ch}
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
 </style>
+<script>
+/* 유튜브 썸네일 폴백 사슬(오너 수정 5 · 2026-09-30): maxresdefault → sddefault → hqdefault. onerror 뿐 아니라 '없는 썸네일에 200 으로 오는 120x90 회색판'(실측: 9/13 영상 maxres 가 404·120x90)도 naturalWidth<320 으로 걸러 다음 단계. data-i 로 단계를 남겨 무한 루프 없음. */
+window.__yt=function(img){var steps=(img.getAttribute('data-steps')||'maxresdefault,sddefault,hqdefault').split(','),i=parseInt(img.getAttribute('data-i')||'0',10),id=img.getAttribute('data-vid');
+  var bad=(img.complete&&img.naturalWidth>0&&img.naturalWidth<320)||(img.complete&&img.naturalWidth===0);
+  if(!bad||i>=steps.length-1)return; img.setAttribute('data-i',String(i+1)); img.src='https://i.ytimg.com/vi/'+id+'/'+steps[i+1]+'.jpg';};
+window.__ytSet=function(img,id){img.setAttribute('data-vid',id);img.setAttribute('data-i','0');img.src='https://i.ytimg.com/vi/'+id+'/maxresdefault.jpg';};
+</script>
 </head>
 <body>
 <div class="sentinel" id="top-sentinel"></div>
@@ -210,7 +217,7 @@ p{max-width:60ch}
 </header>
 <main>
 <section class="hero"><div class="wrap reveal">
-  <a class="media" id="sm-thumb" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/4Uw236eEFuk/hqdefault.jpg" alt="" loading="eager"></a>
+  <a class="media" id="sm-thumb" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/4Uw236eEFuk/maxresdefault.jpg" data-vid="4Uw236eEFuk" data-i="0" data-steps="maxresdefault,sddefault,hqdefault" onerror="__yt(this)" onload="__yt(this)" alt="" loading="eager"></a>
   <div>
     <p class="label" id="sm-label">이번 주일 · 9월 27일</p>
     <h1 class="title" id="sm-title">광야에서도 신실하신 하나님</h1>
@@ -302,7 +309,7 @@ if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(functio
     document.getElementById('sm-verse').textContent=(p[1]||'').trim();
     ['sm-link','sm-thumb'].forEach(function(id){document.getElementById(id).href=d.설교_링크});
     var st=document.getElementById('sermon-title'),sd=document.getElementById('sermon-date'),sl=document.getElementById('sermon-link');if(st)st.textContent=d.설교_제목;if(sd){sd.textContent=d.설교_날짜;sd.dateTime=d.설교_날짜.slice(0,10);}if(sl)sl.href=d.설교_링크;
-    var v=d.설교_링크.split('v=')[1].split('&')[0];document.getElementById('sm-thumb-img').src='https://i.ytimg.com/vi/'+v+'/hqdefault.jpg';
+    var v=d.설교_링크.split('v=')[1].split('&')[0];__ytSet(document.getElementById('sm-thumb-img'),v);
   }
   var jt=document.getElementById('jb-title'),jl=document.getElementById('jb-link');if(d.주보_제목&&jt)jt.textContent=d.주보_제목;if(d.주보_링크&&jl)jl.href='../../../'+d.주보_링크;
 }).catch(function(){});
