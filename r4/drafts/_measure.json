@@ -1,9 +1,9 @@
 {
- "photo_후보": {
+ "명화_후보": {
   "390": {
    "scrollWidth": 390,
    "clientWidth": 390,
-   "scrollHeight": 15039,
+   "scrollHeight": 11107,
    "maxRight": 390,
    "overflow": false,
    "method": "iframe-wrapper"
@@ -11,21 +11,21 @@
   "1280": {
    "scrollWidth": 1280,
    "clientWidth": 1280,
-   "scrollHeight": 12200,
+   "scrollHeight": 9150,
    "maxRight": 1280,
    "overflow": false,
    "method": "window"
   },
   "cap390": {
-   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/_drafts/photo_후보_390.png",
+   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/_drafts/명화_후보_390.png",
    "exists": true,
-   "bytes": 122617,
+   "bytes": 146889,
    "method": "iframe-wrapper"
   },
   "cap1280": {
-   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/_drafts/photo_후보_1280.png",
+   "file": "/Users/sdw79/SDWjavis/큰샘교회/홈페이지_리뉴얼_20260912/캡처_R4/_drafts/명화_후보_1280.png",
    "exists": true,
-   "bytes": 161790,
+   "bytes": 837179,
    "method": "window"
   }
  }
