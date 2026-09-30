@@ -48,6 +48,8 @@ OUT = C; ASSET = ""
 if "--out" in sys.argv:
     OUT = C.parent / sys.argv[sys.argv.index("--out") + 1]; OUT.mkdir(exist_ok=True); ASSET = "../c/"
 ONLY = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
+# --filter "<css filter 값>" : 비교판용 — 도판 모노톤 변수(--plate-filter)만 이 값으로 덮는다(c.css 는 그대로 · 머리에 한 줄 style). 예: --filter none
+FILTER = sys.argv[sys.argv.index("--filter") + 1] if "--filter" in sys.argv else None
 
 # 설정값 검증 — 허용값이 아니면 빌드 실패(경고 아님 · 조용한 폴백은 오타를 숨긴다 — codex r1 · master 2순위 2026-09-30)
 ALLOWED = {"hero_timetable": ("hero", "below"), "nav_mode": ("open", "collapsed"), "nav_placement": ("inline", "pushed")}
@@ -160,7 +162,7 @@ def head(title, page):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
-<link rel="stylesheet" href="{ASSET}c.css">
+<link rel="stylesheet" href="{ASSET}c.css">{('<style>:root{--plate-filter:' + FILTER + '}</style>  <!-- 비교판: 도판 필터만 덮음 -->') if FILTER else ''}
 </head>
 <body data-nav="{esc(SITE["nav_mode"])}">
 '''
