@@ -203,6 +203,14 @@ def links(page):
     if R4.name=="cedar":
         need={"dark섹션":len(re.findall(r'<section class="dark">',raw)),"주소":raw.count("경기 광명시 기아로 23"),"전화":raw.count("010-2534-0407"),"오시는길버튼":len(re.findall(r'<a class="btn"[^>]*>오시는 길 ↗</a>',raw))}
         if need["dark섹션"]!=1 or need["주소"]<1 or need["전화"]<1 or need["오시는길버튼"]!=1: out["broken"].append("꼬리 결손: "+json.dumps(need,ensure_ascii=False))
+        # 머리도 같은 값 규칙(master 승인 2026-09-30 · YRG 뒤): 배너 1(예배 3항목) · 카드 헤더 1 · 로고 1 · 데스크탑 메뉴 7(새가족 안내는 알약) · 드로어 8 · 알약 1 · 햄버거 1
+        nav=re.search(r'<nav id="site-nav"[^>]*>(.*?)</nav>',raw,re.S); dr=re.search(r'<nav id="drawer"[^>]*>(.*?)</nav>',raw,re.S)
+        head={"배너":len(re.findall(r'<div class="banner">',raw)),"예배항목":len(re.findall(r'(주일예배|성경공부|아침예배) ',raw.split('</div>')[1] if '<div class="banner">' in raw else "")),
+              "헤더카드":len(re.findall(r'<header class="hd"',raw)),"로고":len(re.findall(r'<a class="logo"',raw)),
+              "메뉴":len(re.findall(r'<a ',nav.group(1))) if nav else 0,"드로어":len(re.findall(r'<a ',dr.group(1))) if dr else 0,
+              "알약":len(re.findall(r'<a class="pill"',raw)),"햄버거":len(re.findall(r'class="burger"',raw))}
+        exp={"배너":1,"예배항목":3,"헤더카드":1,"로고":1,"메뉴":7,"드로어":8,"알약":1,"햄버거":1}
+        if head!=exp: out["broken"].append("머리 결손: "+json.dumps({k:(head[k],exp[k]) for k in exp if head[k]!=exp[k]},ensure_ascii=False))
     for m in re.finditer(r'(?:href|src)="([^"]+)"',raw):
         u=m.group(1)
         if u.startswith(("http://","https://","tel:","mailto:","data:")): out["external"].append(u); continue
