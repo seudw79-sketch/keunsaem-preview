@@ -193,6 +193,11 @@ p{max-width:60ch}
 .body .steps-oneline .title{white-space:nowrap;max-width:none}
 .body .steps-oneline .lead{margin-top:24px;white-space:nowrap;max-width:none}
 @media(max-width:960px){.body .steps-oneline .title,.body .steps-oneline .lead{white-space:normal}}
+/* 아카데미 YRG 제목 두 줄 — 1줄 괄호 전체(1280 한 줄 · 필요 시 이 제목만 살짝 축소) · 2줄 강사 */
+.body .title--lines{max-width:none}
+.body .title--lines .t1{white-space:nowrap;font-size:.94em}
+.body .title--lines .t2{font-size:.8em;font-weight:500;color:var(--dark)}
+@media(max-width:960px){.body .title--lines .t1{white-space:normal}}
 /* 아카데미 YRG 회차 목록 */
 .body .ep-list{margin-top:24px}
 .body .ep{text-decoration:none;color:inherit;align-items:center}

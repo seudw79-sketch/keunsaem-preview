@@ -230,6 +230,11 @@ p{max-width:60ch}
 .body .steps-oneline .title{white-space:nowrap;max-width:none}
 .body .steps-oneline .lead{margin-top:24px;white-space:nowrap;max-width:none}
 @media(max-width:960px){.body .steps-oneline .title,.body .steps-oneline .lead{white-space:normal}}
+/* 아카데미 YRG 제목 두 줄 — 1줄 괄호 전체(1280 한 줄 · 필요 시 이 제목만 살짝 축소) · 2줄 강사 */
+.body .title--lines{max-width:none}
+.body .title--lines .t1{white-space:nowrap;font-size:.94em}
+.body .title--lines .t2{font-size:.8em;font-weight:500;color:var(--dark)}
+@media(max-width:960px){.body .title--lines .t1{white-space:normal}}
 /* 아카데미 YRG 회차 목록 */
 .body .ep-list{margin-top:24px}
 .body .ep{text-decoration:none;color:inherit;align-items:center}
@@ -442,8 +447,11 @@ def build_sub(pg, n):
                              f'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>')
                     js = ('<script>window.__ep=function(a){var f=document.getElementById("ep-frame");if(!f)return true;f.src="https://www.youtube.com/embed/"+a.getAttribute("data-vid")+"?autoplay=1";'
                           'document.querySelectorAll(".ep.is-on").forEach(function(x){x.classList.remove("is-on")});a.classList.add("is-on");f.scrollIntoView({behavior:"smooth",block:"center"});return false;};</script>')
+                    # 제목 줄바꿈(오너 수정 2026-09-30): title_lines 가 있으면 1줄=괄호 전체 · 2줄=강사 · 줄표 없음 · 1줄은 nowrap(1280 한 줄 · 960 아래는 자연 흐름)
+                    tl = s_.get("title_lines")
+                    title_html = (f'<span class="t1">{esc(tl[0])}</span><br><span class="t2">{esc(tl[1])}</span>' if tl else esc(s_["title"]))
                     blk = (f'<section class="section section--tint" data-block="{esc(s_["id"])}"><div class="wrap">'
-                           f'<div class="head reveal"><span class="eyebrow">{esc(s_["eyebrow"])}</span><h2 class="title">{esc(s_["title"])}</h2></div>'
+                           f'<div class="head reveal"><span class="eyebrow">{esc(s_["eyebrow"])}</span><h2 class="title title--lines">{title_html}</h2></div>'
                            f'{embed}<div class="rows reveal ep-list">{rows}</div>{js}</div></section>')
                 else:
                     rows = "".join(f'<div class="row"><span class="num">{i:02d}</span><div><h3><time datetime="{esc(e["date"])}">{esc(e["label"])}</time></h3></div></div>' for i, e in enumerate(eps, 1))
