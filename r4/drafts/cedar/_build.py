@@ -382,7 +382,8 @@ def build_sub(pg, n):
         card = _re.search(r'<div class="card">.*?</div>\s*(?=<script>)', raw, _re.S).group(0).strip()
         script = _re.search(r"<script>.*?</script>", raw, _re.S).group(0)
         assert 'id="pw"' in card and "SALT=" in script
-        body_html = f'<main>\n<section class="subhero"><div class="wrap reveal"><p class="label">No. {n:02d}</p><h1 class="title">교회 재정</h1></div>{WAVE}</section>\n<section class="body"><div class="section lock reveal">{card}</div></section>\n</main>\n{script}\n'
+        # 자체 훑기(2026-09-30): 「No. 07」 구조 라벨은 다른 페이지의 eyebrow(말)와 결이 다르고, 잠금 카드가 전폭 흰 카드 안에서 허전 → 라벨 없음 · 카드 폭 560 제한
+        body_html = f'<main>\n<section class="subhero"><div class="wrap reveal"><h1 class="title">교회 재정</h1></div>{WAVE}</section>\n<section class="body"><div class="section lock reveal" style="max-width:560px">{card}</div></section>\n</main>\n{script}\n'
     else:
         title, main, scripts = read_r4(pg)
         eyebrow, h1, lead = page_head(main)
