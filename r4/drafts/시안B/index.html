@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>[시안B] 큰샘교회</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* 시안B · 전면 몰입 — 그림이 화면을 채운다
+   근거: leeumhoam.org(고해상 이미지가 화면을 가득·글자 최소) + davidzwirner.com(이미지 폭 97%·좌우 20px·radius 0) */
+:root{
+  --paper:#F7F6F3; --ink:#15171A; --muted:#71757B; --line:#E4E2DD;
+  --serif:"Noto Serif KR",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --gut:clamp(20px,4vw,40px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;letter-spacing:-.01em}
+a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+
+.hd{position:absolute;top:0;left:0;right:0;z-index:2;
+    display:flex;align-items:baseline;justify-content:space-between;
+    padding:24px var(--gut) 0;gap:20px;flex-wrap:wrap;color:#fff;
+    text-shadow:0 1px 14px rgba(0,0,0,.45)}
+.logo{font-family:var(--serif);font-weight:500;font-size:17px;letter-spacing:.02em;text-decoration:none}
+.nav{display:flex;gap:clamp(12px,2vw,26px);font-size:13.5px;flex-wrap:wrap;opacity:.92}
+.nav a{text-decoration:none}
+
+/* 그림이 화면을 채운다 — 좌우 20px 여백만 */
+.stage{position:relative;margin:0 20px;height:min(88vh,860px);overflow:hidden;background:#0d0f11}
+.stage img{width:100%;height:100%;object-fit:cover;border-radius:0;
+           /* 블러 금지 — 고해상 원본이라 가릴 필요가 없다. 글자 대비는 아래 그라디언트로만 */
+           filter:saturate(.96)}
+.stage::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.34) 0%, rgba(0,0,0,.05) 32%, rgba(0,0,0,0) 55%)}
+
+/* 캡션은 그림 아래 흰 띠에 — zwirner 문법 */
+.cap{padding:clamp(30px,5vh,54px) var(--gut) clamp(26px,4vh,40px);
+     display:grid;grid-template-columns:1fr auto;gap:clamp(18px,3vw,48px);align-items:end}
+@media(max-width:760px){.cap{grid-template-columns:1fr;align-items:start}}
+.label{font-size:13.5px;letter-spacing:.06em;color:var(--muted)}
+.title{font-family:var(--serif);font-weight:400;
+       font-size:clamp(30px,5.4vw,62px);line-height:1.24;letter-spacing:-.025em;margin-top:10px;text-wrap:balance}
+.verse{font-family:var(--serif);font-weight:300;font-size:clamp(15px,1.6vw,18px);color:var(--muted);margin-top:12px}
+.actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;
+     border:1px solid var(--ink);border-radius:9999px;font-size:14px;text-decoration:none;
+     transition:background .18s ease,color .18s ease}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.more{font-size:13.5px;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+.plate{padding:0 var(--gut) clamp(34px,5vh,60px);font-size:12.5px;color:var(--muted)}
+
+/* 전시 벽 — 그림 둘을 나란히 */
+.wall{border-top:1px solid var(--line);padding:clamp(34px,6vh,72px) var(--gut);
+      display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,40px)}
+@media(max-width:760px){.wall{grid-template-columns:1fr}}
+.wall figure img{width:100%;border-radius:0;box-shadow:0 14px 32px -20px rgba(0,0,0,.35)}
+.wall figcaption{margin-top:12px;font-size:12.5px;color:var(--muted)}
+
+.info{border-top:1px solid var(--line);padding:clamp(28px,5vh,52px) var(--gut) clamp(38px,6vh,74px);
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(20px,3vw,44px)}
+.info h3{font-size:12.5px;letter-spacing:.08em;color:var(--muted);font-weight:500}
+.info dl{margin-top:12px;font-size:14.5px}
+.info dt{color:var(--muted);font-size:13px;margin-top:8px}
+.info p{margin-top:12px;font-size:14.5px;line-height:1.8}
+.ft{border-top:1px solid var(--line);margin:0 var(--gut);padding:22px 0 44px;
+    font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    .wall figure{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 40%}
+    @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <a class="logo" href="./">큰샘교회</a>
+  <nav class="nav">
+    <a href="#">교회소개</a><a href="#">예배안내</a><a href="#">새가족</a>
+    <a href="#">성경 아카데미</a><a href="#">온라인 주보</a><a href="#">칼럼</a>
+  </nav>
+</header>
+
+<section class="stage">
+  <img src="img/art10.jpg" width="2400" height="1422" alt="쥘 뒤프레, 여울을 건너는 소들, 1836">
+</section>
+
+<div class="cap">
+  <div>
+    <p class="label">이번 주일 · 9월 27일</p>
+    <h1 class="title">광야에서도 신실하신 하나님</h1>
+    <p class="verse">민수기 14장 8-9절</p>
+  </div>
+  <div class="actions">
+    <a class="btn" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener">설교 영상 보기</a>
+    <a class="more" href="#">지난 설교</a>
+  </div>
+</div>
+<p class="plate">쥘 뒤프레, 『여울을 건너는 소들』, 1836 · 메트로폴리탄미술관 소장 · Public Domain</p>
+
+<section class="wall">
+  <figure>
+    <img src="img/art27.jpg" width="2400" height="2178" alt="와타나베 시코, 산수, 18세기 전반">
+    <figcaption>와타나베 시코, 『산수』, 18세기 전반 · 메트로폴리탄미술관</figcaption>
+  </figure>
+  <figure>
+    <img src="img/art22.jpg" width="2400" height="1769" alt="피터르 브뤼헐, 추수하는 사람들, 1565">
+    <figcaption>피터르 브뤼헐, 『추수하는 사람들』, 1565 · 메트로폴리탄미술관</figcaption>
+  </figure>
+</section>
+
+<section class="info">
+  <div>
+    <h3>예배</h3>
+    <dl>
+      <dt>주일예배</dt><dd>오전 11시</dd>
+      <dt>성경공부</dt><dd>주일 오후 1시</dd>
+      <dt>아침예배</dt><dd>오전 7시</dd>
+    </dl>
+  </div>
+  <div>
+    <h3>오시는 길</h3>
+    <p>경기도 광명시 기아로 23, 4층<br>소하동</p>
+  </div>
+  <div>
+    <h3>처음 오신 분</h3>
+    <p>편한 차림으로 오셔도 됩니다.<br>먼저 인사드리고 자리를 안내합니다.</p>
+  </div>
+</section>
+
+<footer class="ft">
+  <span>큰샘교회</span>
+  <span>[시안B · 전면 몰입] 내부 검토용</span>
+</footer>
+
+</body>
+</html>
