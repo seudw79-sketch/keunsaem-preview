@@ -37,6 +37,8 @@ except Exception: pass
 # 시더 전용 대장(오너 지시 데이터 · cedar/_src/*.json)을 출처에 추가 — R4 가 cedar 일 때만 의미 있음(파일 있으면 항상 포함해도 무해)
 _cedar_src = Path(__file__).resolve().parent.parent / "cedar" / "_src"
 if (_cedar_src / "academy.json").exists(): PAGES["아카데미"] = PAGES["아카데미"] + [_cedar_src / "academy.json"]
+# 시더 온라인예배는 홈 「최근 설교」 블록을 이식(오너 지시 2026-09-30) → 그 블록의 출처(주보 2건)를 같이 본다
+PAGES["온라인예배"] = PAGES["온라인예배"] + [LIVE/"jubo_260920.html", LIVE/"jubo_260913.html"]
 # 구조 라벨·기호(문안 아님) 허용목록 — 여기 있는 것만 출처 없이 허용
 # 04=교회소개 네 가지 4열 번호(구조 라벨 · 01~03 과 동급) — ★주석은 반드시 별도 줄에(세트 리터럴 줄 끝 주석이 뒤 항목을 삼킨 사고 2026-09-30)
 ALLOW = {"↗","→","←","↓","·","—","/","01","02","03","04","365","오늘의 통독 강의 ↗","처음 오시는 분께",
@@ -128,7 +130,9 @@ APPROVED_DROP={"index":{"hero","times","latest-sermon","pillars","intro","galler
 APPROVED_NODE_DROP={}
 # 시더(cedar) 판 전용 승인 제외 — 사유: 사람 사진 0(오너 방향) · gallery 는 사진 0 이면 존재 이유 없음(master 판정 2026-09-30). 검사 호출부가 R4.name=="cedar" 일 때 이 값을 쓴다
 CEDAR_APPROVED_DROP={"index":{"hero","times","latest-sermon","gallery","location","footer"},"교회소개":{"gallery"}}
-CEDAR_APPROVED_NODE_DROP={}   # about.jpg 는 홈·교회소개 모두 오너 지시로 복귀(흑백) → 제외 선언 전부 해제(2026-09-30)
+CEDAR_APPROVED_NODE_DROP={"온라인예배":{"03","아동부 · 하나님 나라","어린이 예배","04","아동부 · 성경탐험","어린이 성경"}}   # 아동부 2칸 제거(오너 지시 2026-09-30 20:2x · 비공개 전환) — 지운 것은 이 칸뿐
+# 시더에서 한 블록을 둘로 나눈 경우(온라인예배 videos → videos + videos-2 사이에 최근 설교 삽입): 누락 검사는 합쳐서 본다
+CEDAR_BLOCK_MERGE={"온라인예배":{"videos":["videos","videos-2"]}}
 # 선언된 문장 결합(오너 수정 3 · <br> 제거로 두 노드가 한 노드가 됨 · 문구 불변): (페이지, (원문 연속 노드…), 생성 노드)
 CEDAR_TEXT_JOIN={"새가족":[(("처음 오신","분 안내"),"처음 오신 분 안내")],"index":[(("처음 오신","분 안내"),"처음 오신 분 안내")]}
 DROP_ALL={"page-head","footer"}   # page-head 는 첫 판면(spread)으로 옮겨져야 하므로 그 글자는 따로 검사
@@ -162,6 +166,9 @@ def completeness(page):
     _ad = CEDAR_APPROVED_DROP if R4.name=="cedar" else APPROVED_DROP
     drop=DROP_ALL|_ad.get(page,set())
     expected=[b for b in sb if b not in drop]
+    if R4.name=="cedar":
+        for src_b, parts in CEDAR_BLOCK_MERGE.get(page,{}).items():
+            if all(p_ in gb for p_ in parts): gb[src_b]="".join(gb[p_] for p_ in parts)
     missing_blocks=[b for b in expected if b not in gb]
     # 블록 단위 · 문장 순서·개수까지 같아야 한다(페이지 전체 set 비교는 중복 문장·순서·개수를 무시해 통째로 빠진 문단을 놓칠 수 있다 — codex r2 수용).
     # 이식은 원문 그대로이므로 '같은 블록의 문장 열이 완전히 같다'가 기준. 다르면 첫 어긋난 자리(위치·원문·생성)를 찍는다.

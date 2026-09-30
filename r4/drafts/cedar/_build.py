@@ -461,6 +461,20 @@ def build_sub(pg, n):
                            f'<p class="note" style="margin-top:16px">{esc(acad["_meta"]["placeholder_note"])}</p>'
                            f'</div></section>')
                 secs.insert(0, blk)
+        if pg == "온라인예배":
+            # 오너 지시(2026-09-30 20:2x): 아동부 2칸 제거(비공개 전환 예정) → 그 자리에 「최근 설교」(홈 sermons 블록 그대로 · latest.json 자료원 공유). 구성 ①주일예배 다시보기 ②최근 설교 ③설교 쇼츠.
+            # 문구는 대장에 있는 것만(「최근 주일설교」는 대장에 없어 r4 제목 「최근 설교」 사용). 지우는 것은 아동부 칸(03·04)뿐 · 나머지 문안 불변. 검사기: CEDAR_BLOCK_MERGE(videos+videos-2) · 아동부 노드 제외 선언
+            vid = next(s for s in secs if 'data-block="videos"' in s)
+            arts = re.findall(r"<article>.*?</article>", vid, re.S)
+            assert len(arts) == 4 and "아동부" in arts[2] and "아동부" in arts[3]
+            head_, tail_ = vid.split(arts[0], 1)[0], vid.split(arts[3], 1)[1]          # tail_ = </div> + note + </div></section>
+            grid_open = head_; grid_close_note = tail_
+            sec_a = grid_open + arts[0] + "</div></div></section>"                        # 01 다시보기(그리드 닫기)
+            sec_c = ('<section class="section section--tint" data-block="videos-2"><div class="wrap"><div class="video-grid reveal">' + arts[1] + grid_close_note)  # 02 쇼츠 + 채널 주석
+            _, hmain, _ = read_r4("index")
+            serm = re.search(r"(?:<!--[^\n]*?-->\s*)*<section\b[^>]*data-block=\"sermons\"[^>]*>.*?</section>", hmain, re.S).group(0)
+            secs = [sec_a if s is vid else s for s in secs]
+            i = secs.index(sec_a); secs[i+1:i+1] = [serm, sec_c]
         body = repath("\n".join(secs))
         if pg == "새가족":   # 오너 수정 3(2026-09-30): 제목 <br> 제거 → 「처음 오신 분 안내」 한 줄 · 아래 문장은 한 줄(폭 확보) — 문구 불변 · _verify CEDAR_TEXT_JOIN 선언
             body = body.replace('<h2 class="title">처음 오신<br>분 안내</h2>', '<h2 class="title">처음 오신 분 안내</h2>', 1)
@@ -471,7 +485,8 @@ def build_sub(pg, n):
                      + "".join(repath(s) + "\n" for s in scripts))
     html_out = _head_html.replace(f"<title>{esc(SITE['church'])}</title>", f"<title>{esc(title)}</title>", 1)
     if pg != "재정": html_out = html_out.replace("</head>", page_css(pg) + "\n</head>", 1)
-    html_out += "<body>" + _banner_header + body_html + _dark_footer + "<script>\n" + _a3 + "\n</script>\n</body>\n</html>\n"
+    latest_sub = ("var LATEST_URL=" + json.dumps(SITE["latest_url"]) + ";if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){var st=document.getElementById('sermon-title'),sd=document.getElementById('sermon-date'),sl=document.getElementById('sermon-link');if(d.설교_제목&&st)st.textContent=d.설교_제목;if(d.설교_날짜&&sd){sd.textContent=d.설교_날짜;sd.dateTime=d.설교_날짜.slice(0,10);}if(d.설교_링크&&sl)sl.href=d.설교_링크;}).catch(function(){});\n") if pg == "온라인예배" else ""
+    html_out += "<body>" + _banner_header + body_html + _dark_footer + "<script>\n" + latest_sub + _a3 + "\n</script>\n</body>\n</html>\n"
     return html_out
 
 if "--sub" in __import__("sys").argv:
