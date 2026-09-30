@@ -50,7 +50,7 @@
     }
    ],
    "file": "art22",
-   "note": "오너 첫 화면 확정(2026-09-30) · 민 14:8 젖과 꿀 · 원경 언덕에 마을 교회 첨탑 작게 있음(gemini 실측 · master: 두드러지지 않아 그대로)"
+   "note": "표기: 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30) 「브뤼헐, 피터르(Brueghel, Pieter)」 · 오너 첫 화면 확정(2026-09-30) · 민 14:8 젖과 꿀 · 원경 언덕에 마을 교회 첨탑 작게 있음(gemini 실측 · master: 두드러지지 않아 그대로)"
   },
   {
    "no": "27",
@@ -58,7 +58,7 @@
    "met_id": 72416,
    "artist_en": "Watanabe Shikō 渡辺始興",
    "artist_prefix": "",
-   "artist_ko": "와타나베 시코",
+   "artist_ko": "와타나베 시코(渡辺始興)",
    "title_en": "Landscape",
    "title_ko": "산수",
    "title_suffix": "",
@@ -89,7 +89,7 @@
     }
    ],
    "file": "art27",
-   "note": "두 폭 병풍 · 여백"
+   "note": "표기: 성 와타나베는 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30) 다수(渡邊/渡部) · 이름 始興(しこう)은 일본어 표기법 규칙 적용(용례 없음) → 원어 병기 · 두 폭 병풍 · 여백"
   },
   {
    "no": "10",
@@ -131,7 +131,7 @@
     }
    ],
    "file": "art10",
-   "note": "master 판정 ②: 「소들」→「소 떼」 통일"
+   "note": "표기: 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30) 「뒤프레, 쥘(Dupré, Jules)」 · master 판정 ②: 「소들」→「소 떼」 통일"
   },
   {
    "no": "19",
@@ -170,7 +170,7 @@
     }
    ],
    "file": "art19",
-   "note": ""
+   "note": "표기: 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30) 「라위스달, 야코프 판(Ruysdael, Jacob van)」"
   },
   {
    "no": "21",
@@ -178,7 +178,7 @@
    "met_id": 343144,
    "artist_en": "Jacob Maris",
    "artist_prefix": "",
-   "artist_ko": "야코프 마리스",
+   "artist_ko": "야코프 마리스(Jacob Maris)",
    "title_en": "Dutch Canal, Rijswijk",
    "title_ko": "레이스베이크의 네덜란드 운하",
    "title_suffix": "",
@@ -209,7 +209,7 @@
     }
    ],
    "file": "art21",
-   "note": "31 대체(master ④ 2026-09-30) — 수채 · 운하·다리·초가·인물, 교회·절 없음(worker 화면 실측)"
+   "note": "표기: 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30) 용례 없음 → 네덜란드어 규칙(야코프=용례 라위스달 건과 동일) · 원어 병기 · 31 대체(master ④ 2026-09-30) — 수채 · 운하·다리·초가·인물, 교회·절 없음(worker 화면 실측)"
   },
   {
    "no": "15",
@@ -243,7 +243,7 @@
     }
    ],
    "file": "art15",
-   "note": "언덕 위 작은 교회탑 有(브뤼헐과 같은 수준 · worker 화면 실측)"
+   "note": "표기: 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30) 「피사로, 카미유(Pissarro, Camille)」 · 언덕 위 작은 교회탑 有(브뤼헐과 같은 수준 · worker 화면 실측)"
   },
   {
    "no": "30",
@@ -251,7 +251,7 @@
    "met_id": 54710,
    "artist_en": "Kawabata Gyokushō",
    "artist_prefix": "",
-   "artist_ko": "가와바타 교쿠쇼",
+   "artist_ko": "가와바타 교쿠쇼(川端玉章)",
    "title_en": "Landscape",
    "title_ko": "산수",
    "title_suffix": "",
@@ -277,7 +277,7 @@
     }
    ],
    "file": "art30",
-   "note": "세로 그림 — 첫 판면은 4:3 부분 크롭 → 캡션 (부분)"
+   "note": "표기: 성 가와바타는 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30)(川端康成 등) · 이름 玉章(ぎょくしょう)은 규칙 적용 → 원어 병기 · 세로 그림 — 첫 판면은 4:3 부분 크롭 → 캡션 (부분)"
   },
   {
    "no": "37",
@@ -285,7 +285,7 @@
    "met_id": 436293,
    "artist_en": "Henri Fantin-Latour",
    "artist_prefix": "",
-   "artist_ko": "앙리 팡탱라투르",
+   "artist_ko": "앙리 판탱라투르",
    "title_en": "Still Life with Flowers and Fruit",
    "title_ko": "꽃과 과일이 있는 정물",
    "title_suffix": "",
@@ -311,7 +311,7 @@
     }
    ],
    "file": "art37",
-   "note": "세로 그림 — 부분 크롭"
+   "note": "표기: 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30) 「판탱라투르, 이냐스 앙리 장 테오도르(Fantin-Latour)」 — 앞서 쓴 팡탱라투르는 오기 · 세로 그림 — 부분 크롭"
   },
   {
    "no": "20",
@@ -319,7 +319,7 @@
    "met_id": 439344,
    "artist_en": "Johan Christian Dahl",
    "artist_prefix": "",
-   "artist_ko": "요한 크리스티안 달",
+   "artist_ko": "요한 크리스티안 달(Johan Christian Dahl)",
    "title_en": "Two Men before a Waterfall at Sunset",
    "title_ko": "해 질 녘 폭포 앞의 두 사람",
    "title_suffix": "",
@@ -340,7 +340,7 @@
    },
    "pages": [],
    "file": "art20",
-   "note": "세로 그림 · 미배치"
+   "note": "표기: 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30) 용례 없음(노르웨이어) → 원어 병기 · 세로 그림 · 미배치"
   },
   {
    "no": "33",
@@ -348,7 +348,7 @@
    "met_id": 439844,
    "artist_en": "Joseph Anton Koch",
    "artist_prefix": "",
-   "artist_ko": "요제프 안톤 코흐",
+   "artist_ko": "요제프 안톤 코흐(Joseph Anton Koch)",
    "title_en": "Heroic Landscape with Rainbow",
    "title_ko": "무지개가 있는 영웅적 풍경",
    "title_suffix": "",
@@ -369,7 +369,7 @@
    },
    "pages": [],
    "file": "art33",
-   "note": "세로 그림 · 미배치 · 시트 분류 '동양-한국'은 오기(독일 화가)"
+   "note": "표기: 성 코흐는 국립국어원 외래어 표기 용례(korean.go.kr/kornorms/example 원어 표기 검색 2026-09-30)(Koch, Robert 독일) · 이름 용례 없음 → 원어 병기 · 세로 그림 · 미배치 · 시트 분류 '동양-한국'은 오기(독일 화가)"
   },
   {
    "no": "31",
@@ -408,7 +408,7 @@
    "met_id": 36131,
    "artist_en": "Gong Xian",
    "artist_prefix": "",
-   "artist_ko": "공현",
+   "artist_ko": "공현(龔賢)",
    "title_en": "Landscapes with poems",
    "title_ko": "시가 있는 산수",
    "title_suffix": "",
@@ -429,7 +429,7 @@
    },
    "pages": [],
    "file": "art24",
-   "note": "원본 1000px — 전폭 불가 · 미배치"
+   "note": "표기: 신해혁명 이전 중국 인명 → 한자음(외래어 표기법 제4장) · 원어 병기 · 원본 1000px — 전폭 불가 · 미배치"
   }
  ]
 }

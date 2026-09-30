@@ -1,164 +1,92 @@
 {
  "index": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 5777,
-   "maxRight": 390,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38072): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 3310,
-   "maxRight": 1280,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38078): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  },
  "교회소개": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 4260,
-   "maxRight": 390,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38082): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 3639,
-   "maxRight": 1280,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38086): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  },
  "예배안내": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 3092,
-   "maxRight": 390,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38091): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 3305,
-   "maxRight": 1280,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38096): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  },
  "새가족": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 1451,
-   "maxRight": 390,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38100): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 1302,
-   "maxRight": 1280,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38104): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  },
  "아카데미": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 2296,
-   "maxRight": 390,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38108): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 2229,
-   "maxRight": 1280,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38112): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  },
  "온라인예배": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 2104,
-   "maxRight": 390,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38116): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 2131,
-   "maxRight": 1280,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38131): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  },
  "재정": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 900,
-   "maxRight": 365,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38136): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 813,
-   "maxRight": 810,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38141): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  },
  "주보": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 2392,
-   "maxRight": 390,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38146): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 1814,
-   "maxRight": 1280,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38151): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  },
  "칼럼": {
   "390": {
-   "scrollWidth": 390,
-   "clientWidth": 390,
-   "scrollHeight": 2136,
-   "maxRight": 390,
-   "overflow": false,
-   "method": "iframe-wrapper"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38155): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   },
   "1280": {
-   "scrollWidth": 1280,
-   "clientWidth": 1280,
-   "scrollHeight": 1763,
-   "maxRight": 1280,
-   "overflow": false,
-   "method": "window"
+   "error": "probe not found",
+   "stderr": "error: ledger.register failed — scoped group killed (pid=38160): acl_denied: capability denied: reviewer-gemini lacks 'write-shell' for ledger.register (deny-by-default)\n"
   }
  }
 }
