@@ -81,6 +81,8 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 .light .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
 .light h2{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1.25;text-transform:lowercase}
 .light .verse{font-size:18px;line-height:1.7;margin-top:8px}
+.light .wrap.light--verse{display:block;text-align:center}
+.light--verse .verse{font-family:var(--serif);font-weight:700;font-size:clamp(26px,3.2vw,40px);line-height:1.4;margin:0 auto;max-width:24ch}  /* 성구 = 구역의 주인공(master 보강1) */
 .light .muted{font-size:14px;margin-top:12px;color:#000}
 /* 진회색 구역 — 다음 구역으로 내림(master 6) */
 .dark{background:var(--dark);color:#fff;padding:6rem 0}
@@ -202,72 +204,6 @@ A3JS = r'''// A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
 document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});io.observe(document.getElementById('top-sentinel'));})();'''
 
-page = f'''<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>{esc(SITE["church"])}</title>
-<!-- T-HOME-CEDAR · 생성: r4/drafts/cedar/_build.py — 손으로 고치지 말 것. 규격=master 실측(cedarcrestchurch.com computed style 2026-09-30) · 내용=site.json·latest.json -->
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Noto+Serif+KR:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-__CSS__
-</head>
-<body>
-<div class="sentinel" id="top-sentinel"></div>
-<div class="banner"><span>{times}</span></div>
-<header class="hd">
-  <a class="logo" href="index.html">{esc(SITE["church"])}</a>
-  <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="drawer">
-  <nav id="site-nav" class="nav" aria-label="주 메뉴">{nav}</nav>
-  <a class="pill" href="../c/새가족.html">새가족 안내</a>
-  <label for="tg" class="burger" aria-hidden="true"><span></span></label>
-  <nav id="drawer" class="drawer" aria-label="전체 메뉴">{nav}</nav>
-</header>
-<main>
-<section class="hero"><div class="wrap reveal">
-  <a class="media" id="sm-thumb" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/{esc(vid)}/hqdefault.jpg" alt="" loading="eager"></a>
-  <div>
-    <p class="label" id="sm-label">{esc(label)}</p>
-    <h1 class="title" id="sm-title">{esc(LATEST["설교_제목"])}</h1>
-    <a class="btn" id="sm-link" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener">설교 영상 보기</a><a class="more" href="../c/온라인예배.html">지난 설교</a>
-  </div>
-</div>
-{WAVE}</section>
-<section class="light"><div class="wrap reveal">
-  <div><h2 id="sm-title2">{esc(LATEST["설교_제목"])}</h2><p class="verse" id="sm-verse">{esc(verse.strip())}</p></div>
-  <div><p class="muted" id="sm-label2">{esc(label)}</p></div>
-</div></section>
-<section class="dark"><div class="wrap reveal">
-  <div><h2>오시는 길</h2><p class="muted">{esc(SITE["church_full"])}</p></div>
-  <div><p>{esc(SITE["address"])}<br><a href="tel:{esc(SITE["phone"])}">{esc(SITE["phone"])}</a></p>
-    <a class="btn" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 ↗</a></div>
-</div></section>
-</main>
-<footer class="ft"><span>{esc(SITE["copyright"])}</span> · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span></footer>
-<script>
-__A3JS__
-var LATEST_URL={json.dumps(SITE["latest_url"])};
-if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(d){{
-  if(d.설교_제목&&d.설교_날짜&&/^https:\\/\\/www.youtube.com\\/watch\\?v=/.test(d.설교_링크)){{
-    var p=d.설교_날짜.split('·'),ymd=p[0].trim().split('-');
-    document.getElementById('sm-title').textContent=d.설교_제목;
-    document.getElementById('sm-label').textContent='이번 주일 · '+parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';
-    document.getElementById('sm-verse').textContent=(p[1]||'').trim();document.getElementById('sm-title2').textContent=d.설교_제목;document.getElementById('sm-label2').textContent=document.getElementById('sm-label').textContent;
-    ['sm-link','sm-thumb'].forEach(function(id){{document.getElementById(id).href=d.설교_링크}});
-    var v=d.설교_링크.split('v=')[1].split('&')[0];document.getElementById('sm-thumb-img').src='https://i.ytimg.com/vi/'+v+'/hqdefault.jpg';
-  }}
-}}).catch(function(){{}});
-</script>
-</body>
-</html>
-'''
-page = page.replace('__CSS__', CSS).replace('__A3JS__', A3JS)
-(D / "index.html").write_text(page, encoding="utf-8")
-print("cedar/index.html", len(page), "B")
-
-
 # ── 하위 8페이지 — 본문은 r4 <main> 섹션을 그대로 이식(창작 0·누락 0 · c/_build.py 와 같은 방식) · 머리·첫 화면·꼬리만 시더 틀 · 홈 토큰 공유(master 2026-09-30) ──
 import re as _re
 R4 = PREVIEW / "r4"
@@ -315,11 +251,98 @@ def page_head(main):
     lead = _re.search(r'<p class="lead"[^>]*>(.*?)</p>', m, _re.S)
     return eyebrow, h1, (lead.group(1).strip() if lead else "")
 
+# 홈 안내 구역 — r4/index.html 의 섹션을 그대로 이식(master 보강2 · 창작 0). 순서 고정.
+# 뺀 것: hero·times(첫 화면이 대신) · latest-sermon(첫 화면과 중복) · gallery(성도 사진 — 앞선 판정) · location(진회색 오시는 길 구역이 대신) · footer
+# pillars(세 기둥)는 r4 그대로(제목 3 · 빈 줄은 r4 규칙대로 숨김 · 오너 글이 오면 r4 에서 채움)
+HOME_KEEP = ["pillars", "intro", "worship", "today", "sermons", "visitors"]
+def home_guide():
+    _, main, scripts = read_r4("index")
+    blocks = {}
+    for m in _re.finditer(r"(?:<!--[^\n]*?-->\s*)*<section\b[^>]*data-block=\"([^\"]+)\"[^>]*>.*?</section>", main, _re.S):
+        blocks[m.group(1)] = m.group(0)
+    body = "\n".join(repath(blocks[k]) for k in HOME_KEEP)
+    body = _re.sub(r'<section\b([^>]*?)class="', r'<section\1class="reveal ', body)   # id 가 class 앞에 오는 태그도 처리(첫 판에서 class 중복 생성 실측)
+    iife = next(s for s in scripts if "오늘회차" in s)
+    iife = _re.search(r"\(function\(\)\{.*?\}\)\(\);", iife, _re.S).group(0)
+    return '<section class="body">\n' + body + '\n</section>\n', repath(iife)
+
+page = f'''<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{esc(SITE["church"])}</title>
+<!-- T-HOME-CEDAR · 생성: r4/drafts/cedar/_build.py — 손으로 고치지 말 것. 규격=master 실측(cedarcrestchurch.com computed style 2026-09-30) · 내용=site.json·latest.json -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Noto+Serif+KR:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+__CSS__
+</head>
+<body>
+<div class="sentinel" id="top-sentinel"></div>
+<div class="banner"><span>{times}</span></div>
+<header class="hd">
+  <a class="logo" href="index.html">{esc(SITE["church"])}</a>
+  <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="drawer">
+  <nav id="site-nav" class="nav" aria-label="주 메뉴">{nav}</nav>
+  <a class="pill" href="../c/새가족.html">새가족 안내</a>
+  <label for="tg" class="burger" aria-hidden="true"><span></span></label>
+  <nav id="drawer" class="drawer" aria-label="전체 메뉴">{nav}</nav>
+</header>
+<main>
+<section class="hero"><div class="wrap reveal">
+  <a class="media" id="sm-thumb" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/{esc(vid)}/hqdefault.jpg" alt="" loading="eager"></a>
+  <div>
+    <p class="label" id="sm-label">{esc(label)}</p>
+    <h1 class="title" id="sm-title">{esc(LATEST["설교_제목"])}</h1>
+    <a class="btn" id="sm-link" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener">설교 영상 보기</a><a class="more" href="../c/온라인예배.html">지난 설교</a>
+  </div>
+</div>
+{WAVE}</section>
+<section class="light"><div class="wrap reveal light--verse">
+  <p class="verse" id="sm-verse">{esc(verse.strip())}</p>
+</div></section>
+__HOME_GUIDE__
+<section class="dark"><div class="wrap reveal">
+  <div><h2>오시는 길</h2><p class="muted">{esc(SITE["church_full"])}</p></div>
+  <div><p>{esc(SITE["address"])}<br><a href="tel:{esc(SITE["phone"])}">{esc(SITE["phone"])}</a></p>
+    <a class="btn" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 ↗</a></div>
+</div></section>
+</main>
+<footer class="ft"><span>{esc(SITE["copyright"])}</span> · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span></footer>
+<script>
+__A3JS__
+var LATEST_URL={json.dumps(SITE["latest_url"])};
+if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(d){{
+  if(d.설교_제목&&d.설교_날짜&&/^https:\\/\\/www.youtube.com\\/watch\\?v=/.test(d.설교_링크)){{
+    var p=d.설교_날짜.split('·'),ymd=p[0].trim().split('-');
+    document.getElementById('sm-title').textContent=d.설교_제목;
+    document.getElementById('sm-label').textContent='이번 주일 · '+parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';
+    document.getElementById('sm-verse').textContent=(p[1]||'').trim();
+    ['sm-link','sm-thumb'].forEach(function(id){{document.getElementById(id).href=d.설교_링크}});
+    var st=document.getElementById('sermon-title'),sd=document.getElementById('sermon-date'),sl=document.getElementById('sermon-link');if(st)st.textContent=d.설교_제목;if(sd){{sd.textContent=d.설교_날짜;sd.dateTime=d.설교_날짜.slice(0,10);}}if(sl)sl.href=d.설교_링크;
+    var v=d.설교_링크.split('v=')[1].split('&')[0];document.getElementById('sm-thumb-img').src='https://i.ytimg.com/vi/'+v+'/hqdefault.jpg';
+  }}
+  var jt=document.getElementById('jb-title'),jl=document.getElementById('jb-link');if(d.주보_제목&&jt)jt.textContent=d.주보_제목;if(d.주보_링크&&jl)jl.href='../../../'+d.주보_링크;
+}}).catch(function(){{}});
+__TONGDOK__
+</script>
+</body>
+</html>
+'''
+_guide, _iife = home_guide()
+page = page.replace('__CSS__', CSS).replace('__A3JS__', A3JS).replace('__HOME_GUIDE__', _guide).replace('__TONGDOK__', _iife)
+(D / "index.html").write_text(page, encoding="utf-8")
+print("cedar/index.html", len(page), "B")
+
+
 # 홈 page 문자열에서 공통 조각을 잘라 쓴다(같은 문자열 → 9페이지 한 몸)
 _head_html = page[:page.index("<body>")]                                   # <!DOCTYPE …</head>
 _banner_header = page[page.index("<body>")+len("<body>"):page.index("<main>")]  # 센티널·배너·헤더 카드
 _dark_footer = page[page.index('<section class="dark">'):page.index("<script>")]  # 진회색 오시는 길 + 꼬리
 _a3 = A3JS
+
+
 
 SUBPAGES = ["교회소개", "예배안내", "새가족", "아카데미", "온라인예배", "재정", "주보", "칼럼"]
 
@@ -335,7 +358,7 @@ def build_sub(pg, n):
         title, main, scripts = read_r4(pg)
         eyebrow, h1, lead = page_head(main)
         body = repath("\n".join(sections(main, drop=("page-head",))))
-        body = body.replace('<section class="', '<section class="reveal ')
+        body = _re.sub(r'<section\b([^>]*?)class="', r'<section\1class="reveal ', body)
         body_html = (f'<main>\n<section class="subhero"><div class="wrap reveal"><p class="label">{eyebrow}</p><h1 class="title">{h1}</h1>'
                      + (f'<p class="lead">{lead}</p>' if lead else "") + f'</div>{WAVE}</section>\n<section class="body">\n{body}\n</section>\n</main>\n'
                      + "".join(repath(s) + "\n" for s in scripts))
