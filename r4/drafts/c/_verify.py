@@ -218,7 +218,9 @@ def links(page):
               "알약":len(re.findall(r'<a class="pill"',raw)),"햄버거":len(re.findall(r'class="burger"',raw))}
         exp={"배너":1,"예배항목":3,"헤더카드":1,"로고":1,"메뉴":7,"드로어":8,"알약":1,"햄버거":1}
         if head!=exp: out["broken"].append("머리 결손: "+json.dumps({k:(head[k],exp[k]) for k in exp if head[k]!=exp[k]},ensure_ascii=False))
-    for m in re.finditer(r'(?:href|src)="([^"]+)"',raw):
+    # href/src 실존 검사는 <script> 밖만 — JS 템플릿 문자열('+esc(x.파일)+' 등)은 링크가 아니다(배포 dry-run 에서 오탐 실측 2026-09-30). 위 규칙(저장소 밖 경로·썸네일)은 raw 전체를 본다
+    raw_noscript=re.sub(r"<script.*?</script>","",raw,flags=re.S)
+    for m in re.finditer(r'(?:href|src)="([^"]+)"',raw_noscript):
         u=m.group(1)
         if u.startswith(("http://","https://","tel:","mailto:","data:")): out["external"].append(u); continue
         if u.startswith("#"):
