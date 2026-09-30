@@ -11,8 +11,9 @@
   --sans:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --gut:clamp(20px,5vw,56px);
   --sec-y:clamp(30px,5vh,64px);
-  /* 도록 모노톤 — 출처가 달라도 한 권으로 묶인다. 오너가 "컬러로" 하면 이 한 줄만 none 으로 */
-  --plate-filter:grayscale(1) sepia(.13) contrast(1.02);
+  /* 도판 필터 — 컬러 확정(master 2026-09-30 · 두 판 눈으로 비교): 도판이 전부 메트 소장 19세기 이전 회화라 '출처가 달라 모노톤으로 묶는다'는 근거가 사라졌고,
+     오너가 브뤼헐을 고른 것은 컬러 원본이다. 모노톤으로 되돌리려면 이 한 줄만 grayscale(1) sepia(.13) contrast(1.02) 로 */
+  --plate-filter:none;
   /* 재정.html(잠금 카드 · 시안E 원본 · 암호 로직 불변)이 읽는 별칭 — r4/assets/tokens.css 이름 그대로 */
   --bg:var(--paper); --surface:var(--paper); --line:var(--rule); --radius-sm:0; --radius-pill:9999px;
   --font-serif:var(--serif); --font-sans:var(--sans); --button:var(--ink); --on-button:var(--paper); --accent:var(--ink);

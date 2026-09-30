@@ -3,7 +3,7 @@
   "source": "메트로폴리탄 미술관 Open Access (Met Collection API)",
   "license": "Public Domain — CC0",
   "verified": "2026-09-30",
-  "filter": "grayscale(1) sepia(.13) contrast(1.02)",
+  "filter": "none (컬러 확정 2026-09-30 · 모노톤값 grayscale(1) sepia(.13) contrast(1.02) 는 c.css 주석에 보관)",
   "prefix_ko": {
    "": "",
    "Attributed to": "전(傳) {n}",
