@@ -230,6 +230,15 @@ p{max-width:60ch}
 .body .steps-oneline .title{white-space:nowrap;max-width:none}
 .body .steps-oneline .lead{margin-top:24px;white-space:nowrap;max-width:none}
 @media(max-width:960px){.body .steps-oneline .title,.body .steps-oneline .lead{white-space:normal}}
+/* 아카데미 YRG 회차 목록 */
+.body .ep-list{margin-top:24px}
+.body .ep{text-decoration:none;color:inherit;align-items:center}
+.body .ep:hover h3,.body .ep.is-on h3{color:var(--teal-text)}
+.body .ep-body{display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:center}
+.body .ep-thumb{width:160px;height:120px;object-fit:cover;border-radius:8px;background:#000}
+.body .ep h3{font-size:16px;line-height:1.5;margin:0}
+.body .ep p{margin:4px 0 0;font-size:13px;color:var(--dark)}
+@media(max-width:640px){.body .ep-body{grid-template-columns:1fr}.body .ep-thumb{width:100%;height:auto;aspect-ratio:4/3}}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
@@ -420,12 +429,29 @@ def build_sub(pg, n):
         if pg == "아카데미":   # 오너 지시(2026-09-30): YRG 시리즈를 맨 위에 · 기존 시리즈는 아래로 · 구조(아카데미>시리즈>회차) 그대로 · 영상은 자리표시 · 회차는 날짜만(제목·주소 미정 — 지어내지 않음). 데이터 = _src/academy.json(대장)
             acad = json.load(open(SRC_CEDAR / "academy.json", encoding="utf-8"))
             for s_ in acad["series_prepend"]:
-                rows = "".join(f'<div class="row"><span class="num">{i:02d}</span><div><h3><time datetime="{esc(e["date"])}">{esc(e["label"])}</time></h3></div></div>' for i, e in enumerate(s_["episodes"], 1))
-                blk = (f'<section class="section section--tint" data-block="{esc(s_["id"])}"><div class="wrap">'
-                       f'<div class="head reveal"><span class="eyebrow">{esc(s_["eyebrow"])}</span><h2 class="title">{esc(s_["title"])}</h2></div>'
-                       f'<div class="rows reveal">{rows}</div>'
-                       f'<p class="note" style="margin-top:16px">{esc(acad["_meta"]["placeholder_note"])}</p>'
-                       f'</div></section>')
+                eps = s_["episodes"]; has_video = any(e.get("video_id") for e in eps)
+                if has_video:
+                    # 표시 방식(2026-09-30 · 낱개 영상 5개): 큰 임베드 1개(기본 01) + 회차 목록(작은 썸네일 sd→hq 사슬 · 제목 유튜브 원문 · 날짜). 회차를 누르면 임베드가 그 영상으로 바뀜(인라인 JS 몇 줄 · JS 없으면 href 로 유튜브 새 창). 임베드 5개는 페이지가 무거워 택하지 않음
+                    first = eps[0]
+                    rows = "".join(
+                        f'<a class="row ep" href="https://www.youtube.com/watch?v={esc(e["video_id"])}" target="_blank" rel="noopener" data-vid="{esc(e["video_id"])}" onclick="return __ep(this)">'
+                        f'<span class="num">{i:02d}</span><div class="ep-body"><img class="ep-thumb" src="https://i.ytimg.com/vi/{esc(e["video_id"])}/sddefault.jpg" data-vid="{esc(e["video_id"])}" data-i="0" data-steps="sddefault,hqdefault" onerror="__yt(this)" onload="__yt(this)" alt="" loading="lazy" width="160" height="120">'
+                        f'<div><h3>{esc(e["title"])}</h3><p><time datetime="{esc(e["date"])}">{esc(e["label"])}</time></p></div></div></a>'
+                        for i, e in enumerate(eps, 1))
+                    embed = (f'<div class="video-embed reveal"><iframe id="ep-frame" src="https://www.youtube.com/embed/{esc(first["video_id"])}" title="{esc(first["title"])}" loading="lazy" '
+                             f'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>')
+                    js = ('<script>window.__ep=function(a){var f=document.getElementById("ep-frame");if(!f)return true;f.src="https://www.youtube.com/embed/"+a.getAttribute("data-vid")+"?autoplay=1";'
+                          'document.querySelectorAll(".ep.is-on").forEach(function(x){x.classList.remove("is-on")});a.classList.add("is-on");f.scrollIntoView({behavior:"smooth",block:"center"});return false;};</script>')
+                    blk = (f'<section class="section section--tint" data-block="{esc(s_["id"])}"><div class="wrap">'
+                           f'<div class="head reveal"><span class="eyebrow">{esc(s_["eyebrow"])}</span><h2 class="title">{esc(s_["title"])}</h2></div>'
+                           f'{embed}<div class="rows reveal ep-list">{rows}</div>{js}</div></section>')
+                else:
+                    rows = "".join(f'<div class="row"><span class="num">{i:02d}</span><div><h3><time datetime="{esc(e["date"])}">{esc(e["label"])}</time></h3></div></div>' for i, e in enumerate(eps, 1))
+                    blk = (f'<section class="section section--tint" data-block="{esc(s_["id"])}"><div class="wrap">'
+                           f'<div class="head reveal"><span class="eyebrow">{esc(s_["eyebrow"])}</span><h2 class="title">{esc(s_["title"])}</h2></div>'
+                           f'<div class="rows reveal">{rows}</div>'
+                           f'<p class="note" style="margin-top:16px">{esc(acad["_meta"]["placeholder_note"])}</p>'
+                           f'</div></section>')
                 secs.insert(0, blk)
         body = repath("\n".join(secs))
         if pg == "새가족":   # 오너 수정 3(2026-09-30): 제목 <br> 제거 → 「처음 오신 분 안내」 한 줄 · 아래 문장은 한 줄(폭 확보) — 문구 불변 · _verify CEDAR_TEXT_JOIN 선언

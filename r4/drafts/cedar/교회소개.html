@@ -193,6 +193,15 @@ p{max-width:60ch}
 .body .steps-oneline .title{white-space:nowrap;max-width:none}
 .body .steps-oneline .lead{margin-top:24px;white-space:nowrap;max-width:none}
 @media(max-width:960px){.body .steps-oneline .title,.body .steps-oneline .lead{white-space:normal}}
+/* 아카데미 YRG 회차 목록 */
+.body .ep-list{margin-top:24px}
+.body .ep{text-decoration:none;color:inherit;align-items:center}
+.body .ep:hover h3,.body .ep.is-on h3{color:var(--teal-text)}
+.body .ep-body{display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:center}
+.body .ep-thumb{width:160px;height:120px;object-fit:cover;border-radius:8px;background:#000}
+.body .ep h3{font-size:16px;line-height:1.5;margin:0}
+.body .ep p{margin:4px 0 0;font-size:13px;color:var(--dark)}
+@media(max-width:640px){.body .ep-body{grid-template-columns:1fr}.body .ep-thumb{width:100%;height:auto;aspect-ratio:4/3}}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
