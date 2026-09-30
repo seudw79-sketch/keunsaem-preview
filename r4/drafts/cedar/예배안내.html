@@ -185,6 +185,8 @@ p{max-width:60ch}
 .lock a{display:inline-block;margin-top:14px;font-size:13px;text-decoration:none;border-bottom:1px solid var(--line)}
 
 
+.body .wrap--narrow{max-width:800px;margin:0 auto}
+.body .section:has(> .wrap--narrow){max-width:min(800px,calc(100% - 40px))}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
@@ -209,7 +211,7 @@ p{max-width:60ch}
 <header class="hd">
   <a class="logo" href="index.html">큰샘교회</a>
   <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="drawer">
-  <nav id="site-nav" class="nav" aria-label="주 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a><a href="새가족.html">새가족 안내</a></nav>
+  <nav id="site-nav" class="nav" aria-label="주 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a></nav>
   <a class="pill" href="새가족.html">새가족 안내</a>
   <label for="tg" class="burger" aria-hidden="true"><span></span></label>
   <nav id="drawer" class="drawer" aria-label="전체 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a><a href="새가족.html">새가족 안내</a></nav>
@@ -268,7 +270,7 @@ p{max-width:60ch}
 <script>
 // A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역 등장(1회) ②헤더 카드 스크롤 반응(센티널 이탈) · reduced-motion 이면 아무것도 안 함
 (function(){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('js');
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.01,rootMargin:'0px 0px 50px 0px'});
 document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});io.observe(document.getElementById('top-sentinel'));})();
 </script>
 </body>

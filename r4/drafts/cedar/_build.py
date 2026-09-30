@@ -37,7 +37,8 @@ def load_verse():
 
 VERSES, VERSE_SRC = load_verse()
 print(f"성구 본문: {len(VERSES)}절 · 출처={VERSE_SRC}")
-nav = "".join(f'<a href="{esc(n["file"])}">{esc(n["label"])}</a>' for n in SITE["nav"])   # cedar 안 하위 8페이지로(2026-09-30 master 실측: ../c/ 로 나가던 결함 수정 — 사이트가 사이트로 작동하지 않았다)
+nav = "".join(f'<a href="{esc(n["file"])}">{esc(n["label"])}</a>' for n in SITE["nav"])            # drawer(전체 메뉴) — 8개 전부 · 모바일에선 알약이 숨으니 여기가 새가족 안내로 가는 길
+nav_desk = "".join(f'<a href="{esc(n["file"])}">{esc(n["label"])}</a>' for n in SITE["nav"] if n["file"] != "새가족.html")   # 데스크탑 nav — 알약(VISIT 자리)이 새가족 안내를 맡으니 같은 항목을 두 번 두지 않음(gemini R1 D · master 판정 · 문구 창작 없이 자리만 하나로)   # cedar 안 하위 8페이지로(2026-09-30 master 실측: ../c/ 로 나가던 결함 수정 — 사이트가 사이트로 작동하지 않았다)
 times = " · ".join(f'{esc(w["dt"])} {esc(w["dd"])}' for w in SITE["worship"])
 
 # 물결 곡선 — 우리가 그린 것(외부 SVG 파일 사용 0)
@@ -220,6 +221,8 @@ p{max-width:60ch}
 .lock a{display:inline-block;margin-top:14px;font-size:13px;text-decoration:none;border-bottom:1px solid var(--line)}
 
 
+.body .wrap--narrow{max-width:800px;margin:0 auto}
+.body .section:has(> .wrap--narrow){max-width:min(800px,calc(100% - 40px))}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
@@ -227,7 +230,7 @@ p{max-width:60ch}
 
 A3JS = r'''// A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역 등장(1회) ②헤더 카드 스크롤 반응(센티널 이탈) · reduced-motion 이면 아무것도 안 함
 (function(){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('js');
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.01,rootMargin:'0px 0px 50px 0px'});
 document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});io.observe(document.getElementById('top-sentinel'));})();'''
 
 # ── 하위 8페이지 — 본문은 r4 <main> 섹션을 그대로 이식(창작 0·누락 0 · c/_build.py 와 같은 방식) · 머리·첫 화면·꼬리만 시더 틀 · 홈 토큰 공유(master 2026-09-30) ──
@@ -313,7 +316,7 @@ __CSS__
 <header class="hd">
   <a class="logo" href="index.html">{esc(SITE["church"])}</a>
   <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="drawer">
-  <nav id="site-nav" class="nav" aria-label="주 메뉴">{nav}</nav>
+  <nav id="site-nav" class="nav" aria-label="주 메뉴">{nav_desk}</nav>
   <a class="pill" href="새가족.html">새가족 안내</a>
   <label for="tg" class="burger" aria-hidden="true"><span></span></label>
   <nav id="drawer" class="drawer" aria-label="전체 메뉴">{nav}</nav>
@@ -383,6 +386,7 @@ def build_sub(pg, n):
         card = _re.search(r'<div class="card">.*?</div>\s*(?=<script>)', raw, _re.S).group(0).strip()
         script = _re.search(r"<script>.*?</script>", raw, _re.S).group(0)
         assert 'id="pw"' in card and "SALT=" in script
+        card = card.replace("<h1>교회 재정</h1>", "<h2>교회 재정</h2>", 1)   # 페이지 h1 은 subhero 하나(gemini R1 E) · 문구 불변 · 라벨(eyebrow)은 r4 재정 페이지에 없어 넣지 않음
         # 자체 훑기(2026-09-30): 「No. 07」 구조 라벨은 다른 페이지의 eyebrow(말)와 결이 다르고, 잠금 카드가 전폭 흰 카드 안에서 허전 → 라벨 없음 · 카드 폭 560 제한
         body_html = f'<main>\n<section class="subhero"><div class="wrap reveal"><h1 class="title">교회 재정</h1></div>{WAVE}</section>\n<section class="body"><div class="section lock reveal" style="max-width:560px">{card}</div></section>\n</main>\n{script}\n'
     else:
@@ -393,7 +397,7 @@ def build_sub(pg, n):
         if pg == "교회소개":
             # 사람 사진 0(master 2026-09-30 20:1x): about.jpg · 「교회의 시간들」 타일 제거 — 문안 불변 · alt 는 _verify APPROVED_NODE_DROP 선언. ★pastor.jpg(담임목사)는 보류 — 오너 답 전 손대지 않음
             secs = [re.sub(r'<div class="photo photo--43">\s*<img[^>]*about\.jpg[^>]*>\s*</div>\s*', '', s, flags=re.S) for s in secs]
-            secs = [s.replace('class="wrap two two--photo reveal"', 'class="wrap reveal"') for s in secs]
+            secs = [s.replace('class="wrap two two--photo reveal"', 'class="wrap reveal wrap--narrow"') for s in secs]   # 사진 뺀 자리 — 800 가운데(gemini R1 F)
         body = repath("\n".join(secs))
         body = _re.sub(r'<section\b([^>]*?)class="', r'<section\1class="reveal ', body)
         body_html = (f'<main>\n<section class="subhero"><div class="wrap reveal"><p class="label">{eyebrow}</p><h1 class="title">{h1}</h1>'

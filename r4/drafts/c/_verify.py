@@ -225,7 +225,8 @@ def css_check():
 def chrome(args, timeout=90):
     """cys run(스코프 실행)이 기본 · 리뷰어 좌석처럼 cys 가 없거나 거부되면 로컬 크롬 직접 실행으로 폴백(gemini r1 지적 · master 수용 2026-09-30 —
     폴백 없이는 overflow.json 이 전부 에러로 기록돼 넘침 판정이 무효였다)."""
-    base=[CHROME,"--headless=new","--disable-gpu","--hide-scrollbars","--allow-file-access-from-files","--virtual-time-budget=4000"]+args
+    # --force-prefers-reduced-motion: 캡처·측정이 등장 전환(0.55s 페이드) 도중을 잡지 않게 — 페이지의 reduced-motion 분기가 전환을 끈다(gemini R1 G · master: 페이드 중간 캡처는 판정 근거가 못 된다). 실측: 플래그 유무로 matchMedia true/false 확인 2026-09-30
+    base=[CHROME,"--headless=new","--disable-gpu","--hide-scrollbars","--allow-file-access-from-files","--force-prefers-reduced-motion","--virtual-time-budget=4000"]+args
     if shutil.which("cys"):
         r=subprocess.run(["cys","run","--"]+base,capture_output=True,text=True,timeout=timeout)
         if r.returncode==0 and r.stdout.strip(): return r

@@ -185,6 +185,8 @@ p{max-width:60ch}
 .lock a{display:inline-block;margin-top:14px;font-size:13px;text-decoration:none;border-bottom:1px solid var(--line)}
 
 
+.body .wrap--narrow{max-width:800px;margin:0 auto}
+.body .section:has(> .wrap--narrow){max-width:min(800px,calc(100% - 40px))}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
@@ -207,7 +209,7 @@ p{max-width:60ch}
 <header class="hd">
   <a class="logo" href="index.html">큰샘교회</a>
   <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="drawer">
-  <nav id="site-nav" class="nav" aria-label="주 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a><a href="새가족.html">새가족 안내</a></nav>
+  <nav id="site-nav" class="nav" aria-label="주 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a></nav>
   <a class="pill" href="새가족.html">새가족 안내</a>
   <label for="tg" class="burger" aria-hidden="true"><span></span></label>
   <nav id="drawer" class="drawer" aria-label="전체 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a><a href="새가족.html">새가족 안내</a></nav>
@@ -216,7 +218,7 @@ p{max-width:60ch}
 <section class="subhero"><div class="wrap reveal"><p class="label">교회 소개</p><h1 class="title">큰샘교회</h1><p class="lead">저희 교회를 소개해드립니다.</p></div><svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,100 L0,58 C250,30 500,30 750,58 C830,68 920,84 1000,92 L1000,100 Z"/></svg></section>
 <section class="body">
 <!-- 근거: 시안E_교회소개.html 블록1 — h3 “큰샘감리교회”(따옴표 원문) + 문단 3 문자 그대로 + about2 사진(alt 원문 · r4/사진/web/about.jpg=photo_grade.py 저채도 따뜻한 톤) · 잡지형 2단(사진 좌·본문 우) -->
-<section class="reveal section section--line" data-block="about"><div class="wrap reveal">
+<section class="reveal section section--line" data-block="about"><div class="wrap reveal wrap--narrow">
   <div><h2 class="title">&ldquo;큰샘감리교회&rdquo;</h2>
     <div class="prose" style="margin-top:32px"><p>말씀과 기도로 세워진 이 공동체는 예수 그리스도의 사랑을 삶으로 실천하며, 지역사회와 열방을 섬기고자 세워졌습니다.</p>
     <p>우리는 성경 중심의 제자훈련과 깊이 있는 말씀 연구를 통해, 성도 한 사람 한 사람이 하나님의 말씀 위에 굳건히 서도록 돕고 있습니다.
@@ -256,7 +258,7 @@ p{max-width:60ch}
 <script>
 // A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역 등장(1회) ②헤더 카드 스크롤 반응(센티널 이탈) · reduced-motion 이면 아무것도 안 함
 (function(){if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;document.documentElement.classList.add('js');
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.12});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.target.id==='top-sentinel'){document.querySelector('.hd').classList.toggle('is-stuck',!e.isIntersecting);return;}if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.01,rootMargin:'0px 0px 50px 0px'});
 document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});io.observe(document.getElementById('top-sentinel'));})();
 </script>
 </body>
