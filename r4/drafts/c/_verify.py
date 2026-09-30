@@ -121,6 +121,9 @@ def text_parity(page):
 APPROVED_DROP={"index":{"hero","times","latest-sermon","pillars","intro","gallery","footer"}}
 # 문안이 아닌 요소(사진)를 뺄 때 사라지는 alt 문구 — 선언된 것만 누락 검사에서 제외(조용한 건너뛰기 금지 · 시더 홈 사람 사진 0 · 2026-09-30)
 APPROVED_NODE_DROP={}
+# 시더(cedar) 판 전용 승인 제외 — 사유: 사람 사진 0(오너 방향) · gallery 는 사진 0 이면 존재 이유 없음(master 판정 2026-09-30). 검사 호출부가 R4.name=="cedar" 일 때 이 값을 쓴다
+CEDAR_APPROVED_DROP={"index":{"hero","times","latest-sermon","gallery","location","footer"},"교회소개":{"gallery"}}
+CEDAR_APPROVED_NODE_DROP={"index":{"정자 앞에 함께 선 큰샘교회 가족들"},"교회소개":{"정자 앞에 함께 선 큰샘교회 가족들"}}
 DROP_ALL={"page-head","footer"}   # page-head 는 첫 판면(spread)으로 옮겨져야 하므로 그 글자는 따로 검사
 
 def _blocks(raw):
@@ -149,7 +152,8 @@ def completeness(page):
     src=(PREVIEW/"r4"/f"{page}.html"); f=R4/f"{page}.html"
     if not src.exists(): return {"page":page,"complete":False,"missing_blocks":["r4 원문 없음: "+str(src)],"missing_nodes":[]}
     sb=_blocks(src.read_text(encoding="utf-8")); gen=f.read_text(encoding="utf-8"); gb=_blocks(gen)
-    drop=DROP_ALL|APPROVED_DROP.get(page,set())
+    _ad = CEDAR_APPROVED_DROP if R4.name=="cedar" else APPROVED_DROP
+    drop=DROP_ALL|_ad.get(page,set())
     expected=[b for b in sb if b not in drop]
     missing_blocks=[b for b in expected if b not in gb]
     # 블록 단위 · 문장 순서·개수까지 같아야 한다(페이지 전체 set 비교는 중복 문장·순서·개수를 무시해 통째로 빠진 문단을 놓칠 수 있다 — codex r2 수용).
@@ -159,7 +163,8 @@ def completeness(page):
     if dup: missing_nodes.append("같은 data-block 이름이 두 번: "+", ".join(sorted(set(dup))))
     for b in expected:
         if b in gb:
-            sn=[n for n in _nodes(sb[b]) if n not in APPROVED_NODE_DROP.get(page,set())]; gn=_nodes(gb[b])
+            _nd = CEDAR_APPROVED_NODE_DROP if R4.name=="cedar" else APPROVED_NODE_DROP
+            sn=[n for n in _nodes(sb[b]) if n not in _nd.get(page,set())]; gn=_nodes(gb[b])
             if sn!=gn:
                 i=next((i for i in range(max(len(sn),len(gn))) if i>=len(sn) or i>=len(gn) or sn[i]!=gn[i]),0)
                 missing_nodes.append(f"{b}: 원문 {len(sn)}문장 vs 생성 {len(gn)}문장 · 첫 어긋남 #{i+1} 원문={sn[i] if i<len(sn) else '(없음)'!r} 생성={gn[i] if i<len(gn) else '(없음)'!r}")
