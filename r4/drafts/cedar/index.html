@@ -9,63 +9,82 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Noto+Serif+KR:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-/* 규격(master 실측 · 그대로): 배경 #FFF · 본문 Open Sans/Helvetica Neue · 제목 56px/61.6px 700 lowercase #000 · 라벨 16px #47AB9D · 버튼 16px radius 1600px 1px solid #000 글자 #47AB9D
-   · 헤더 흰 카드 radius 16px shadow rgba(0,0,0,.2) 0 0 16px padding 20px · 배너 12.8px 500 흰 글자 검은 알약 · 섹션 #404140/#B2AEAA/#47AB9D · 물결 SVG 1
-   제목 글꼴: Poynter(상용) 대체 → 한글 Noto Serif KR 700 · 영문 Playfair Display 700(Poynter 의 굵은 세리프·높은 대비에 Lora 보다 가까움)
-   ★대비 실측(WCAG): #47AB9D on #FFF = 2.77:1 — AA 4.5 미달·큰 글자 3:1 도 미달. 규격대로 두되 보고함. 대안 참고: #2A7D71 4.92 · #25705F 5.9 */
-:root{--bg:#FFFFFF;--ink:#000;--teal:#47AB9D;--dark:#404140;--light:#B2AEAA;
+/* 규격 = master 실측(§1) + CSS 선언값(§7 · 선택자 근거) — 근사치 금지 · 값 그대로. html 16px 기준 em→px.
+   제목 글꼴: Poynter(상용) 대체 → 한글 Noto Serif KR 700 · 영문 Playfair Display 700 · lowercase 는 한글 무효.
+   ★색 두 토큰(master 판정): 읽는 글자 --teal-text #2A7D71(흰 위 4.92:1) · 장식 면 --teal-surface #47AB9D(원판). 오너가 원판 색 그대로를 원하면 --teal-text 만 #47AB9D 로 되돌린다. */
+:root{--bg:#FFFFFF;--ink:#000;--teal-text:#2A7D71;--teal-surface:#47AB9D;--dark:#404140;--light:#B2AEAA;
   --sans:"Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;--serif:"Noto Serif KR","Playfair Display",serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}
+html{font-size:16px}
+/* 배경 옅은 질감 — CSS 만(이미지 0 · master 7 · 거의 안 보일 정도): 원판은 wood-texture.png + 흰 85% */
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word;
+  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.018) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.012) 0 1px,transparent 1px 5px)}
 a{color:inherit}img{display:block;max-width:100%;height:auto}
 .wrap{width:min(1200px,calc(100% - 40px));margin:0 auto}
-/* 맨 위 배너 — 검은 알약 · 12.8px 500 흰 글자 */
-.banner{display:flex;justify-content:center;padding:14px 20px 0}
-.banner span{display:inline-block;background:#000;color:#fff;font-size:12.8px;font-weight:500;letter-spacing:.02em;padding:6px 16px;border-radius:1600px;white-space:nowrap;overflow-x:auto;max-width:100%}
-/* 떠 있는 흰 카드 헤더 */
-.hd{position:sticky;top:12px;z-index:10;margin:16px auto 0;width:min(1200px,calc(100% - 40px));background:#FFF;border-radius:16px;box-shadow:rgba(0,0,0,.2) 0 0 16px;padding:20px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-.logo{font-family:var(--serif);font-weight:700;font-size:22px;text-decoration:none;letter-spacing:-.01em}
-.nav{display:flex;gap:22px;margin-left:auto;font-size:15px;font-weight:500}
-.nav a{text-decoration:none}.nav a:hover{color:var(--teal)}
+/* 맨 위 배너 — 왼쪽 정렬(master 1) · §7: .mo-9 12.8px 500 자간 .075em 흰 · 띠 .mo-4 padding 7px(바탕은 §1 검정 vs 선언 #404140 — master 답 전 §1) */
+.banner{width:min(1200px,calc(100% - 40px));margin:14px auto 0;display:flex;justify-content:flex-start}
+.banner span{display:inline-block;background:#000;color:#fff;font-size:12.8px;font-weight:500;letter-spacing:.075em;line-height:1.2;padding:7px 16px;border-radius:1600px;white-space:nowrap;overflow-x:auto;max-width:100%}
+/* 떠 있는 흰 카드 헤더 — §1: #FFF · radius 16px · shadow rgba(0,0,0,.2) 0 0 16px · padding 20px (§7 .mo-5 일치) */
+.hd{position:sticky;top:12px;z-index:10;margin:16px auto 0;width:min(1200px,calc(100% - 40px));background:#FFF;border-radius:16px;box-shadow:rgba(0,0,0,.2) 0 0 16px;padding:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{font-family:var(--serif);font-weight:700;font-size:22px;text-decoration:none;letter-spacing:-.01em;margin-right:auto}
+/* 메뉴 — §7 ①②: 12.8px · 400 · lh 1 · 자간 .1em · 안쪽 여백 .75em(12px) · 대문자화 없음(한글) · hover 청록 */
+.nav{display:flex;gap:0;align-items:center}
+.nav a{font-size:12.8px;font-weight:400;line-height:1;letter-spacing:.1em;padding:12px;text-decoration:none}
+.nav a:hover{color:var(--teal-text)}
+/* VISIT 자리 알약 = 「새가족 안내」 — §7: .9em(14.4px) · 600 · 자간 .075em · padding .575em 1.15em · 1px solid 청록 · radius 100em */
+.pill{font-size:14.4px;font-weight:600;letter-spacing:.075em;padding:.575em 1.15em;border:1px solid var(--teal-surface);border-radius:100em;color:var(--teal-text);text-decoration:none;white-space:nowrap;margin-left:8px}
+.pill:hover{background:var(--teal-surface);color:#fff}
+/* 네모 테두리 햄버거 — 상시 표시(master 2) · 드로어(전체 메뉴) */
 .tg{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);border:0}
-.burger{display:none;margin-left:auto;width:44px;height:44px;position:relative;cursor:pointer}
-.burger span,.burger::before,.burger::after{content:"";position:absolute;left:12px;width:20px;height:2px;background:#000}
-.burger::before{top:15px}.burger span{top:21px}.burger::after{top:27px}
-/* 첫 화면 — 왼쪽 큰 영상 · 오른쪽 라벨→제목→버튼→링크 */
-.hero{padding:48px 0 0}
+.burger{display:block;width:44px;height:44px;position:relative;cursor:pointer;border:1px solid #000;border-radius:8px;margin-left:8px}
+.burger span,.burger::before,.burger::after{content:"";position:absolute;left:12px;width:18px;height:2px;background:#000}
+.burger::before{top:14px}.burger span{top:20px}.burger::after{top:26px}
+.tg:focus-visible ~ .burger{outline:2px solid var(--teal-text);outline-offset:2px}
+.drawer{display:none;flex-basis:100%;flex-direction:column;padding-top:12px;border-top:1px solid #eee}
+.tg:checked ~ .drawer{display:flex}
+.drawer a{padding:12px 0;border-bottom:1px solid #eee;text-decoration:none;font-size:15px}.drawer a:last-child{border:0}
+/* 첫 화면 — §7 .mu-1: 위 calc(8rem+80px) 아래 calc(8rem+40px) · 왼쪽 영상 16:9 모서리 2em · 오른쪽 라벨→제목→버튼 둘(성구 줄 없음 · master 4) */
+.hero{position:relative;padding:calc(8rem + 80px - 96px) 0 calc(8rem + 40px);overflow:hidden}
 .hero .wrap{display:grid;grid-template-columns:7fr 5fr;gap:48px;align-items:center}
-.media{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border-radius:16px;background:#000}
-.media img{width:100%;height:100%;object-fit:cover}
+.media{position:relative;display:block;width:100%;padding-top:56.25%;height:0;overflow:hidden;border-radius:2em;background:#000}
+.media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .media::after{content:"";position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:rgba(255,255,255,.92)}
 .media::before{content:"";position:absolute;left:50%;top:50%;z-index:1;margin:-13px 0 0 -9px;border-style:solid;border-width:13px 0 13px 24px;border-color:transparent transparent transparent #000}
-.label{font-size:16px;font-weight:400;color:var(--teal)}
+.label{font-size:16px;font-weight:400;color:var(--teal-text)}
 h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.6px;text-transform:lowercase;color:#000;margin-top:12px;letter-spacing:-.01em}
-.verse{margin-top:14px;font-size:16px;color:var(--dark)}
-.btn{display:inline-block;margin-top:24px;padding:12px 28px;font-size:16px;border-radius:1600px;background:transparent;border:1px solid #000;color:var(--teal);text-decoration:none}
+/* 버튼 — §1: 16px · radius 1600px · 투명 · 1px solid #000 · 글자 청록(§7 선언은 #000 — master 답 전 §1) · 자간 §7 .075em · 굵기 600 */
+.btn{display:inline-block;margin-top:24px;padding:.575em 1.15em;font-size:16px;font-weight:600;letter-spacing:.075em;border-radius:1600px;background:transparent;border:1px solid #000;color:var(--teal-text);text-decoration:none}
 .btn:hover{background:#000;color:#fff}
-.more{display:inline-block;margin-left:18px;margin-top:24px;font-size:16px;color:var(--teal);text-decoration:none;border:0}
-/* 물결 → 진회색 구역 */
-.wave{display:block;width:100%;height:80px;margin-top:56px;fill:var(--dark)}
-.dark{background:var(--dark);color:#fff;padding:56px 0 64px}
+.more{display:inline-block;margin-left:18px;margin-top:24px;font-size:16px;font-weight:600;letter-spacing:.075em;color:var(--teal-text);text-decoration:none;border:0}
+/* 물결 — §7 ⑥: 150px · 첫 구역 하단 · 연회색 · 곡선은 우리가 그림 */
+.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:150px;display:block;fill:var(--light)}
+/* 연회색 구역(master 6 · §7 ⑤: #b2aeaa + linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c) · padding 6rem) — 성구 줄이 여기로 옮겨짐(내용 손실 0) */
+.light{background-color:var(--light);background-image:linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c);padding:6rem 0;color:#000}
+.light .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.light h2{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1.25;text-transform:lowercase}
+.light .verse{font-size:18px;line-height:1.7;margin-top:8px}
+.light .muted{font-size:14px;margin-top:12px;color:#000}
+/* 진회색 구역 — 다음 구역으로 내림(master 6) */
+.dark{background:var(--dark);color:#fff;padding:6rem 0}
 .dark .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
 .dark h2{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1.25;text-transform:lowercase}
 .dark p{font-size:18px;line-height:1.7}
 .dark .btn{border-color:#fff;color:#fff}.dark .btn:hover{background:#fff;color:var(--dark)}
-.dark .muted{color:var(--light);font-size:14px;margin-top:12px}
 .ft{padding:28px 0 40px;font-size:13px;color:var(--dark);text-align:center}
 .ft a{text-decoration:none}
-@media(max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:28px}h1.title{font-size:40px;line-height:1.15}.dark .wrap{grid-template-columns:1fr}}
-@media(max-width:640px){.burger{display:block}.nav{display:none;flex-basis:100%;flex-direction:column;gap:0;padding-top:12px;border-top:1px solid #eee}
-  .tg:checked ~ .nav{display:flex}.nav a{padding:12px 0;border-bottom:1px solid #eee}.nav a:last-child{border:0}.hd{top:8px;padding:16px}}
+@media(max-width:960px){.nav{display:none}.hero .wrap{grid-template-columns:1fr;gap:28px}h1.title{font-size:40px;line-height:1.15}.light .wrap,.dark .wrap{grid-template-columns:1fr}.hero{padding-top:56px}}
+@media(max-width:640px){.pill{display:none}.hd{top:8px;padding:16px}.banner span{font-size:11px}}
 </style>
 </head>
 <body>
 <div class="banner"><span>주일예배 오전 11시 · 성경공부 주일 오후 1시 · 아침예배 오전 7시</span></div>
 <header class="hd">
   <a class="logo" href="index.html">큰샘교회</a>
-  <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="site-nav">
-  <label for="tg" class="burger" aria-hidden="true"><span></span></label>
+  <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="drawer">
   <nav id="site-nav" class="nav" aria-label="주 메뉴"><a href="../c/교회소개.html">교회소개</a><a href="../c/예배안내.html">예배안내</a><a href="../c/아카데미.html">성경 아카데미</a><a href="../c/칼럼.html">신앙 칼럼</a><a href="../c/재정.html">교회 재정</a><a href="../c/주보.html">온라인 주보</a><a href="../c/온라인예배.html">온라인 예배</a><a href="../c/새가족.html">새가족 안내</a></nav>
+  <a class="pill" href="../c/새가족.html">새가족 안내</a>
+  <label for="tg" class="burger" aria-hidden="true"><span></span></label>
+  <nav id="drawer" class="drawer" aria-label="전체 메뉴"><a href="../c/교회소개.html">교회소개</a><a href="../c/예배안내.html">예배안내</a><a href="../c/아카데미.html">성경 아카데미</a><a href="../c/칼럼.html">신앙 칼럼</a><a href="../c/재정.html">교회 재정</a><a href="../c/주보.html">온라인 주보</a><a href="../c/온라인예배.html">온라인 예배</a><a href="../c/새가족.html">새가족 안내</a></nav>
 </header>
 <main>
 <section class="hero"><div class="wrap">
@@ -73,11 +92,14 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
   <div>
     <p class="label" id="sm-label">이번 주일 · 9월 27일</p>
     <h1 class="title" id="sm-title">광야에서도 신실하신 하나님</h1>
-    <p class="verse" id="sm-verse">민수기 14장 8-9절</p>
     <a class="btn" id="sm-link" href="https://www.youtube.com/watch?v=4Uw236eEFuk" target="_blank" rel="noopener">설교 영상 보기</a><a class="more" href="../c/온라인예배.html">지난 설교</a>
   </div>
+</div>
+<svg class="wave" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,100 L0,58 C250,30 500,30 750,58 C830,68 920,84 1000,92 L1000,100 Z"/></svg></section>
+<section class="light"><div class="wrap">
+  <div><h2 id="sm-title2">광야에서도 신실하신 하나님</h2><p class="verse" id="sm-verse">민수기 14장 8-9절</p></div>
+  <div><p class="muted" id="sm-label2">이번 주일 · 9월 27일</p></div>
 </div></section>
-<svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"/></svg>
 <section class="dark"><div class="wrap">
   <div><h2>오시는 길</h2><p class="muted">기독교대한감리회 큰샘교회</p></div>
   <div><p>경기 광명시 기아로 23 (소하동) 4층<br><a href="tel:010-2534-0407">010-2534-0407</a></p>
@@ -92,7 +114,7 @@ if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(functio
     var p=d.설교_날짜.split('·'),ymd=p[0].trim().split('-');
     document.getElementById('sm-title').textContent=d.설교_제목;
     document.getElementById('sm-label').textContent='이번 주일 · '+parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';
-    document.getElementById('sm-verse').textContent=(p[1]||'').trim();
+    document.getElementById('sm-verse').textContent=(p[1]||'').trim();document.getElementById('sm-title2').textContent=d.설교_제목;document.getElementById('sm-label2').textContent=document.getElementById('sm-label').textContent;
     ['sm-link','sm-thumb'].forEach(function(id){document.getElementById(id).href=d.설교_링크});
     var v=d.설교_링크.split('v=')[1].split('&')[0];document.getElementById('sm-thumb-img').src='https://i.ytimg.com/vi/'+v+'/hqdefault.jpg';
   }
