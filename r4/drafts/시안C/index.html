@@ -8,6 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- 본문 글꼴 — CSS 스택에 Pretendard 를 적어놓고 정작 불러오지 않아 기기 기본 글꼴로 보이던 것을 고침
+     (워커 s56 지적 2026-09-30 · 맥에선 애플 고딕으로 가려져 안 보였고 윈도·안드로이드에서 드러난다)
+     SIL Open Font License 1.1 — 조건 없음 -->
+<link rel="stylesheet" as="style" crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
 <style>
 /* 시안C · 도록(카탈로그) — 작품집을 펼친 느낌
    근거: 미술관 도록 문법(번호 라벨·얇은 괘선·작품 정보표) + 비대칭 그리드(codex 조사 '쓸 수 있다')
@@ -112,7 +117,7 @@ img{display:block;max-width:100%;height:auto}
       <div><dt>주일예배</dt><dd>오전 11시</dd></div>
       <div><dt>성경공부</dt><dd>주일 오후 1시</dd></div>
       <div><dt>아침예배</dt><dd>오전 7시</dd></div>
-      <div><dt>오시는 길</dt><dd>광명시 기아로 23, 4층</dd></div>
+      <div><dt>오시는 길</dt><dd>경기도 광명시 기아로 23, 4층 (소하동)</dd></div>
     </dl>
   </div>
 </section>
