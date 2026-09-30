@@ -64,7 +64,7 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 /* 물결 — §7 ⑥: 150px · 첫 구역 하단 · 연회색 · 곡선은 우리가 그림 */
 .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:150px;display:block;fill:var(--light)}
 /* 연회색 구역(master 6 · §7 ⑤: #b2aeaa + linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c) · padding 6rem) — 성구 줄이 여기로 옮겨짐(내용 손실 0) */
-.light{background-color:var(--light);background-image:linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c);padding:6rem 0;color:#000}
+.light{background-color:var(--light);background-image:linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c);padding:2.25rem 0 2.75rem;color:#000}  /* 6rem→2.25/2.75rem: 오너 수정 1(2026-09-30) 「이 공간이 쓸데없이 큰거 같아」 — 글자는 그대로, 위아래 여백만 */
 .light .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
 .light h2{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1.25;text-transform:lowercase}
 .light .verse{font-size:18px;line-height:1.7;margin-top:8px}
@@ -185,8 +185,13 @@ p{max-width:60ch}
 .lock a{display:inline-block;margin-top:14px;font-size:13px;text-decoration:none;border-bottom:1px solid var(--line)}
 
 
-.body .wrap--narrow{max-width:800px;margin:0 auto}
-.body .section:has(> .wrap--narrow){max-width:min(800px,calc(100% - 40px))}
+.body .two--photo .photo img{filter:grayscale(1)}  /* 오너 수정 2: 교회소개 사진 흑백 — 컬러로 되돌리려면 이 줄 삭제 */
+.body .two--photo{grid-template-columns:5fr 7fr;align-items:center}
+/* 오너 수정 3: 새가족 안내 첫 카드 — 제목 한 줄 · 문장(lead) 한 줄 · 사이 한 줄 여백. 1280 기준 · 960 아래는 자연 흐름 */
+.body .steps-oneline{grid-template-columns:1fr;gap:24px}
+.body .steps-oneline .title{white-space:nowrap;max-width:none}
+.body .steps-oneline .lead{margin-top:24px;white-space:nowrap;max-width:none}
+@media(max-width:960px){.body .steps-oneline .title,.body .steps-oneline .lead{white-space:normal}}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
@@ -245,7 +250,7 @@ p{max-width:60ch}
 })();
 </script>
 <section class="dark"><div class="wrap reveal">
-  <div><h2>오시는 길</h2><p class="muted">기독교대한감리회 큰샘교회</p></div>
+  <div><h2>기독교대한감리회 큰샘교회</h2></div>
   <div><p>경기 광명시 기아로 23 (소하동) 4층<br><a href="tel:010-2534-0407">010-2534-0407</a></p>
     <a class="btn" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 ↗</a></div>
 </div></section>

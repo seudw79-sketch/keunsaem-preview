@@ -100,7 +100,7 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 /* 물결 — §7 ⑥: 150px · 첫 구역 하단 · 연회색 · 곡선은 우리가 그림 */
 .wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:150px;display:block;fill:var(--light)}
 /* 연회색 구역(master 6 · §7 ⑤: #b2aeaa + linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c) · padding 6rem) — 성구 줄이 여기로 옮겨짐(내용 손실 0) */
-.light{background-color:var(--light);background-image:linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c);padding:6rem 0;color:#000}
+.light{background-color:var(--light);background-image:linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c);padding:2.25rem 0 2.75rem;color:#000}  /* 6rem→2.25/2.75rem: 오너 수정 1(2026-09-30) 「이 공간이 쓸데없이 큰거 같아」 — 글자는 그대로, 위아래 여백만 */
 .light .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
 .light h2{font-family:var(--serif);font-weight:700;font-size:36px;line-height:1.25;text-transform:lowercase}
 .light .verse{font-size:18px;line-height:1.7;margin-top:8px}
@@ -221,8 +221,13 @@ p{max-width:60ch}
 .lock a{display:inline-block;margin-top:14px;font-size:13px;text-decoration:none;border-bottom:1px solid var(--line)}
 
 
-.body .wrap--narrow{max-width:800px;margin:0 auto}
-.body .section:has(> .wrap--narrow){max-width:min(800px,calc(100% - 40px))}
+.body .two--photo .photo img{filter:grayscale(1)}  /* 오너 수정 2: 교회소개 사진 흑백 — 컬러로 되돌리려면 이 줄 삭제 */
+.body .two--photo{grid-template-columns:5fr 7fr;align-items:center}
+/* 오너 수정 3: 새가족 안내 첫 카드 — 제목 한 줄 · 문장(lead) 한 줄 · 사이 한 줄 여백. 1280 기준 · 960 아래는 자연 흐름 */
+.body .steps-oneline{grid-template-columns:1fr;gap:24px}
+.body .steps-oneline .title{white-space:nowrap;max-width:none}
+.body .steps-oneline .lead{margin-top:24px;white-space:nowrap;max-width:none}
+@media(max-width:960px){.body .steps-oneline .title,.body .steps-oneline .lead{white-space:normal}}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
@@ -292,6 +297,8 @@ def home_guide():
         blocks[m.group(1)] = m.group(0)
     # 사람 사진 0(오너 방향 · master 3판 2): 교회소개 카드의 사진 요소만 뺀다(문안 불변 · alt 는 사진의 일부라 문안 아님 — _verify APPROVED_NODE_DROP 에 선언) · 1열
     blocks["intro"] = re.sub(r'<div class="photo photo--43">.*?</div>\s*', '', blocks["intro"], flags=re.S).replace('class="wrap two two--photo reveal"', 'class="wrap reveal"')
+    # 오너 수정 3(2026-09-30) — 홈 「처음 오신 분 안내」 카드: 제목 <br> 제거(한 줄) · 아래 문장 한 줄 띄워 한 줄에(steps-oneline · 문구 불변 · _verify CEDAR_TEXT_JOIN 선언)
+    blocks["visitors"] = blocks["visitors"].replace('<h2 class="title">처음 오신<br>분 안내</h2>', '<h2 class="title">처음 오신 분 안내</h2>', 1).replace('<div class="wrap two reveal">', '<div class="wrap two reveal steps-oneline">', 1)
     body = "\n".join(repath(blocks[k]) for k in HOME_KEEP)
     body = _re.sub(r'<section\b([^>]*?)class="', r'<section\1class="reveal ', body)   # id 가 class 앞에 오는 태그도 처리(첫 판에서 class 중복 생성 실측)
     iife = next(s for s in scripts if "오늘회차" in s)
@@ -337,7 +344,7 @@ __CSS__
 </div></section>
 __HOME_GUIDE__
 <section class="dark"><div class="wrap reveal">
-  <div><h2>오시는 길</h2><p class="muted">{esc(SITE["church_full"])}</p></div>
+  <div><h2>{esc(SITE["church_full"])}</h2></div>
   <div><p>{esc(SITE["address"])}<br><a href="tel:{esc(SITE["phone"])}">{esc(SITE["phone"])}</a></p>
     <a class="btn" href="https://map.kakao.com/link/search/경기%20광명시%20기아로%2023" target="_blank" rel="noopener">오시는 길 ↗</a></div>
 </div></section>
@@ -396,9 +403,12 @@ def build_sub(pg, n):
         secs = sections(main, drop=("page-head",) + (("gallery",) if pg == "교회소개" else ()))
         if pg == "교회소개":
             # 사람 사진 0(master 2026-09-30 20:1x): about.jpg · 「교회의 시간들」 타일 제거 — 문안 불변 · alt 는 _verify APPROVED_NODE_DROP 선언. ★pastor.jpg(담임목사)는 보류 — 오너 답 전 손대지 않음
-            secs = [re.sub(r'<div class="photo photo--43">\s*<img[^>]*about\.jpg[^>]*>\s*</div>\s*', '', s, flags=re.S) for s in secs]
-            secs = [s.replace('class="wrap two two--photo reveal"', 'class="wrap reveal wrap--narrow"') for s in secs]   # 사진 뺀 자리 — 800 가운데(gemini R1 F)
+            # 오너 수정 2(2026-09-30): 「왼쪽에 글씨 오른쪽 공간에 사진 하나, 컬러 말고」 → about.jpg 를 2열 그대로 두고 CSS grayscale(1)(원본 파일 불변 · 되돌리기 한 줄). 리뷰어 F(800 가운데)는 이 지시가 덮음. 행사 타일은 뺀 그대로.
+            pass
         body = repath("\n".join(secs))
+        if pg == "새가족":   # 오너 수정 3(2026-09-30): 제목 <br> 제거 → 「처음 오신 분 안내」 한 줄 · 아래 문장은 한 줄(폭 확보) — 문구 불변 · _verify CEDAR_TEXT_JOIN 선언
+            body = body.replace('<h2 class="title">처음 오신<br>분 안내</h2>', '<h2 class="title">처음 오신 분 안내</h2>', 1)
+            body = body.replace('<div class="wrap two reveal">', '<div class="wrap two reveal steps-oneline">', 1)
         body = _re.sub(r'<section\b([^>]*?)class="', r'<section\1class="reveal ', body)
         body_html = (f'<main>\n<section class="subhero"><div class="wrap reveal"><p class="label">{eyebrow}</p><h1 class="title">{h1}</h1>'
                      + (f'<p class="lead">{lead}</p>' if lead else "") + f'</div>{WAVE}</section>\n<section class="body">\n{body}\n</section>\n</main>\n'

@@ -125,7 +125,9 @@ APPROVED_DROP={"index":{"hero","times","latest-sermon","pillars","intro","galler
 APPROVED_NODE_DROP={}
 # 시더(cedar) 판 전용 승인 제외 — 사유: 사람 사진 0(오너 방향) · gallery 는 사진 0 이면 존재 이유 없음(master 판정 2026-09-30). 검사 호출부가 R4.name=="cedar" 일 때 이 값을 쓴다
 CEDAR_APPROVED_DROP={"index":{"hero","times","latest-sermon","gallery","location","footer"},"교회소개":{"gallery"}}
-CEDAR_APPROVED_NODE_DROP={"index":{"정자 앞에 함께 선 큰샘교회 가족들"},"교회소개":{"정자 앞에 함께 선 큰샘교회 가족들"}}
+CEDAR_APPROVED_NODE_DROP={"index":{"정자 앞에 함께 선 큰샘교회 가족들"}}   # 교회소개 about.jpg 는 오너 수정 2 로 복귀(흑백) → 제외 해제
+# 선언된 문장 결합(오너 수정 3 · <br> 제거로 두 노드가 한 노드가 됨 · 문구 불변): (페이지, (원문 연속 노드…), 생성 노드)
+CEDAR_TEXT_JOIN={"새가족":[(("처음 오신","분 안내"),"처음 오신 분 안내")],"index":[(("처음 오신","분 안내"),"처음 오신 분 안내")]}
 DROP_ALL={"page-head","footer"}   # page-head 는 첫 판면(spread)으로 옮겨져야 하므로 그 글자는 따로 검사
 
 def _blocks(raw):
@@ -167,6 +169,10 @@ def completeness(page):
         if b in gb:
             _nd = CEDAR_APPROVED_NODE_DROP if R4.name=="cedar" else APPROVED_NODE_DROP
             sn=[n for n in _nodes(sb[b]) if n not in _nd.get(page,set())]; gn=_nodes(gb[b])
+            if R4.name=="cedar":
+                for parts,joined in CEDAR_TEXT_JOIN.get(page,[]):
+                    for i in range(len(sn)-len(parts)+1):
+                        if tuple(sn[i:i+len(parts)])==parts: sn[i:i+len(parts)]=[joined]; break
             if sn!=gn:
                 i=next((i for i in range(max(len(sn),len(gn))) if i>=len(sn) or i>=len(gn) or sn[i]!=gn[i]),0)
                 missing_nodes.append(f"{b}: 원문 {len(sn)}문장 vs 생성 {len(gn)}문장 · 첫 어긋남 #{i+1} 원문={sn[i] if i<len(sn) else '(없음)'!r} 생성={gn[i] if i<len(gn) else '(없음)'!r}")
