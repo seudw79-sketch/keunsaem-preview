@@ -15,7 +15,7 @@ date, _, verse = LATEST["설교_날짜"].partition("·")
 y, m, d = date.strip().split("-")
 label = f"이번 주일 · {int(m)}월 {int(d)}일"
 vid = LATEST["설교_링크"].split("v=")[1].split("&")[0]
-nav = "".join(f'<a href="../c/{esc(n["file"])}">{esc(n["label"])}</a>' for n in SITE["nav"])   # 하위 8페이지는 아직 c/ 것을 가리킨다(cedar 하위는 오너 확인 뒤)
+nav = "".join(f'<a href="{esc(n["file"])}">{esc(n["label"])}</a>' for n in SITE["nav"])   # cedar 안 하위 8페이지로(2026-09-30 master 실측: ../c/ 로 나가던 결함 수정 — 사이트가 사이트로 작동하지 않았다)
 times = " · ".join(f'{esc(w["dt"])} {esc(w["dd"])}' for w in SITE["worship"])
 
 # 물결 곡선 — 우리가 그린 것(외부 SVG 파일 사용 0)
@@ -285,7 +285,7 @@ __CSS__
   <a class="logo" href="index.html">{esc(SITE["church"])}</a>
   <input type="checkbox" id="tg" class="tg" aria-label="메뉴" aria-controls="drawer">
   <nav id="site-nav" class="nav" aria-label="주 메뉴">{nav}</nav>
-  <a class="pill" href="../c/새가족.html">새가족 안내</a>
+  <a class="pill" href="새가족.html">새가족 안내</a>
   <label for="tg" class="burger" aria-hidden="true"><span></span></label>
   <nav id="drawer" class="drawer" aria-label="전체 메뉴">{nav}</nav>
 </header>
@@ -295,7 +295,7 @@ __CSS__
   <div>
     <p class="label" id="sm-label">{esc(label)}</p>
     <h1 class="title" id="sm-title">{esc(LATEST["설교_제목"])}</h1>
-    <a class="btn" id="sm-link" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener">설교 영상 보기</a><a class="more" href="../c/온라인예배.html">지난 설교</a>
+    <a class="btn" id="sm-link" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener">설교 영상 보기</a><a class="more" href="온라인예배.html">지난 설교</a>
   </div>
 </div>
 {WAVE}</section>

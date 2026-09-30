@@ -178,6 +178,8 @@ def links(page):
         path=u.split("?")[0].split("#")[0]
         target=(R4/path).resolve()
         if not target.exists(): out["broken"].append(u)
+        # 목적지 규칙(2026-09-30 master 지적 · 200 만 보면 목적지가 틀려도 통과): 시더(cedar) 폴더 안 페이지의 내부 링크는 다른 시안 폴더(../c/ 등)로 나가면 안 된다
+        if R4.name == "cedar" and re.match(r"\.\./(c|시안C|c-menu|c-color)/", u): out["broken"].append("목적지 이탈: " + u)
         out["internal"].append(u)
     return out
 
