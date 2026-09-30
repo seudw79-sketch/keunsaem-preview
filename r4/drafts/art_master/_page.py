@@ -18,7 +18,7 @@ WORKS = [
     ("20", ["20"], "해 질 녘 폭포 앞의 두 사람", "노을빛 폭포 — 세로 그림이라 첫 화면보다 섹션용.", "세로 그림"),
     ("33", ["33"], "무지개가 있는 영웅적 풍경", "무지개와 산 — 세로 그림.", "세로 그림 · 시트 분류 ‘동양-한국’은 오기(독일 화가)"),
     ("30", ["30"], "산수", "메이지 시대 일본 산수 — 세로 그림.", "세로 그림"),
-    ("31", ["31"], "연사모종 · 동정추월(소상팔경 중)", "조선 초 안견 전칭 — 한국 그림, 안개 낀 산과 물. 세로 그림.", "세로 그림"),
+    ("31", ["31"], "연사모종 · 동정추월(소상팔경 중)", "조선 초 안견 화풍(Met 표기 Style of An Gyeon — 傳·attributed 아님) — 한국 그림, 안개 낀 산과 물. 세로 그림.", "세로 그림 · ★도판 목록 제외(master ④ 2026-09-30): Met 제목 Evening bell from mist-shrouded temple = 안개 낀 절의 저녁 종 — 절이 제목에 있음"),
     ("37", ["37"], "꽃과 과일이 있는 정물", "정물 — 세로 그림, 섹션 배경·소재용.", "세로 그림"),
     ("24", ["24", "32"], "시가 있는 산수", "수묵 산수 화첩 — 원본 파일이 1000px 로 작아 전폭에는 부족(참고용).", "24·32 는 같은 그림 · 해상도 부족"),
 ]
@@ -26,7 +26,11 @@ EXCLUDED = [("00·18", "Camille Corot 「광야의 하갈」(1835)", "성경 장
 HEROES = [("22", "center 45%"), ("27", "center 50%"), ("10", "center 40%")]
 
 def esc(s): return html.escape(str(s or ""), quote=True)
-def meta(n): return cand[int(n)]
+PREFIX={"31":"Style of"}  # Met artistPrefix(API 2026-09-30 실측 · candidates.json 엔 없음) — 단정형 표기 금지(master 판정 · 안견 표기)
+def meta(n):
+    m=dict(cand[int(n)])
+    if n in PREFIX: m["artist"]=PREFIX[n]+" "+m["artist"]
+    return m
 def cap(n, ko, note):
     m = meta(n)
     return (f'<p class="who">{esc(m["artist"])} · 「{esc(ko)}」</p>'
