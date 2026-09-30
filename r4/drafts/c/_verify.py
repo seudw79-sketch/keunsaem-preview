@@ -196,6 +196,10 @@ def links(page):
         big=re.search(r'<img id="sm-thumb-img"[^>]*src="([^"]+)"',raw)
         if big and "maxresdefault" not in big.group(1): out["broken"].append("첫 화면 썸네일 저해상: "+big.group(1))
         if re.search(r"src='https://i\.ytimg\.com/vi/'\+[^;]*hqdefault",raw): out["broken"].append("스크립트가 hqdefault 를 직접 지정")
+    # 있어야 할 것이 그대로 있는가(master 2026-09-30 · 하위 8페이지 꼬리 소실 회귀를 검사기가 못 잡음): 시더 9페이지 전부 — 진회색 꼬리 섹션 1 · 주소 ≥1 · 전화 ≥1 · 「오시는 길 ↗」 버튼 1. 값으로 판정
+    if R4.name=="cedar":
+        need={"dark섹션":len(re.findall(r'<section class="dark">',raw)),"주소":raw.count("경기 광명시 기아로 23"),"전화":raw.count("010-2534-0407"),"오시는길버튼":len(re.findall(r'<a class="btn"[^>]*>오시는 길 ↗</a>',raw))}
+        if need["dark섹션"]!=1 or need["주소"]<1 or need["전화"]<1 or need["오시는길버튼"]!=1: out["broken"].append("꼬리 결손: "+json.dumps(need,ensure_ascii=False))
     for m in re.finditer(r'(?:href|src)="([^"]+)"',raw):
         u=m.group(1)
         if u.startswith(("http://","https://","tel:","mailto:","data:")): out["external"].append(u); continue

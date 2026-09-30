@@ -389,7 +389,8 @@ print("cedar/index.html", len(page), "B")
 # 홈 page 문자열에서 공통 조각을 잘라 쓴다(같은 문자열 → 9페이지 한 몸)
 _head_html = page[:page.index("<body>")]                                   # <!DOCTYPE …</head>
 _banner_header = page[page.index("<body>")+len("<body>"):page.index("<main>")]  # 센티널·배너·헤더 카드
-_dark_footer = page[page.index('<section class="dark">'):page.index("<script>")]  # 진회색 오시는 길 + 꼬리
+_ds = page.index('<section class="dark">')
+_dark_footer = page[_ds:page.index("<script>", _ds)]  # 진회색 오시는 길 + 꼬리 — ★회귀(2026-09-30 master 실측): 머리에 썸네일 폴백 <script> 가 생기자 첫 <script> 가 dark 앞에 있어 조각이 빈 문자열이 됐다 → dark 이후의 첫 <script> 로 자름
 _a3 = A3JS
 
 
