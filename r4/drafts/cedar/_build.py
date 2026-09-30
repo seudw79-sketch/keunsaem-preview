@@ -132,7 +132,7 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 .subhero{padding:56px 0 calc(6rem + 40px);position:relative;overflow:hidden}
 .subhero .label{font-size:16px;color:var(--teal-text)}
 .subhero h1.title{font-size:56px;line-height:61.6px}
-.subhero .lead{font-size:18px;line-height:1.7;margin-top:16px;max-width:36ch;color:var(--dark)}
+.subhero .lead{font-size:18px;line-height:1.7;margin-top:16px;max-width:56ch;color:var(--dark)}  /* 36ch → 56ch: 온라인예배 1280 에서 「…함께 드릴 수 / 있습니다」 어색한 줄 끝(master 실측) */
 .body{background-color:var(--light);background-image:linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c);padding:3rem 0 4rem}
 .body .section{background:#fff;border-radius:16px;box-shadow:rgba(0,0,0,.2) 0 0 16px;margin:0 auto 24px;width:min(1200px,calc(100% - 40px));border:0;padding:clamp(28px,4vw,48px)}
 .body .section--tint{background:#fff}
