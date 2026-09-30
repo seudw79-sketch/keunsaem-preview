@@ -1,10 +1,10 @@
 {
  "_meta": {
   "schema": "r4/drafts/plates_스키마.md §7",
-  "decided": "master 티켓 T-HOME-C-EXPAND 2026-09-30 · nav_mode 는 오너 답 전 open"
+  "decided": "master 티켓 T-HOME-C-EXPAND 2026-09-30 · nav_mode=collapsed 는 master 최종 결정(T-HOME-C-FINAL 2026-09-30 · 오너 부재 · 첫 화면 교회 어휘 14→6) — 오너가 아니라 하면 open 으로 값 하나만"
  },
  "hero_timetable": "below",
- "nav_mode": "open",
+ "nav_mode": "collapsed",
  "nav_placement": "pushed",
  "nav": [
   {
