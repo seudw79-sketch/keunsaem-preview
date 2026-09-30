@@ -3,54 +3,164 @@
   "page": "index",
   "nodes": 96,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "index",
+   "src_blocks": 10,
+   "expected_blocks": 5,
+   "gen_blocks": 5,
+   "dropped_approved": [
+    "gallery",
+    "hero",
+    "intro",
+    "latest-sermon",
+    "pillars"
+   ],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  },
  "교회소개": {
   "page": "교회소개",
   "nodes": 62,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "교회소개",
+   "src_blocks": 5,
+   "expected_blocks": 4,
+   "gen_blocks": 4,
+   "dropped_approved": [
+    "page-head"
+   ],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  },
  "예배안내": {
   "page": "예배안내",
   "nodes": 49,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "예배안내",
+   "src_blocks": 6,
+   "expected_blocks": 5,
+   "gen_blocks": 5,
+   "dropped_approved": [
+    "page-head"
+   ],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  },
  "새가족": {
   "page": "새가족",
   "nodes": 32,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "새가족",
+   "src_blocks": 2,
+   "expected_blocks": 1,
+   "gen_blocks": 1,
+   "dropped_approved": [
+    "page-head"
+   ],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  },
  "아카데미": {
   "page": "아카데미",
   "nodes": 41,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "아카데미",
+   "src_blocks": 3,
+   "expected_blocks": 2,
+   "gen_blocks": 2,
+   "dropped_approved": [
+    "page-head"
+   ],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  },
  "온라인예배": {
   "page": "온라인예배",
   "nodes": 28,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "온라인예배",
+   "src_blocks": 2,
+   "expected_blocks": 1,
+   "gen_blocks": 1,
+   "dropped_approved": [
+    "page-head"
+   ],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  },
  "재정": {
   "page": "재정",
   "nodes": 17,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "재정",
+   "src_blocks": 0,
+   "expected_blocks": 0,
+   "gen_blocks": 0,
+   "dropped_approved": [],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  },
  "주보": {
   "page": "주보",
   "nodes": 49,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "주보",
+   "src_blocks": 3,
+   "expected_blocks": 2,
+   "gen_blocks": 2,
+   "dropped_approved": [
+    "page-head"
+   ],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  },
  "칼럼": {
   "page": "칼럼",
   "nodes": 25,
   "unmatched": [],
-  "parity": true
+  "parity": true,
+  "completeness": {
+   "page": "칼럼",
+   "src_blocks": 2,
+   "expected_blocks": 1,
+   "gen_blocks": 1,
+   "dropped_approved": [
+    "page-head"
+   ],
+   "missing_blocks": [],
+   "missing_nodes": [],
+   "complete": true
+  }
  }
 }

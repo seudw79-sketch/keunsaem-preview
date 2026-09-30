@@ -49,6 +49,12 @@ if "--out" in sys.argv:
     OUT = C.parent / sys.argv[sys.argv.index("--out") + 1]; OUT.mkdir(exist_ok=True); ASSET = "../c/"
 ONLY = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
 
+# 설정값 검증 — 허용값이 아니면 빌드 실패(경고 아님 · 조용한 폴백은 오타를 숨긴다 — codex r1 · master 2순위 2026-09-30)
+ALLOWED = {"hero_timetable": ("hero", "below"), "nav_mode": ("open", "collapsed"), "nav_placement": ("inline", "pushed")}
+for key, ok in ALLOWED.items():
+    if SITE.get(key) not in ok:
+        raise SystemExit(f"site.json {key}={SITE.get(key)!r} — 허용값 {list(ok)} 중 하나여야 한다. 사람이 고쳐라(자동 폴백 없음)")
+
 esc = lambda s: html.escape(str(s), quote=True)
 
 # ── 도판 대장 ─────────────────────────────────────────────
@@ -230,7 +236,9 @@ def build_index():
     <dl class="meta">
 {chr(10).join(meta_rows)}
     </dl>'''
-    # 홈에 싣는 r4 섹션(순서 고정) — 뺀 것: hero(첫 판면이 대신) · latest-sermon(첫 판면과 중복) · pillars(빈 줄 · 오너 답 대기) · intro·gallery(사진 · 명화 방향)
+    # 홈에 싣는 r4 섹션(순서 고정) — 뺀 것은 master 승인(2026-09-30): hero(첫 판면이 대신) · latest-sermon(첫 판면과 중복) · intro·gallery(성도 사진 — 명화 방향).
+    # ★pillars(세 기둥 = 오너 목회 3축)는 빈 칸이라 뺀 것이지 없애기로 한 것이 아님 — 오너가 글을 채우면 keep 에 "pillars" 를 넣어 복귀시킨다.
+    # 검증기 _verify.py APPROVED_DROP 이 같은 목록을 들고 누락을 감시한다 — 여기 바꾸면 거기도 같이.
     keep = ["today", "sermons", "worship", "visitors", "location"]
     body = [s for _, s in sections(main, keep=keep)]
     # 통독 스크립트는 r4 원문 그대로(IIFE) · latest.json 갱신은 첫 판면 id 에 맞춰 여기서 씀

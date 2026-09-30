@@ -51,8 +51,10 @@ def norm(s):
 def source_text(paths):
     """출처 파일의 텍스트·alt·title·JSON 값을 정규화해 한 덩어리로."""
     buf=[]
+    missing=[str(p) for p in paths if not p.exists()]
+    if missing:   # codex r1: 출처가 없으면 조용히 건너뛰지 않는다 — 실패로 올린다
+        raise FileNotFoundError("출처 파일 없음: "+", ".join(missing))
     for p in paths:
-        if not p.exists(): continue
         raw=p.read_text(encoding="utf-8",errors="replace")
         if p.suffix==".json":
             def walk(o):
@@ -84,8 +86,12 @@ def page_text_nodes(p):
     return nodes
 
 def text_parity(page):
+    """방향 1(창작 0): 생성 페이지의 글자가 전부 출처에 있는가. ※ 누락은 못 잡는다 — 그것은 completeness() 가 본다(codex r1 2026-09-30)."""
     src_paths=PAGES[page]; f=R4/f"{page}.html"
-    src_lines, src_flat = source_text(src_paths)
+    try:
+        src_lines, src_flat = source_text(src_paths)
+    except FileNotFoundError as e:
+        return {"page":page,"nodes":0,"unmatched":[str(e)],"parity":False}
     hay = src_flat
     unmatched=[]; total=0
     for kind,n in page_text_nodes(f):
@@ -102,6 +108,49 @@ def text_parity(page):
         if pieces and all((pc in hay) or (pc in ALLOW) or len(pc)<2 for pc in pieces): continue
         unmatched.append(n)
     return {"page":page,"nodes":total,"unmatched":unmatched,"parity":len(unmatched)==0}
+
+# 홈에서 master 승인으로 뺀 r4 블록(2026-09-30): hero·times(첫 판면이 대신) · latest-sermon(첫 판면과 중복) · intro·gallery(성도 사진 — 명화 방향)
+# · pillars 는 빈 칸이라 뺀 것이며 글을 채우면 복귀. footer 는 전 페이지 공통 꼬리로 대체(교회명·주소·전화·© 는 꼬리에 실림).
+APPROVED_DROP={"index":{"hero","times","latest-sermon","pillars","intro","gallery","footer"}}
+DROP_ALL={"page-head","footer"}   # page-head 는 첫 판면(spread)으로 옮겨져야 하므로 그 글자는 따로 검사
+
+def _blocks(raw):
+    raw=re.sub(r"<!--.*?-->","",raw,flags=re.S)
+    out={}
+    for m in re.finditer(r'<section\b[^>]*data-block="([^"]+)"[^>]*>.*?</section>',raw,re.S): out[m.group(1)]=m.group(0)
+    return out
+def _nodes(frag):
+    frag=re.sub(r"<script.*?</script>","",frag,flags=re.S); frag=re.sub(r"<br\s*/?>","\n",frag)
+    ns=[]
+    for m in re.finditer(r'alt="([^"]*)"',frag):
+        n=norm(m.group(1));
+        if n: ns.append(n)
+    for t in re.split(r"<[^>]+>",frag):
+        for line in t.split("\n"):
+            n=norm(line)
+            if n: ns.append(n)
+    return ns
+
+def completeness(page):
+    """방향 2(누락 0): r4 본편의 블록·글자가 생성 페이지에 다 들어갔는가 — 출처 없는 것을 건너뛰지 않고, 빠진 블록·문장의 이름을 찍는다(codex r1 수용)."""
+    src=(PREVIEW/"r4"/f"{page}.html"); f=R4/f"{page}.html"
+    if not src.exists(): return {"page":page,"complete":False,"missing_blocks":["r4 원문 없음: "+str(src)],"missing_nodes":[]}
+    sb=_blocks(src.read_text(encoding="utf-8")); gen=f.read_text(encoding="utf-8"); gb=_blocks(gen)
+    drop=DROP_ALL|APPROVED_DROP.get(page,set())
+    expected=[b for b in sb if b not in drop]
+    missing_blocks=[b for b in expected if b not in gb]
+    gen_nodes=set(_nodes(re.sub(r"<!--.*?-->","",gen,flags=re.S)))
+    missing_nodes=[]
+    for b in expected:
+        if b in gb:
+            for n in _nodes(sb[b]):
+                if n not in gen_nodes: missing_nodes.append(f"{b}: {n}")
+    if "page-head" in sb and page!="재정":   # 첫 판면으로 옮긴 글자(eyebrow·h1·lead)도 있어야 한다
+        for n in _nodes(sb["page-head"]):
+            if n not in gen_nodes: missing_nodes.append(f"page-head→spread: {n}")
+    return {"page":page,"src_blocks":len(sb),"expected_blocks":len(expected),"gen_blocks":len(gb),
+            "dropped_approved":sorted(b for b in sb if b in drop),"missing_blocks":missing_blocks,"missing_nodes":missing_nodes,
+            "complete":not missing_blocks and not missing_nodes}
 
 def links(page):
     f=R4/f"{page}.html"; raw=f.read_text(encoding="utf-8")
@@ -205,13 +254,14 @@ if __name__=="__main__":
     pages=[a for a in sys.argv[1:] if a in PAGES] or [p for p in PAGES if (R4/f"{p}.html").exists()]
     tp=load("text_parity.json"); lk=load("links.json"); ov=load("overflow.json"); cp=load("captures.json")
     for pg in pages:
-        tp[pg]=text_parity(pg); lk[pg]=links(pg)
+        tp[pg]=text_parity(pg); lk[pg]=links(pg); tp[pg]["completeness"]=completeness(pg)
         ov[pg]={}
         for w in (390,1280):
             m=measure(pg,w); ov[pg][str(w)]=m
             h=min(max(m.get("scrollHeight",900)+40,900),16000)
             cp[f"{pg}_{w}"]=capture(pg,w,h)
-        print(f"[{pg}] parity={tp[pg]['parity']} unmatched={tp[pg]['unmatched']} broken={lk[pg]['broken']} overflow={ {k:v.get('overflow') for k,v in ov[pg].items()} }")
+        c=tp[pg]["completeness"]
+        print(f"[{pg}] parity={tp[pg]['parity']} unmatched={tp[pg]['unmatched']} complete={c['complete']} blocks={c.get('expected_blocks')}/{c.get('gen_blocks')} missing_blocks={c['missing_blocks']} missing_nodes={c['missing_nodes'][:5]} broken={lk[pg]['broken']} overflow={ {k:v.get('overflow') for k,v in ov[pg].items()} }")
     save("text_parity.json",tp); save("links.json",lk); save("overflow.json",ov); save("captures.json",cp)
     cc=css_check(); save("css_check.json",cc)
     print("css_check:",json.dumps(cc,ensure_ascii=False))
