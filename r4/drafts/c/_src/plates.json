@@ -1,0 +1,435 @@
+{
+ "_meta": {
+  "source": "메트로폴리탄 미술관 Open Access (Met Collection API)",
+  "license": "Public Domain — CC0",
+  "verified": "2026-09-30",
+  "filter": "grayscale(1) sepia(.13) contrast(1.02)",
+  "prefix_ko": {
+   "": "",
+   "Attributed to": "전(傳) {n}",
+   "Workshop of": "{n} 공방",
+   "Circle of": "{n} 유파",
+   "Follower of": "{n} 를 따른 작가",
+   "Style of": "{n} 화풍",
+   "Manner of": "{n} 화풍",
+   "After": "{n} 원작 모사",
+   "Copy after": "{n} 원작 모사"
+  },
+  "schema": "r4/drafts/plates_스키마.md"
+ },
+ "plates": [
+  {
+   "no": "22",
+   "no_alt": [],
+   "met_id": 435809,
+   "artist_en": "Pieter Bruegel the Elder",
+   "artist_prefix": "",
+   "artist_ko": "피터르 브뤼헐",
+   "title_en": "The Harvesters",
+   "title_ko": "추수하는 사람들",
+   "title_suffix": "",
+   "date": "1565",
+   "date_ko": "1565",
+   "medium": "Oil on oak",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/435809",
+   "image_url": "https://images.metmuseum.org/CRDImages/ep/original/DP119115.jpg",
+   "src_px": [
+    3811,
+    2809
+   ],
+   "portrait": false,
+   "crop": {
+    "partial": false,
+    "focus": "center 45%"
+   },
+   "pages": [
+    {
+     "page": "index",
+     "slot": "spread"
+    }
+   ],
+   "file": "art22",
+   "note": "오너 첫 화면 확정(2026-09-30) · 민 14:8 젖과 꿀 · 원경 언덕에 마을 교회 첨탑 작게 있음(gemini 실측 · master: 두드러지지 않아 그대로)"
+  },
+  {
+   "no": "27",
+   "no_alt": [],
+   "met_id": 72416,
+   "artist_en": "Watanabe Shikō 渡辺始興",
+   "artist_prefix": "",
+   "artist_ko": "와타나베 시코",
+   "title_en": "Landscape",
+   "title_ko": "산수",
+   "title_suffix": "",
+   "date": "first half of the 18th century",
+   "date_ko": "18세기 전반",
+   "medium": "Two-panel folding screen; ink on paper",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/72416",
+   "image_url": "https://images.metmuseum.org/CRDImages/as/original/DP112938.jpg",
+   "src_px": [
+    3611,
+    3278
+   ],
+   "portrait": false,
+   "crop": {
+    "partial": false,
+    "focus": "center 50%"
+   },
+   "pages": [
+    {
+     "page": "index",
+     "slot": "grid",
+     "order": 1
+    },
+    {
+     "page": "아카데미",
+     "slot": "spread"
+    }
+   ],
+   "file": "art27",
+   "note": "두 폭 병풍 · 여백"
+  },
+  {
+   "no": "10",
+   "no_alt": [
+    "05",
+    "16"
+   ],
+   "met_id": 436241,
+   "artist_en": "Jules Dupré",
+   "artist_prefix": "",
+   "artist_ko": "쥘 뒤프레",
+   "title_en": "Cows Crossing a Ford",
+   "title_ko": "여울을 건너는 소 떼",
+   "title_suffix": "",
+   "date": "1836",
+   "date_ko": "1836",
+   "medium": "Oil on canvas",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/436241",
+   "image_url": "https://images.metmuseum.org/CRDImages/ep/original/DP232030.jpg",
+   "src_px": [
+    3911,
+    2317
+   ],
+   "portrait": false,
+   "crop": {
+    "partial": false,
+    "focus": "center 40%"
+   },
+   "pages": [
+    {
+     "page": "index",
+     "slot": "grid",
+     "order": 2
+    },
+    {
+     "page": "새가족",
+     "slot": "spread"
+    }
+   ],
+   "file": "art10",
+   "note": "master 판정 ②: 「소들」→「소 떼」 통일"
+  },
+  {
+   "no": "19",
+   "no_alt": [],
+   "met_id": 437547,
+   "artist_en": "Jacob van Ruisdael",
+   "artist_prefix": "",
+   "artist_ko": "야코프 판 라위스달",
+   "title_en": "Grainfields",
+   "title_ko": "밀밭",
+   "title_suffix": "",
+   "date": "mid- or late 1660s",
+   "date_ko": "1660년대 중·후반",
+   "medium": "Oil on canvas",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/437547",
+   "image_url": "https://images.metmuseum.org/CRDImages/ep/original/DP146453.jpg",
+   "src_px": [
+    3895,
+    3233
+   ],
+   "portrait": false,
+   "crop": {
+    "partial": false,
+    "focus": "center 50%"
+   },
+   "pages": [
+    {
+     "page": "index",
+     "slot": "grid",
+     "order": 3
+    },
+    {
+     "page": "예배안내",
+     "slot": "spread"
+    }
+   ],
+   "file": "art19",
+   "note": ""
+  },
+  {
+   "no": "21",
+   "no_alt": [],
+   "met_id": 343144,
+   "artist_en": "Jacob Maris",
+   "artist_prefix": "",
+   "artist_ko": "야코프 마리스",
+   "title_en": "Dutch Canal, Rijswijk",
+   "title_ko": "레이스베이크의 네덜란드 운하",
+   "title_suffix": "",
+   "date": "second half 19th century",
+   "date_ko": "19세기 후반",
+   "medium": "Watercolor over traces of black chalk",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/343144",
+   "image_url": "https://images.metmuseum.org/CRDImages/dp/original/DP820044.jpg",
+   "src_px": [
+    3723,
+    3158
+   ],
+   "portrait": false,
+   "crop": {
+    "partial": false,
+    "focus": "center 50%"
+   },
+   "pages": [
+    {
+     "page": "index",
+     "slot": "grid",
+     "order": 4
+    },
+    {
+     "page": "온라인예배",
+     "slot": "spread"
+    }
+   ],
+   "file": "art21",
+   "note": "31 대체(master ④ 2026-09-30) — 수채 · 운하·다리·초가·인물, 교회·절 없음(worker 화면 실측)"
+  },
+  {
+   "no": "15",
+   "no_alt": [],
+   "met_id": 437299,
+   "artist_en": "Camille Pissarro",
+   "artist_prefix": "",
+   "artist_ko": "카미유 피사로",
+   "title_en": "Jalais Hill, Pontoise",
+   "title_ko": "퐁투아즈의 잘레 언덕",
+   "title_suffix": "",
+   "date": "1867",
+   "date_ko": "1867",
+   "medium": "Oil on canvas",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/437299",
+   "image_url": "https://images.metmuseum.org/CRDImages/ep/original/DT1859.jpg",
+   "src_px": [
+    3811,
+    2907
+   ],
+   "portrait": false,
+   "crop": {
+    "partial": false,
+    "focus": "center 50%"
+   },
+   "pages": [
+    {
+     "page": "교회소개",
+     "slot": "spread"
+    }
+   ],
+   "file": "art15",
+   "note": "언덕 위 작은 교회탑 有(브뤼헐과 같은 수준 · worker 화면 실측)"
+  },
+  {
+   "no": "30",
+   "no_alt": [],
+   "met_id": 54710,
+   "artist_en": "Kawabata Gyokushō",
+   "artist_prefix": "",
+   "artist_ko": "가와바타 교쿠쇼",
+   "title_en": "Landscape",
+   "title_ko": "산수",
+   "title_suffix": "",
+   "date": "ca. 1887–92",
+   "date_ko": "1887–92년 무렵",
+   "medium": "Album leaf; ink and color on silk",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/54710",
+   "image_url": "https://images.metmuseum.org/CRDImages/as/original/DP211855.jpg",
+   "src_px": [
+    3070,
+    4000
+   ],
+   "portrait": true,
+   "crop": {
+    "partial": true,
+    "focus": "center 30%"
+   },
+   "pages": [
+    {
+     "page": "주보",
+     "slot": "spread"
+    }
+   ],
+   "file": "art30",
+   "note": "세로 그림 — 첫 판면은 4:3 부분 크롭 → 캡션 (부분)"
+  },
+  {
+   "no": "37",
+   "no_alt": [],
+   "met_id": 436293,
+   "artist_en": "Henri Fantin-Latour",
+   "artist_prefix": "",
+   "artist_ko": "앙리 팡탱라투르",
+   "title_en": "Still Life with Flowers and Fruit",
+   "title_ko": "꽃과 과일이 있는 정물",
+   "title_suffix": "",
+   "date": "1866",
+   "date_ko": "1866",
+   "medium": "Oil on canvas",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/436293",
+   "image_url": "https://images.metmuseum.org/CRDImages/ep/original/DT1980.jpg",
+   "src_px": [
+    3074,
+    3722
+   ],
+   "portrait": true,
+   "crop": {
+    "partial": true,
+    "focus": "center 45%"
+   },
+   "pages": [
+    {
+     "page": "칼럼",
+     "slot": "spread"
+    }
+   ],
+   "file": "art37",
+   "note": "세로 그림 — 부분 크롭"
+  },
+  {
+   "no": "20",
+   "no_alt": [],
+   "met_id": 439344,
+   "artist_en": "Johan Christian Dahl",
+   "artist_prefix": "",
+   "artist_ko": "요한 크리스티안 달",
+   "title_en": "Two Men before a Waterfall at Sunset",
+   "title_ko": "해 질 녘 폭포 앞의 두 사람",
+   "title_suffix": "",
+   "date": "1823",
+   "date_ko": "1823",
+   "medium": "Oil on canvas",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/439344",
+   "image_url": "https://images.metmuseum.org/CRDImages/ep/original/DP-34315-001.jpg",
+   "src_px": [
+    3616,
+    4000
+   ],
+   "portrait": true,
+   "crop": {
+    "partial": true,
+    "focus": "center 40%"
+   },
+   "pages": [],
+   "file": "art20",
+   "note": "세로 그림 · 미배치"
+  },
+  {
+   "no": "33",
+   "no_alt": [],
+   "met_id": 439844,
+   "artist_en": "Joseph Anton Koch",
+   "artist_prefix": "",
+   "artist_ko": "요제프 안톤 코흐",
+   "title_en": "Heroic Landscape with Rainbow",
+   "title_ko": "무지개가 있는 영웅적 풍경",
+   "title_suffix": "",
+   "date": "1824",
+   "date_ko": "1824",
+   "medium": "Oil on canvas",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/439844",
+   "image_url": "https://images.metmuseum.org/CRDImages/ep/original/DP224123.jpg",
+   "src_px": [
+    3425,
+    3851
+   ],
+   "portrait": true,
+   "crop": {
+    "partial": true,
+    "focus": "center 40%"
+   },
+   "pages": [],
+   "file": "art33",
+   "note": "세로 그림 · 미배치 · 시트 분류 '동양-한국'은 오기(독일 화가)"
+  },
+  {
+   "no": "31",
+   "no_alt": [],
+   "met_id": 50897,
+   "artist_en": "An Gyeon",
+   "artist_prefix": "Style of",
+   "artist_ko": "안견 화풍",
+   "title_en": "Evening bell from mist-shrouded temple (left); Autumn moon over Lake Dongting (right)",
+   "title_ko": "연사모종",
+   "title_suffix": "소상팔경 중",
+   "date": "ca. 1450–1500",
+   "date_ko": "1450–1500년 무렵",
+   "medium": "Pair of hanging scrolls; ink on silk",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/50897",
+   "image_url": "https://images.metmuseum.org/CRDImages/as/original/DP-36421-001.jpg",
+   "src_px": [
+    2835,
+    4000
+   ],
+   "portrait": true,
+   "crop": {
+    "partial": true,
+    "focus": "center 30%"
+   },
+   "pages": [],
+   "file": "art31",
+   "note": "★도판 목록 제외(master ④): Met 제목 'Evening bell from mist-shrouded temple' — 절이 제목에 있음 · Met artistPrefix 'Style of' → 화풍"
+  },
+  {
+   "no": "24",
+   "no_alt": [
+    "32"
+   ],
+   "met_id": 36131,
+   "artist_en": "Gong Xian",
+   "artist_prefix": "",
+   "artist_ko": "공현",
+   "title_en": "Landscapes with poems",
+   "title_ko": "시가 있는 산수",
+   "title_suffix": "",
+   "date": "1688",
+   "date_ko": "1688",
+   "medium": "Fifteen leaves from an album (1980.516.2a–c and 1981.4.1a–o) of eighteen leaves",
+   "collection": "메트로폴리탄 미술관",
+   "object_url": "https://www.metmuseum.org/art/collection/search/36131",
+   "image_url": "https://images.metmuseum.org/CRDImages/as/original/1981_4_1a.jpg",
+   "src_px": [
+    1000,
+    692
+   ],
+   "portrait": false,
+   "crop": {
+    "partial": false,
+    "focus": "center 50%"
+   },
+   "pages": [],
+   "file": "art24",
+   "note": "원본 1000px — 전폭 불가 · 미배치"
+  }
+ ]
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>성경 아카데미 · 큰샘교회</title>
+<!-- C안(도록형) · 생성: r4/drafts/c/_build.py — 손으로 고치지 말 것(다음 생성에서 덮인다). 문안=r4/아카데미.html 검증분 · 캡션=_src/plates.json · 설정=_src/site.json -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css">
+<link rel="stylesheet" href="c.css">
+</head>
+<body data-nav="open">
+<header class="hd" data-place="pushed">
+  <a class="logo" href="index.html">큰샘교회</a>
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="메뉴" aria-controls="site-nav">
+  <label for="nav-toggle" class="nav-btn">메뉴</label>
+  <nav id="site-nav" class="nav" aria-label="주 메뉴"><a href="교회소개.html">교회소개</a><a href="예배안내.html">예배안내</a><a href="아카데미.html" aria-current="page">성경 아카데미</a><a href="칼럼.html">신앙 칼럼</a><a href="재정.html">교회 재정</a><a href="주보.html">온라인 주보</a><a href="온라인예배.html">온라인 예배</a><a href="새가족.html">새가족 안내</a></nav>
+</header>
+<section class="spread">
+  <figure class="plateL">
+    <img class="plate" src="assets/plates/art27_2400.jpg" srcset="assets/plates/art27_1200.jpg 1200w, assets/plates/art27_2400.jpg 2400w" sizes="(max-width:820px) 100vw, 63vw" width="2400" height="2179" alt="와타나베 시코, 산수, 18세기 전반" fetchpriority="high">
+    <figcaption>도판 01 · 와타나베 시코, 『산수』, 18세기 전반</figcaption>
+  </figure>
+  <div class="plateR">
+    <p class="no">No. 05</p>
+    <p class="label">큰샘 성경 아카데미</p>
+    <h1 class="title">성경을 배우는 자리</h1>
+    <p class="lead">성경을 배우는 강의를 시리즈로 모읍니다. 처음부터 순서대로 들으실 수 있습니다.</p>
+  </div>
+</section>
+<main>
+<!-- 근거: 시안E_아카데미.html 시리즈1(이애실 원장 강의) — 제목·부제·재생목록 링크 문자 그대로 -->
+<section class="section section--tint" data-block="series-1"><div class="wrap">
+  <div class="head reveal"><span class="eyebrow">시리즈</span><h2 class="title">어? 성경이 읽어지네 — 이애실 원장 강의</h2><p class="lead" style="margin-top:12px">애실쌤과 365성경읽기 · 생터성경사역원 · 처음부터 순서대로</p></div>
+  <div class="video-embed reveal"><iframe src="https://www.youtube.com/embed/videoseries?list=PLN0CvF5J-mpCg0_mjw8a0yT6LHErhrvxZ" title="어? 성경이 읽어지네 — 이애실 원장 강의" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  <p class="note" style="margin-top:16px">재생목록 전체 · 플레이어 오른쪽 위 목록 단추로 회차를 고르실 수 있습니다</p>
+  <div class="actions"><a class="btn" href="https://www.youtube.com/playlist?list=PLN0CvF5J-mpCg0_mjw8a0yT6LHErhrvxZ" target="_blank" rel="noopener">유튜브에서 열기 →</a></div>
+</div></section>
+<!-- 근거: 시안E_아카데미.html 시리즈2(성경통독 365) — 오늘의 통독 로직은 index.html #week .reading 컴포넌트·스크립트 재사용(표=../통독_365.json·덮어쓰기=../통독_영상_덮어쓰기.json) -->
+<section class="section section--line" data-block="series-2"><div class="wrap">
+  <div class="head reveal"><span class="eyebrow">시리즈</span><h2 class="title">성경통독 365</h2><p class="lead" style="margin-top:12px">어! 성경이 읽어지네 · 하루 한 회차 · 생터성경사역원 강의</p></div>
+  <div class="reading reveal"><div><span class="eyebrow">오늘의 통독</span><h3>오늘의 통독 —</h3></div>
+    <div><div class="reading__now"><div><span>오늘의 통독 —</span><b id="td-day">불러오는 중…</b></div><div><span>오늘 읽을 곳 —</span><b id="td-ref"></b></div></div>
+      <div class="reading__nav"><button type="button" id="td-prev">← 어제</button><span id="td-pos"></span><button type="button" id="td-next">내일 →</button></div>
+      <div class="reading__links"><a class="text-link" id="td-video" href="https://www.youtube.com/playlist?list=PLN0CvF5J-mpCg0_mjw8a0yT6LHErhrvxZ" target="_blank" rel="noopener">오늘의 통독 강의 ↗</a></div></div>
+  </div>
+  <p class="note" style="margin-top:24px">강의 영상은 <b>생터성경사역원</b>이 만들고 공개한 것입니다. 큰샘교회는 옮겨 싣지 않고 연결만 합니다.</p>
+  <p class="note" style="margin-top:16px">★이 페이지는 <b>아카데미 &gt; 시리즈 &gt; 회차</b> 구조입니다. 시리즈를 늘리면 그대로 붙고, 통독 365편도 같은 자리에 들어옵니다.<br>★영상 칸은 <b>자리표시</b>입니다 — 실제 강의 주소를 주시면 그대로 끼웁니다.</p>
+</div></section>
+</main>
+<script>
+// 근거: index.html #week .reading 오늘의 통독 로직 재사용(경로는 r4/ 기준 상위 ../)
+(function(){
+  function 오늘회차(){var kst=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));var 연=kst.getFullYear(),첫날=new Date(연,0,1);var n=Math.floor((new Date(연,kst.getMonth(),kst.getDate())-첫날)/86400000)+1;var 윤=(연%4===0&&연%100!==0)||(연%400===0);if(윤&&n>59)n-=1;return Math.min(365,Math.max(1,n));}
+  var 표=null,덮=null,통독일=오늘회차();
+  function 그리기(){var r=표&&표.회차&&표.회차[통독일-1];if(!r)return;document.getElementById('td-day').textContent=r.일+'일차';document.getElementById('td-ref').textContent=r.범위||'';document.getElementById('td-pos').textContent=r.일+' / 365';var id=(덮&&덮.덮어쓰기&&덮.덮어쓰기[String(r.일)])||r.영상;var a=document.getElementById('td-video');if(id){a.href='https://www.youtube.com/watch?v='+id;}}
+  document.getElementById('td-prev').addEventListener('click',function(){통독일=((통독일-2)%365+365)%365+1;그리기();});
+  document.getElementById('td-next').addEventListener('click',function(){통독일=(통독일%365)+1;그리기();});
+  if(location.protocol==='file:')return;
+  Promise.all([fetch('../../../통독_365.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null}),fetch('../../../통독_영상_덮어쓰기.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).catch(function(){return null})]).then(function(v){표=v[0];덮=v[1];그리기();});
+})();
+</script>
+<footer class="ft">
+  <span>기독교대한감리회 큰샘교회 · 경기 광명시 기아로 23 (소하동) 4층 · <a href="tel:010-2534-0407">010-2534-0407</a></span>
+  <span>도판: 메트로폴리탄 미술관 공개 소장품(Public Domain)</span>
+  <span>© 2026 큰샘교회</span>
+  <span>C안(도록형) 내부 검토용</span>
+</footer>
+</body>
+</html>

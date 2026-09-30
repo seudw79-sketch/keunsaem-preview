@@ -1,0 +1,35 @@
+{
+ "c.css": {
+  "comment_open": 15,
+  "comment_close": 15,
+  "balanced": true,
+  "hex_outside_tokens": []
+ },
+ "index.html": {
+  "hex_in_html": []
+ },
+ "교회소개.html": {
+  "hex_in_html": []
+ },
+ "새가족.html": {
+  "hex_in_html": []
+ },
+ "아카데미.html": {
+  "hex_in_html": []
+ },
+ "예배안내.html": {
+  "hex_in_html": []
+ },
+ "온라인예배.html": {
+  "hex_in_html": []
+ },
+ "재정.html": {
+  "hex_in_html": []
+ },
+ "주보.html": {
+  "hex_in_html": []
+ },
+ "칼럼.html": {
+  "hex_in_html": []
+ }
+}
