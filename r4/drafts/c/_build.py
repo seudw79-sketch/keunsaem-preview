@@ -89,9 +89,13 @@ def read_r4(page):
 def repath(frag):
     """r4/ 기준 상대경로 → r4/drafts/c/ 기준. 사진/→../../사진/ · ../→../../../ (속성·스크립트 문자열 모두)."""
     # 순서 중요: 상위(../) 먼저 바꾸고 그 다음 사진/ — 반대로 하면 방금 만든 ../../사진/ 이 또 잡혀 4단이 된다(첫 실행에서 실측)
-    frag = re.sub(r'(src|href)="\.\./', r'\1="../../../', frag)
+    # 속성은 src·href·srcset 모두, 따옴표는 큰/작은 둘 다 (gemini r1 지적 · master 수용 2026-09-30)
+    frag = re.sub(r'(src|href|srcset)=(["\'])\.\./', r'\1=\2../../../', frag)
     frag = frag.replace("'../", "'../../../").replace('"../"', '"../../../"')
-    frag = re.sub(r'(src|href)="사진/', r'\1="../../사진/', frag)
+    frag = re.sub(r'(src|href|srcset)=(["\'])사진/', r'\1=\2../../사진/', frag)
+    if ASSET:   # 비교판(c-menu)은 하위 페이지가 없으니 본문 안 페이지 링크도 ../c/ 로(전수 경로 검사에서 실측 2026-09-30)
+        pages = "|".join(re.escape(n["file"]) for n in SITE["nav"])
+        frag = re.sub(r'href=(["\'])(' + pages + r')', r'href=\1' + ASSET + r'\2', frag)
     return frag
 
 def sections(main, drop=(), keep=None):
@@ -249,10 +253,18 @@ def build_page(page, n):
     return out
 
 def build_finance():
-    """재정: 잠금 카드(시안E 원본 · 암호 로직·SALT·IV·CT·id 불변) — 토큰 파일만 c.css 로 바꾼다. 본문 한 글자도 안 건드림."""
+    """재정: 잠금 카드는 시안E 원본 그대로(암호 로직·SALT·IV·CT·#pw/#go/#err id·문안 불변) — 다른 8페이지와 같은 공통 머리/꼬리 안에 넣는다.
+    근거: gemini r1 지적 → master 등급 major(2026-09-30): 머리·꼬리·로고 0 이면 들어가서 나올 길이 없는 페이지."""
     raw = (R4 / "재정.html").read_text(encoding="utf-8")
-    assert 'href="assets/tokens.css"' in raw
-    return raw.replace('href="assets/tokens.css"', 'href="c.css"', 1)
+    title = re.search(r"<title>(.*?)</title>", raw, re.S).group(1).strip()
+    card = re.search(r'<div class="card">.*?</div>\s*(?=<script>)', raw, re.S).group(0).strip()
+    script = re.search(r"<script>.*?</script>", raw, re.S).group(0)
+    assert 'id="pw"' in card and 'id="go"' in card and 'id="err"' in card and "unlock" in script and "SALT=" in script
+    out = head(title, "재정") + header("재정")
+    out += '<main>\n<section class="section lock"><div class="wrap">\n' + card + '\n</div></section>\n</main>\n'
+    out += script + "\n"
+    out += footer([])
+    return out
 
 if __name__ == "__main__":
     n = 0

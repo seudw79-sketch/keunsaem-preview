@@ -150,6 +150,16 @@ p{max-width:60ch}
 .address{font-family:var(--serif);font-size:clamp(20px,2.2vw,26px);line-height:1.4;color:var(--ink);max-width:22ch}
 .phone{display:inline-block;font-size:16px;margin-top:12px;color:var(--ink)}
 
+/* ── 재정 잠금 카드(시안E 원본 마크업 · 로직 불변) — 공통 머리/꼬리 안 본문 자리 ── */
+.lock{min-height:52vh;display:flex;align-items:center}
+.lock .card{margin:0 auto;max-width:340px;width:100%;text-align:center;border:1px solid var(--rule);padding:28px 24px}
+.lock h1{font-family:var(--serif);font-weight:500;font-size:22px;margin-bottom:8px}
+.lock p{color:var(--muted);font-size:14px;margin:0 auto 18px}
+.lock input{width:100%;padding:11px 12px;border:1px solid var(--rule);border-radius:0;font-size:16px;font-family:var(--sans);background:var(--paper);color:var(--ink)}
+.lock button{margin-top:10px;width:100%;padding:11px;border:1px solid var(--ink);border-radius:9999px;background:var(--ink);color:var(--paper);font-size:16px;font-family:var(--sans)}
+.lock #err{color:var(--ink);font-size:13px;min-height:1.2em;margin-top:8px}
+.lock a{display:inline-block;margin-top:14px;font-size:13px;text-decoration:none;border-bottom:1px solid var(--rule)}
+
 /* ── 꼬리 ── */
 .ft{padding:22px var(--gut) 44px;font-size:12.5px;color:var(--muted);display:grid;gap:8px}
 .ft a{text-decoration:none}

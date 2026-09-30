@@ -143,9 +143,13 @@ def css_check():
     return res
 
 def chrome(args, timeout=90):
-    return subprocess.run(["cys","run","--",CHROME,"--headless=new","--disable-gpu","--hide-scrollbars",
-                           "--allow-file-access-from-files","--virtual-time-budget=4000"]+args,
-                          capture_output=True,text=True,timeout=timeout)
+    """cys run(스코프 실행)이 기본 · 리뷰어 좌석처럼 cys 가 없거나 거부되면 로컬 크롬 직접 실행으로 폴백(gemini r1 지적 · master 수용 2026-09-30 —
+    폴백 없이는 overflow.json 이 전부 에러로 기록돼 넘침 판정이 무효였다)."""
+    base=[CHROME,"--headless=new","--disable-gpu","--hide-scrollbars","--allow-file-access-from-files","--virtual-time-budget=4000"]+args
+    if shutil.which("cys"):
+        r=subprocess.run(["cys","run","--"]+base,capture_output=True,text=True,timeout=timeout)
+        if r.returncode==0 and r.stdout.strip(): return r
+    return subprocess.run(base,capture_output=True,text=True,timeout=timeout)
 
 def measure(page, width):
     """넘침 측정. 헤드리스 Chrome 은 500px 미만 창을 못 만들므로(시안E 실측) 500 미만 폭은 iframe 래퍼로 진짜 폭을 만든다.

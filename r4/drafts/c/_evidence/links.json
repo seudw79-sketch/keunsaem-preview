@@ -200,9 +200,24 @@
   "page": "재정",
   "internal": [
    "c.css",
+   "index.html",
+   "교회소개.html",
+   "예배안내.html",
+   "아카데미.html",
+   "칼럼.html",
+   "재정.html",
+   "주보.html",
+   "온라인예배.html",
+   "새가족.html",
    "index.html"
   ],
-  "external": [],
+  "external": [
+   "https://fonts.googleapis.com",
+   "https://fonts.gstatic.com",
+   "https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&display=swap",
+   "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css",
+   "tel:010-2534-0407"
+  ],
   "broken": []
  },
  "주보": {
