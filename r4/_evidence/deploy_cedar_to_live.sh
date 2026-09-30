@@ -54,7 +54,7 @@ if grep -l '<link rel="stylesheet" href="[^h]' "${PAGES[@]/#/$SRC/}" >/dev/null 
 sed "s#<lastmod>[0-9-]*</lastmod>#<lastmod>$(date +%Y-%m-%d)</lastmod>#g" "$R4EV/sitemap.proposed.xml" > "$STAGE/sitemap.xml"
 cp "$R4EV/robots.proposed.txt" "$STAGE/robots.txt"
 grep -qx 'Disallow: /시안E_재정.html' "$STAGE/robots.txt" && grep -qx 'Disallow: /재정.html' "$STAGE/robots.txt" && grep -qx 'Sitemap: https://ksmc31.kr/sitemap.xml' "$STAGE/robots.txt" || { say "중단: robots.proposed.txt 에 필수 3줄이 없다"; exit 4; }
-while IFS= read -r line; do [[ -z "$line" ]] || grep -qxF "$line" "$STAGE/robots.txt" || { say "중단: 라이브 robots 줄이 제안본에서 사라짐: $line"; done < "$LIVE/robots.txt"
+while IFS= read -r line; do [[ -z "$line" ]] || grep -qxF "$line" "$STAGE/robots.txt" || { say "중단: 라이브 robots 줄이 제안본에서 사라짐: $line"; exit 4; }; done < "$LIVE/robots.txt"
 
 # 2. 경로 치환 — 시더 전용 표(루트까지 세 단 → 루트 · 사진 두 단 → 사진/cedar/ · LATEST_URL 절대→상대). 문안 무변경 · 경로만
 for p in "${PAGES[@]}"; do
