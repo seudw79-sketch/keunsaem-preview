@@ -116,12 +116,10 @@ def read_r4(page):
     return title, main, scripts
 
 def repath(frag):
-    """r4/ 기준 상대경로 → r4/drafts/c/ 기준. 사진/→../../사진/ · ../→../../../ (속성·스크립트 문자열 모두)."""
-    # 순서 중요: 상위(../) 먼저 바꾸고 그 다음 사진/ — 반대로 하면 방금 만든 ../../사진/ 이 또 잡혀 4단이 된다(첫 실행에서 실측)
-    # 속성은 src·href·srcset 모두, 따옴표는 큰/작은 둘 다 (gemini r1 지적 · master 수용 2026-09-30)
-    frag = re.sub(r'(src|href|srcset)=(["\'])\.\./', r'\1=\2../../../', frag)
-    frag = frag.replace("'../", "'../../../").replace('"../"', '"../../../"')
-    frag = re.sub(r'(src|href|srcset)=(["\'])사진/', r'\1=\2../../사진/', frag)
+    """r4/ 기준 상대경로 → r4/drafts/c/ 기준. 한 패스로만 재작성한다(codex R1 · master 실측 2026-09-30: attr 규칙 뒤에 JS 문자열 규칙이 같은 자리에 또 닿아 ../ 5단이 됐다).
+    규칙 1개: 따옴표 바로 뒤의 ../ → ../../../ (속성·srcset·JS 문자열 전부 이 한 규칙에 걸림) · 규칙 2개: 따옴표 바로 뒤의 사진/ → ../../사진/ (규칙 1 결과에는 닿지 않음)"""
+    frag = re.sub(r'(["\'])\.\./', r'\1../../../', frag)
+    frag = re.sub(r'(["\'])사진/', r'\1../../사진/', frag)
     if ASSET:   # 비교판(c-menu)은 하위 페이지가 없으니 본문 안 페이지 링크도 ../c/ 로(전수 경로 검사에서 실측 2026-09-30)
         pages = "|".join(re.escape(n["file"]) for n in SITE["nav"])
         frag = re.sub(r'href=(["\'])(' + pages + r')', r'href=\1' + ASSET + r'\2', frag)

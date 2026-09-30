@@ -33,10 +33,10 @@ a{color:inherit}img{display:block;max-width:100%;height:auto}
 .nav{display:flex;gap:0;align-items:center}
 .nav a{font-size:12.8px;font-weight:400;line-height:1;letter-spacing:.1em;padding:12px;text-decoration:none}
 .nav a{transition:color .2s ease}
-.nav a:hover{color:var(--teal-surface)}  /* .mo-1f hover #47ab9d (원판 선언 · 장식적 순간색) */
+.nav a:hover{color:var(--teal-text)}  /* hover 도 읽는 중의 글자 상태 — 두 토큰 규칙 그대로(글자=--teal-text 4.92) · 원판 .mo-1f 의 "색이 바뀐다" 동작은 유지 (codex R1 · master 2026-09-30) */
 /* VISIT 자리 알약 = 「새가족 안내」 — §7: .9em(14.4px) · 600 · 자간 .075em · padding .575em 1.15em · 1px solid 청록 · radius 100em */
 .pill{font-size:14.4px;font-weight:600;letter-spacing:.075em;padding:.575em 1.15em;border:1px solid var(--teal-surface);border-radius:100em;color:var(--teal-text);text-decoration:none;white-space:nowrap;margin-left:8px}
-.pill:hover{background:var(--teal-surface);color:#fff}
+.pill:hover{background:var(--teal-text);color:#fff}  /* 흰 글자 on #2A7D71 = 4.92 (면 채움 색을 --teal-text 로 · codex R1) */
 /* 네모 테두리 햄버거 — 상시 표시(master 2) · 드로어(전체 메뉴) */
 .tg{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);border:0}
 .burger{display:block;width:44px;height:44px;position:relative;cursor:pointer;border:1px solid #000;border-radius:8px;margin-left:8px}

@@ -183,6 +183,8 @@ def links(page):
     f=R4/f"{page}.html"; raw=f.read_text(encoding="utf-8")
     raw=re.sub(r"<!--.*?-->","",raw,flags=re.S)
     out={"page":page,"internal":[],"external":[],"broken":[]}
+    # 저장소 밖 경로 금지(codex R1 · master 2026-09-30): 산출물 어디에도(속성·JS 문자열 포함) ../ 가 4단 이상 연속이면 실패 — 미리보기 루트는 r4/drafts/<판>/ 에서 3단
+    for m in re.finditer(r'(?:\.\./){4,}[^"\'\s)]*',raw): out["broken"].append("저장소 밖 경로: "+m.group(0))
     for m in re.finditer(r'(?:href|src)="([^"]+)"',raw):
         u=m.group(1)
         if u.startswith(("http://","https://","tel:","mailto:","data:")): out["external"].append(u); continue

@@ -57,7 +57,7 @@
 if(location.protocol!=='file:')fetch('../../../latest.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(d){
   if(!d)return;
   if(d.주보_제목)document.getElementById('jb2-title').textContent=d.주보_제목;
-  if(d.주보_링크)document.getElementById('jb2-link').href='../../../../../'+d.주보_링크;
+  if(d.주보_링크)document.getElementById('jb2-link').href='../../../'+d.주보_링크;
   document.getElementById('jb2-date').textContent='마지막 갱신 '+(d.갱신일||d.주보_날짜||'확인 필요');
 }).catch(function(){});
 // 근거: 시안E_주보.html 스크립트 ② — 주보목록.json 하나만 읽어 저절로 늘어난다(최신이 앞). 링크는 master 정책대로 https://ksmc31.kr/<파일>?v=YYYYMMDD 절대.
