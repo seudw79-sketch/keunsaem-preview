@@ -172,8 +172,8 @@
       <input type="range" id="guide" min="15" max="75" step="5" value="40" aria-label="기준선 위치">
     </div>
     <div class="dial">
-      <div class="top"><span class="name">카메라 위 가림막</span><span class="val" id="scrimVal">55%</span></div>
-      <input type="range" id="scrim" min="0" max="90" step="5" value="55" aria-label="카메라 위 가림막">
+      <div class="top"><span class="name">카메라 위 가림막</span><span class="val" id="scrimVal">30%</span></div>
+      <input type="range" id="scrim" min="0" max="90" step="5" value="30" aria-label="카메라 위 가림막">
     </div>
   </div>
 
@@ -189,6 +189,7 @@
   <div class="launch">
     <button class="go" id="start" type="button">읽기 시작</button>
     <p class="estimate" id="estimate"></p>
+    <p class="estimate" id="modeNow"></p>
   </div>
 
   <div class="keys">
@@ -216,6 +217,9 @@
     <button id="slower" type="button">느리게</button>
     <button id="faster" type="button">빠르게</button>
     <button id="restart" type="button">처음으로</button>
+    <button id="modeToggle" type="button">일정 속도</button>
+    <button id="brighter" type="button">밝게</button>
+    <button id="darker" type="button">어둡게</button>
     <button id="camToggle" type="button">카메라</button>
     <button id="flip" type="button" hidden>앞뒤</button>
     <button id="record" type="button" hidden>녹화</button>
@@ -242,7 +246,7 @@
 
   var state = { size:52, speed:5, lead:17, guide:40, mirrorX:false, mirrorY:false,
                 countIn:true, keepAwake:true, mode:"auto", text:"",
-                camOn:false, camBack:false, scrim:55 };
+                camOn:false, camBack:false, scrim:30 };
 
   function load(){
     try{ var raw=localStorage.getItem(KEY); if(raw){ var s=JSON.parse(raw); for(var k in state){ if(k in s) state[k]=s[k]; } } }catch(e){}
@@ -356,6 +360,10 @@
     accum += dt;
 
     if(state.mode === "voice"){
+      if(recActive && lastHeard && (performance.now() - lastHeard) > 9000){
+        stick("소리가 안 잡힙니다. 마이크 허용을 확인하시거나, 아래 모드 버튼으로 일정 속도로 바꾸세요.");
+        lastHeard = 0;
+      }
       var d = target - offset;
       if(Math.abs(d) > 0.5){
         var step = d * Math.min(1, dt*4.5);
@@ -428,7 +436,7 @@
         if(recActive && running){ try{ rec.start(); $("micdot").classList.add("live"); }catch(e){} }
       };
       rec.start();
-      recActive = true;
+      recActive = true; lastHeard = performance.now();
       $("micdot").classList.add("live");
     }catch(e){
       showNotice("음성 인식을 시작하지 못했습니다. 일정 속도로 읽습니다.");
@@ -730,8 +738,33 @@
     state.mode = m;
     $("modeVoice").setAttribute("aria-pressed", String(m==="voice"));
     $("modeAuto").setAttribute("aria-pressed", String(m==="auto"));
+    $("modeToggle").textContent = (m==="voice" ? "음성 따라가기" : "일정 속도");
+    $("modeNow").innerHTML = "지금 선택 — <b>" + (m==="voice" ? "음성 따라가기" : "일정 속도") + "</b>";
     updateCounts(); save();
   }
+  $("modeToggle").addEventListener("click", function(){
+    if(state.mode === "auto" && !voiceSupported){
+      stick("이 브라우저는 음성 인식을 지원하지 않습니다. 사파리나 크롬에서 열어 주세요.");
+      return;
+    }
+    var next = (state.mode === "voice") ? "auto" : "voice";
+    setMode(next);
+    if(next === "voice"){
+      cursor = -1;
+      for(var i=0;i<words.length;i++){ words[i].el.className = ""; }
+      if(running) startRec(); else showNotice("시작을 누르고 소리 내어 읽으시면 글이 따라갑니다.");
+    }else{
+      stopRec();
+    }
+  });
+  function nudgeScrim(d){
+    state.scrim = Math.min(90, Math.max(0, state.scrim + d));
+    $("scrim").value = state.scrim; $("scrimVal").textContent = state.scrim + "%";
+    applyScrim(); save();
+    showNotice("가림막 " + state.scrim + "%");
+  }
+  $("brighter").addEventListener("click", function(){ nudgeScrim(-10); });
+  $("darker").addEventListener("click", function(){ nudgeScrim(10); });
 
   $("start").addEventListener("click", openStage);
   $("playPause").addEventListener("click", function(){ running ? pause() : play(); });
