@@ -35,6 +35,11 @@
   h1{font-size:23px;font-weight:700;margin:0;letter-spacing:-.01em}
   .sub{color:var(--muted);font-size:13px;margin:0}
 
+  .warn{background:rgba(232,163,61,.13);border:1px solid var(--accent);border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.65;color:#F6D9A8}
+  .warn b{color:#FFE9C4}
+  .check{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .check .sub{font-size:12.5px}
+  .ok{color:#8FD49B}.bad{color:#F09B8E}
   .field{display:flex;flex-direction:column;gap:9px}
   .flabel{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .flabel .name{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
@@ -118,6 +123,13 @@
     </div>
     <p class="sub" id="savedNote" aria-live="polite"></p>
   </header>
+
+  <div class="warn" id="warn" hidden></div>
+
+  <div class="check">
+    <button class="filebtn" id="selftest" type="button">카메라·마이크 점검</button>
+    <span id="checkResult" class="sub"></span>
+  </div>
 
   <div class="field">
     <div class="flabel">
@@ -474,6 +486,7 @@
     notice.textContent = msg; notice.hidden = false;
     setTimeout(function(){ notice.hidden = true; }, 6000);
   }
+  function stick(msg){ notice.textContent = msg; notice.hidden = false; }
 
   /* ---------- 카메라 ---------- */
   var camStream=null, mediaRec=null, chunks=[], recStart=0;
@@ -484,10 +497,17 @@
     scrimLayer.hidden = !state.camOn;
   }
 
+  function inApp(){
+    var ua = navigator.userAgent || "";
+    return /FBAN|FBAV|Instagram|Line\/|KAKAOTALK|Telegram|NAVER|DaumApps|Twitter/i.test(ua);
+  }
   function startCam(){
     if(camStream) return Promise.resolve();
     if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-      showNotice("이 브라우저에서는 카메라를 쓸 수 없습니다.");
+      stick(inApp()
+        ? "앱 안에서 열면 카메라가 막힙니다. 공유 버튼을 눌러 사파리(또는 크롬)로 열어 주세요."
+        : "이 브라우저에서는 카메라를 쓸 수 없습니다. 사파리나 크롬에서 열어 주세요.");
+      state.camOn = false; applyScrim();
       return Promise.reject();
     }
     var want = { video:{ facingMode: state.camBack ? "environment" : "user", width:{ideal:1920}, height:{ideal:1080} }, audio:true };
@@ -612,6 +632,39 @@
   /* ---------- 연결 ---------- */
   load(); syncSetupUI(); applyScrim();
   if(!recSupported()) $("record").hidden = true;
+
+  /* 열린 환경을 먼저 알린다 — 앱 안 브라우저는 카메라·마이크가 막힌다 */
+  (function envCheck(){
+    var hasCam = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+    var w = $("warn");
+    if(inApp() || !hasCam || !voiceSupported){
+      var msg = "";
+      if(inApp()){
+        msg = "<b>지금 앱 안에 뜬 화면에서 보고 계십니다.</b> 텔레그램·카카오톡 같은 앱 안 화면은 카메라와 마이크를 막습니다. 오른쪽 위 공유 버튼을 눌러 <b>사파리로 열기</b>(안드로이드는 크롬)를 선택해 주세요. 그러면 카메라와 음성 따라가기가 작동합니다.";
+      }else{
+        msg = "이 브라우저에서 " + (!hasCam ? "카메라" : "") + (!hasCam && !voiceSupported ? "와 " : "") + (!voiceSupported ? "음성 인식" : "") + "을 쓸 수 없습니다. 사파리나 크롬에서 열어 주세요. 주소가 https 가 아니어도 막힙니다.";
+      }
+      w.innerHTML = msg; w.hidden = false;
+    }
+  })();
+
+  $("selftest").addEventListener("click", function(){
+    var out = $("checkResult");
+    out.textContent = "확인 중…"; out.className = "sub";
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      out.textContent = "카메라·마이크를 쓸 수 없는 화면입니다 (사파리나 크롬에서 열어 주세요)";
+      out.className = "sub bad"; return;
+    }
+    navigator.mediaDevices.getUserMedia({ video:true, audio:true }).then(function(s){
+      var v = s.getVideoTracks().length, a = s.getAudioTracks().length;
+      s.getTracks().forEach(function(t){ t.stop(); });
+      out.textContent = "카메라 " + (v?"정상":"없음") + " · 마이크 " + (a?"정상":"없음") + " · 음성 인식 " + (voiceSupported?"정상":"미지원");
+      out.className = "sub " + (v&&a&&voiceSupported ? "ok" : "bad");
+    }).catch(function(err){
+      out.textContent = "허용되지 않았습니다 (" + (err && err.name ? err.name : "오류") + ") — 브라우저 설정에서 이 주소의 카메라·마이크를 허용해 주세요";
+      out.className = "sub bad";
+    });
+  });
 
   script.addEventListener("input", function(){ state.text = script.value; updateCounts(); });
   script.addEventListener("blur", save);
