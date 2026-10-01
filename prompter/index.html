@@ -8,6 +8,7 @@
 <title>설교 프롬프터</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
@@ -152,11 +153,11 @@
       <span class="name">원고</span>
       <span class="right">
         <span class="count" id="charCount">0자</span>
-        <button class="filebtn" id="pickFile" type="button">파일 불러오기</button>
+        <button class="filebtn" id="pickFile" type="button">원고 파일 불러오기 (워드·텍스트)</button>
       </span>
     </div>
     <textarea id="script" placeholder="원고를 붙여넣으세요. 빈 줄은 그대로 사이가 벌어집니다."></textarea>
-    <input type="file" id="fileInput" accept=".txt,.md,text/plain" hidden>
+    <input type="file" id="fileInput" accept=".txt,.md,.docx,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
   </div>
 
   <div class="modes">
@@ -243,7 +244,6 @@
     <button id="restart" type="button">처음으로</button>
     <button id="camToggle" type="button">카메라</button>
     <button id="flip" type="button" hidden>앞뒤</button>
-    <button id="record" type="button" hidden>녹화</button>
   </div>
   <div class="bar" id="bar">
     <button class="primary" id="playPause" type="button">시작</button>
@@ -251,6 +251,7 @@
     <button id="faster" type="button" aria-label="빠르게">빠르게</button>
     <button id="brighter" type="button">밝게</button>
     <button id="darker" type="button">어둡게</button>
+    <button id="record" type="button" hidden>녹화</button>
     <button id="moreBtn" type="button">더보기</button>
     <button id="exit" type="button">나가기</button>
     <div class="clock">
@@ -556,6 +557,7 @@
       applyScrim();
       $("flip").hidden = false;
       $("record").hidden = !recSupported();
+      showNotice(recSupported() ? "카메라가 켜졌습니다. 아래 녹화 버튼으로 찍을 수 있습니다." : "카메라가 켜졌습니다. 이 기기에서는 녹화가 지원되지 않습니다.");
       return camEl.play().catch(function(){});
     }).catch(function(err){
       state.camOn = false; applyScrim();
@@ -710,10 +712,51 @@
   $("fileInput").addEventListener("change", function(){
     var f = this.files && this.files[0];
     if(!f) return;
-    var r = new FileReader();
-    r.onload = function(){ script.value = String(r.result||""); state.text = script.value; updateCounts(); save(); };
-    r.readAsText(f, "utf-8");
+    var name = (f.name||"").toLowerCase();
+    if(name.indexOf(".docx") === name.length-5 && name.length>5){
+      readDocx(f);
+    }else{
+      var r = new FileReader();
+      r.onload = function(){ putText(String(r.result||"")); };
+      r.readAsText(f, "utf-8");
+    }
+    this.value = "";
   });
+  function putText(t){
+    script.value = t; state.text = t; updateCounts(); save();
+    var note = $("savedNote"); note.textContent = "원고를 불러왔습니다";
+    setTimeout(function(){ if(note.textContent==="원고를 불러왔습니다") note.textContent=""; }, 2500);
+  }
+  function readDocx(f){
+    if(typeof JSZip === "undefined"){
+      alert("워드 파일을 여는 도구를 불러오지 못했습니다. 인터넷 연결을 확인하시거나 텍스트로 저장해 올려 주세요.");
+      return;
+    }
+    f.arrayBuffer().then(function(buf){ return JSZip.loadAsync(buf); })
+     .then(function(zip){
+        var entry = zip.file("word/document.xml");
+        if(!entry) throw new Error("document.xml 없음");
+        return entry.async("string");
+     })
+     .then(function(xml){
+        var paras = xml.split(/<\/w:p>/);
+        var out = [];
+        for(var i=0;i<paras.length;i++){
+          var texts = paras[i].match(/<w:t[^>]*>[\s\S]*?<\/w:t>/g) || [];
+          var line = texts.map(function(t){
+            return t.replace(/<[^>]+>/g, "");
+          }).join("");
+          line = line.replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&apos;/g,"'");
+          out.push(line);
+        }
+        var text = out.join("\n").replace(/\n{3,}/g,"\n\n").trim();
+        if(!text){ alert("이 워드 파일에서 글자를 찾지 못했습니다."); return; }
+        putText(text);
+     })
+     .catch(function(){
+        alert("워드 파일을 읽지 못했습니다. 한글(.hwp)이나 옛 워드(.doc)는 안 됩니다 — 워드에서 .docx 로 저장하거나 텍스트로 붙여넣어 주세요.");
+     });
+  }
 
   function bindRange(id, key, fmtFn){
     $(id).addEventListener("input", function(){
