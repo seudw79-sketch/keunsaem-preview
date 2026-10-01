@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>설교 프롬프터</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#0D0F0E;
+    --panel:#161A18;
+    --panel-2:#1E2321;
+    --line:#2B312E;
+    --ink:#F2EFE9;
+    --muted:#8B938E;
+    --accent:#E8A33D;
+    --accent-dim:#8A6425;
+    --spoken:#5F6865;
+    --ui:"Noto Sans KR", system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    color-scheme:dark;
+  }
+  html,body{height:100%}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
+  *{box-sizing:border-box}
+  button{font:inherit;color:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .setup{min-height:100%;display:flex;flex-direction:column;gap:22px;padding-block:28px 40px;padding-inline:20px;max-width:880px;margin:0 auto}
+  .masthead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  h1{font-size:23px;font-weight:700;margin:0;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:13px;margin:0}
+
+  .field{display:flex;flex-direction:column;gap:9px}
+  .flabel{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .flabel .name{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .flabel .right{display:flex;align-items:center;gap:12px}
+  .count{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .filebtn{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:12.5px;color:var(--muted)}
+  textarea{width:100%;min-height:220px;resize:vertical;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:16px;font-family:var(--ui);font-size:16px;line-height:1.85}
+  textarea::placeholder{color:#5D645F}
+
+  .dials{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+  .dial{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
+  .dial .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .dial .name{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .dial .val{font-family:var(--mono);font-size:15px;color:var(--accent);font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--accent);background:transparent}
+
+  .modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:12px}
+  .mode{text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:5px}
+  .mode[aria-pressed="true"]{border-color:var(--accent);background:linear-gradient(180deg,rgba(232,163,61,.14),rgba(232,163,61,.04))}
+  .mode .t{font-size:15px;font-weight:700}
+  .mode .d{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .mode:disabled{opacity:.45;cursor:not-allowed}
+
+  .toggles{display:flex;flex-wrap:wrap;gap:9px}
+  .toggle{background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:9px 15px;font-size:13px}
+  .toggle[aria-pressed="true"]{background:var(--accent-dim);border-color:var(--accent);color:#FFF4E2}
+
+  .launch{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:2px}
+  .go{background:var(--accent);color:#1A1206;border:0;border-radius:10px;padding:15px 30px;font-size:16px;font-weight:700}
+  .go:active{transform:translateY(1px)}
+  .estimate{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .estimate b{color:var(--ink);font-weight:500}
+
+  .keys{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-wrap:wrap;gap:7px 22px}
+  .keys p{margin:0;font-size:12.5px;color:var(--muted)}
+  kbd{font-family:var(--mono);font-size:11.5px;background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:2px 7px;color:var(--ink)}
+
+  .stage{position:fixed;inset:0;background:#000;display:flex;flex-direction:column}
+  .viewport{position:relative;flex:1;overflow:hidden;touch-action:none}
+  .scroller{position:absolute;left:0;right:0;top:0;will-change:transform;padding-inline:6vw;font-weight:500;color:var(--ink);white-space:pre-wrap;word-break:keep-all}
+  .scroller w{display:inline;transition:color .18s}
+  .scroller w.past{color:var(--spoken)}
+  .scroller w.now{color:var(--accent)}
+  .guide{position:absolute;left:0;right:0;pointer-events:none;border-top:2px solid var(--accent);opacity:.5}
+  .guide::before,.guide::after{content:"";position:absolute;top:-9px;border:8px solid transparent;border-top-color:var(--accent)}
+  .guide::before{left:0}.guide::after{right:0}
+
+  .bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(13,15,14,.94);border-top:1px solid var(--line);padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .bar button{background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:11px 16px;font-size:14px;min-width:52px}
+  .bar .primary{background:var(--accent);color:#1A1206;border-color:var(--accent);font-weight:700;min-width:96px}
+  .clock{margin-left:auto;display:flex;align-items:baseline;gap:12px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .clock .elapsed{font-size:17px}
+  .clock .left{font-size:13px;color:var(--muted)}
+  .micdot{width:9px;height:9px;border-radius:50%;background:#4B534F}
+  .micdot.live{background:var(--accent);box-shadow:0 0 0 0 rgba(232,163,61,.6);animation:pulse 1.6s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(232,163,61,0)}100%{box-shadow:0 0 0 0 rgba(232,163,61,0)}}
+  @media (prefers-reduced-motion:reduce){.micdot.live{animation:none}}
+
+  .countdown{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.72);font-family:var(--mono);font-size:19vmin;color:var(--accent)}
+  .notice{position:absolute;left:0;right:0;bottom:0;padding:10px 16px;background:rgba(232,163,61,.14);color:#F6D9A8;font-size:13px;text-align:center}
+  @media (max-width:430px){
+    .bar button{padding:10px 12px;min-width:46px;font-size:13px}
+    .bar .primary{min-width:78px}
+  }
+</style>
+</head>
+<body>
+<main class="setup" id="setup">
+  <header class="masthead">
+    <div>
+      <h1>설교 프롬프터</h1>
+      <p class="sub">원고를 넣고 읽으면 됩니다. 설치도 로그인도 없습니다.</p>
+    </div>
+    <p class="sub" id="savedNote" aria-live="polite"></p>
+  </header>
+
+  <div class="field">
+    <div class="flabel">
+      <span class="name">원고</span>
+      <span class="right">
+        <span class="count" id="charCount">0자</span>
+        <button class="filebtn" id="pickFile" type="button">파일 불러오기</button>
+      </span>
+    </div>
+    <textarea id="script" placeholder="원고를 붙여넣으세요. 빈 줄은 그대로 사이가 벌어집니다."></textarea>
+    <input type="file" id="fileInput" accept=".txt,.md,text/plain" hidden>
+  </div>
+
+  <div class="modes">
+    <button class="mode" id="modeVoice" aria-pressed="false" type="button">
+      <span class="t">음성 따라가기</span>
+      <span class="d">말하는 속도에 맞춰 원고가 따라옵니다. 멈추면 같이 멈추고, 읽은 데까지 흐려집니다.</span>
+    </button>
+    <button class="mode" id="modeAuto" aria-pressed="true" type="button">
+      <span class="t">일정 속도</span>
+      <span class="d">정해둔 속도로 꾸준히 올라갑니다. 속도는 읽으면서도 바꿀 수 있습니다.</span>
+    </button>
+  </div>
+
+  <div class="dials">
+    <div class="dial">
+      <div class="top"><span class="name">글자 크기</span><span class="val" id="sizeVal">52px</span></div>
+      <input type="range" id="size" min="24" max="110" step="2" value="52" aria-label="글자 크기">
+    </div>
+    <div class="dial">
+      <div class="top"><span class="name">읽기 속도</span><span class="val" id="speedVal">5</span></div>
+      <input type="range" id="speed" min="1" max="15" step="1" value="5" aria-label="읽기 속도">
+    </div>
+    <div class="dial">
+      <div class="top"><span class="name">줄 간격</span><span class="val" id="leadVal">1.7</span></div>
+      <input type="range" id="lead" min="12" max="26" step="1" value="17" aria-label="줄 간격">
+    </div>
+    <div class="dial">
+      <div class="top"><span class="name">기준선 위치</span><span class="val" id="guideVal">40%</span></div>
+      <input type="range" id="guide" min="15" max="75" step="5" value="40" aria-label="기준선 위치">
+    </div>
+  </div>
+
+  <div class="toggles">
+    <button class="toggle" id="mirrorX" aria-pressed="false" type="button">좌우 반전</button>
+    <button class="toggle" id="mirrorY" aria-pressed="false" type="button">상하 반전</button>
+    <button class="toggle" id="countIn" aria-pressed="true" type="button">3초 카운트</button>
+    <button class="toggle" id="keepAwake" aria-pressed="true" type="button">화면 꺼짐 방지</button>
+  </div>
+
+  <div class="launch">
+    <button class="go" id="start" type="button">읽기 시작</button>
+    <p class="estimate" id="estimate"></p>
+  </div>
+
+  <div class="keys">
+    <p><kbd>space</kbd> 시작 · 멈춤</p>
+    <p><kbd>↑</kbd><kbd>↓</kbd> 속도</p>
+    <p><kbd>←</kbd><kbd>→</kbd> 10초 앞뒤</p>
+    <p><kbd>R</kbd> 처음으로</p>
+    <p><kbd>esc</kbd> 원고로</p>
+    <p>화면을 손으로 끌어 위치를 옮길 수 있습니다.</p>
+  </div>
+</main>
+
+<section class="stage" id="stage" hidden>
+  <div class="viewport" id="viewport">
+    <div class="scroller" id="scroller"></div>
+    <div class="guide" id="guideLine"></div>
+    <div class="countdown" id="countdown" hidden>3</div>
+    <div class="notice" id="notice" hidden></div>
+  </div>
+  <div class="bar" id="bar">
+    <button class="primary" id="playPause" type="button">시작</button>
+    <button id="slower" type="button">느리게</button>
+    <button id="faster" type="button">빠르게</button>
+    <button id="restart" type="button">처음으로</button>
+    <button id="exit" type="button">나가기</button>
+    <div class="clock">
+      <span class="micdot" id="micdot" title="마이크"></span>
+      <span class="elapsed" id="elapsed">0:00</span>
+      <span class="left" id="left">남은 시간 —</span>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var SAMPLE = "여러분, 무거운 말뚝을 옮기는 사람이\n법궤를 메는 사람을 부러워하며 자리를 벗어나면 어떻게 되겠습니까.\n\n온 진영의 질서가 다 깨지게 되는 거죠.\n보이지 않는 작은 말뚝 하나라도 내 몫을 묵묵히 감당하는 것이\n광야를 걷는 성도의 질서인 겁니다.\n\n밖을 내다보면 우리 교회만 작은 것 같고\n다 큰 교회인 것 같지만 그렇지 않아요.\n\n따져보면 대형교회는 얼마 되지 않아요.\n수많은 개척교회, 수많은 미자립교회,\n또 수많은 소형 중형교회들이 같이 있는 거예요.";
+
+  var KEY = "sermon-prompter-v1";
+  var $ = function(id){ return document.getElementById(id); };
+  var setup=$("setup"), stage=$("stage"), scroller=$("scroller"), viewport=$("viewport");
+  var script=$("script"), guideLine=$("guideLine"), countdown=$("countdown"), notice=$("notice");
+
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var voiceSupported = !!SR;
+
+  var state = { size:52, speed:5, lead:17, guide:40, mirrorX:false, mirrorY:false,
+                countIn:true, keepAwake:true, mode:"auto", text:"" };
+
+  function load(){
+    try{ var raw=localStorage.getItem(KEY); if(raw){ var s=JSON.parse(raw); for(var k in state){ if(k in s) state[k]=s[k]; } } }catch(e){}
+    if(!state.text) state.text = SAMPLE;
+    if(!voiceSupported) state.mode = "auto";
+  }
+  var noteTimer;
+  function save(){
+    try{
+      localStorage.setItem(KEY, JSON.stringify(state));
+      var el=$("savedNote"); el.textContent="이 기기에 저장됨";
+      clearTimeout(noteTimer); noteTimer=setTimeout(function(){ el.textContent=""; },1600);
+    }catch(e){}
+  }
+
+  function pxPerSec(){ return state.speed * state.size * 0.062; }
+  function fmt(sec){
+    if(!isFinite(sec)||sec<0) sec=0;
+    var m=Math.floor(sec/60), s=Math.round(sec%60);
+    if(s===60){ m+=1; s=0; }
+    return m+":"+(s<10?"0"+s:s);
+  }
+
+  /* ---------- 편집 화면 ---------- */
+  function syncSetupUI(){
+    script.value = state.text;
+    $("size").value=state.size;  $("sizeVal").textContent=state.size+"px";
+    $("speed").value=state.speed; $("speedVal").textContent=state.speed;
+    $("lead").value=state.lead;  $("leadVal").textContent=(state.lead/10).toFixed(1);
+    $("guide").value=state.guide; $("guideVal").textContent=state.guide+"%";
+    ["mirrorX","mirrorY","countIn","keepAwake"].forEach(function(id){ $(id).setAttribute("aria-pressed", String(state[id])); });
+    $("modeVoice").setAttribute("aria-pressed", String(state.mode==="voice"));
+    $("modeAuto").setAttribute("aria-pressed", String(state.mode==="auto"));
+    if(!voiceSupported){
+      $("modeVoice").disabled = true;
+      $("modeVoice").querySelector(".d").textContent = "이 브라우저는 음성 인식을 지원하지 않습니다. 크롬이나 사파리에서 열어 보세요.";
+    }
+    updateCounts();
+  }
+
+  var probe;
+  function estimateSeconds(text){
+    if(!text.trim()) return 0;
+    if(!probe){
+      probe=document.createElement("div");
+      probe.style.cssText="position:absolute;visibility:hidden;left:-9999px;top:0;white-space:pre-wrap;word-break:keep-all;";
+      document.body.appendChild(probe);
+    }
+    probe.style.width = Math.max(320,(window.innerWidth||900)*0.88)+"px";
+    probe.style.fontSize = state.size+"px";
+    probe.style.lineHeight = (state.lead/10);
+    probe.style.fontFamily = getComputedStyle(document.body).fontFamily;
+    probe.style.fontWeight = "500";
+    probe.textContent = text;
+    return (probe.offsetHeight + (window.innerHeight||700)*0.5) / pxPerSec();
+  }
+  function updateCounts(){
+    var n = script.value.replace(/\s/g,"").length;
+    $("charCount").textContent = n.toLocaleString("ko-KR")+"자";
+    if(state.mode==="voice"){
+      $("estimate").innerHTML = "말하는 속도에 맞춰 따라갑니다";
+    }else{
+      var est = estimateSeconds(script.value);
+      $("estimate").innerHTML = est ? ("이 속도로 <b>"+fmt(est)+"</b> 걸립니다") : "";
+    }
+  }
+
+  /* ---------- 읽기 ---------- */
+  var running=false, offset=0, target=0, last=0, raf=0, accum=0, wakeLock=null;
+  var words=[], cursor=-1, rec=null, recActive=false, lastHeard=0;
+
+  function buildWords(text){
+    scroller.textContent = "";
+    words = [];
+    var lines = text.split("\n");
+    lines.forEach(function(line, li){
+      var parts = line.split(/(\s+)/);
+      parts.forEach(function(p){
+        if(!p) return;
+        if(/^\s+$/.test(p)){ scroller.appendChild(document.createTextNode(p)); return; }
+        var w = document.createElement("w");
+        w.textContent = p;
+        scroller.appendChild(w);
+        words.push({ el:w, key:norm(p), top:0 });
+      });
+      if(li < lines.length-1) scroller.appendChild(document.createTextNode("\n"));
+    });
+    measure();
+  }
+  function norm(s){ return s.replace(/[^0-9A-Za-z가-힣]/g,""); }
+  function measure(){
+    for(var i=0;i<words.length;i++){ words[i].top = words[i].el.offsetTop; }
+  }
+
+  function applyStageStyle(){
+    scroller.style.fontSize = state.size+"px";
+    scroller.style.lineHeight = (state.lead/10);
+    guideLine.style.top = state.guide+"%";
+    viewport.style.transform = "scale("+(state.mirrorX?-1:1)+","+(state.mirrorY?-1:1)+")";
+  }
+  function place(){ scroller.style.transform = "translateY("+(-offset)+"px)"; }
+  function totalDistance(){ return scroller.offsetHeight + viewport.offsetHeight*0.5; }
+  function guidePx(){ return viewport.offsetHeight * (state.guide/100); }
+
+  function tick(ts){
+    if(!running) return;
+    if(!last) last = ts;
+    var dt = (ts-last)/1000; last = ts;
+    if(dt > 0.5) dt = 0.5;
+    accum += dt;
+
+    if(state.mode === "voice"){
+      var d = target - offset;
+      if(Math.abs(d) > 0.5){
+        var step = d * Math.min(1, dt*4.5);
+        var cap = pxPerSec() * 4 * dt;
+        if(Math.abs(step) > cap) step = (step>0?1:-1)*cap;
+        offset += step;
+      }
+    }else{
+      offset += pxPerSec()*dt;
+      var max = totalDistance();
+      if(offset >= max){ offset = max; pause(); }
+    }
+    place(); updateClock();
+    raf = requestAnimationFrame(tick);
+  }
+
+  function updateClock(){
+    $("elapsed").textContent = fmt(accum);
+    if(state.mode === "voice"){
+      var done = words.length ? Math.max(0, cursor+1) : 0;
+      $("left").textContent = words.length ? ("원고 "+Math.round(done/words.length*100)+"%") : "원고 —";
+    }else{
+      $("left").textContent = "남은 시간 " + fmt((totalDistance()-offset)/pxPerSec());
+    }
+  }
+
+  function play(){
+    if(running) return;
+    running = true; last = 0;
+    $("playPause").textContent = "멈춤";
+    raf = requestAnimationFrame(tick);
+    requestWake();
+    if(state.mode === "voice") startRec();
+  }
+  function pause(){
+    running = false; cancelAnimationFrame(raf); last = 0;
+    $("playPause").textContent = "시작";
+    stopRec();
+  }
+
+  function requestWake(){
+    if(!state.keepAwake || wakeLock) return;
+    try{
+      if(navigator.wakeLock && navigator.wakeLock.request){
+        navigator.wakeLock.request("screen").then(function(w){
+          wakeLock = w; w.addEventListener("release", function(){ wakeLock=null; });
+        }).catch(function(){});
+      }
+    }catch(e){}
+  }
+  function releaseWake(){ try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){} }
+
+  /* ---------- 음성 따라가기 ---------- */
+  function startRec(){
+    if(!voiceSupported || recActive) return;
+    try{
+      rec = new SR();
+      rec.lang = "ko-KR";
+      rec.continuous = true;
+      rec.interimResults = true;
+      rec.onresult = onHeard;
+      rec.onerror = function(e){
+        if(e && (e.error === "not-allowed" || e.error === "service-not-allowed")){
+          showNotice("마이크를 쓸 수 없어 일정 속도로 바꿨습니다. 브라우저 주소창의 마이크 권한을 허용해 주세요.");
+          state.mode = "auto"; recActive = false; $("micdot").classList.remove("live");
+        }
+      };
+      rec.onend = function(){
+        $("micdot").classList.remove("live");
+        if(recActive && running){ try{ rec.start(); $("micdot").classList.add("live"); }catch(e){} }
+      };
+      rec.start();
+      recActive = true;
+      $("micdot").classList.add("live");
+    }catch(e){
+      showNotice("음성 인식을 시작하지 못했습니다. 일정 속도로 읽습니다.");
+      state.mode = "auto";
+    }
+  }
+  function stopRec(){
+    recActive = false;
+    $("micdot").classList.remove("live");
+    try{ if(rec) rec.stop(); }catch(e){}
+  }
+
+  function onHeard(ev){
+    var heard = "";
+    for(var i=ev.resultIndex;i<ev.results.length;i++){ heard += ev.results[i][0].transcript + " "; }
+    var toks = heard.split(/\s+/).map(norm).filter(Boolean);
+    if(!toks.length) return;
+    lastHeard = performance.now();
+
+    var searchFrom = cursor + 1;
+    var searchTo = Math.min(words.length, searchFrom + 60);
+    var moved = false;
+
+    for(var t=0;t<toks.length;t++){
+      var tok = toks[t];
+      if(tok.length < 2) continue;
+      for(var w=searchFrom; w<searchTo; w++){
+        var key = words[w].key;
+        if(!key) continue;
+        if(key === tok || key.indexOf(tok) === 0 || tok.indexOf(key) === 0){
+          markUpTo(w);
+          searchFrom = w + 1;
+          searchTo = Math.min(words.length, searchFrom + 60);
+          moved = true;
+          break;
+        }
+      }
+    }
+    if(moved) aimAtCursor();
+  }
+
+  function markUpTo(i){
+    for(var k=Math.max(0,cursor); k<=i; k++){
+      if(k>=0 && words[k]){ words[k].el.classList.add("past"); words[k].el.classList.remove("now"); }
+    }
+    cursor = i;
+    if(words[cursor]){ words[cursor].el.classList.add("now"); words[cursor].el.classList.remove("past"); }
+  }
+  function aimAtCursor(){
+    if(cursor < 0 || !words[cursor]) return;
+    target = Math.max(0, words[cursor].top - guidePx());
+  }
+
+  function showNotice(msg){
+    notice.textContent = msg; notice.hidden = false;
+    setTimeout(function(){ notice.hidden = true; }, 6000);
+  }
+
+  /* ---------- 화면 전환 ---------- */
+  function openStage(){
+    state.text = script.value; save();
+    buildWords(state.text);
+    applyStageStyle();
+    requestAnimationFrame(measure);
+    offset = 0; target = 0; accum = 0; cursor = -1;
+    place(); setup.hidden = true; stage.hidden = false;
+    requestAnimationFrame(function(){ measure(); updateClock(); });
+    if(state.mode === "voice") showNotice("마이크 사용을 물으면 허용해 주세요. 말하는 대로 따라갑니다.");
+    if(state.countIn) runCountIn(); else play();
+  }
+  function runCountIn(){
+    var n = 3;
+    countdown.hidden = false; countdown.textContent = n;
+    var iv = setInterval(function(){
+      n--;
+      if(n<=0){ clearInterval(iv); countdown.hidden = true; play(); }
+      else countdown.textContent = n;
+    }, 1000);
+  }
+  function closeStage(){
+    pause(); releaseWake();
+    stage.hidden = true; setup.hidden = false;
+    updateCounts();
+  }
+
+  /* ---------- 연결 ---------- */
+  load(); syncSetupUI();
+
+  script.addEventListener("input", function(){ state.text = script.value; updateCounts(); });
+  script.addEventListener("blur", save);
+
+  $("pickFile").addEventListener("click", function(){ $("fileInput").click(); });
+  $("fileInput").addEventListener("change", function(){
+    var f = this.files && this.files[0];
+    if(!f) return;
+    var r = new FileReader();
+    r.onload = function(){ script.value = String(r.result||""); state.text = script.value; updateCounts(); save(); };
+    r.readAsText(f, "utf-8");
+  });
+
+  function bindRange(id, key, fmtFn){
+    $(id).addEventListener("input", function(){
+      state[key] = parseInt(this.value,10);
+      $(id+"Val").textContent = fmtFn(state[key]);
+      updateCounts(); applyStageStyle(); if(!stage.hidden) measure(); save();
+    });
+  }
+  bindRange("size","size",function(v){return v+"px";});
+  bindRange("speed","speed",function(v){return String(v);});
+  bindRange("lead","lead",function(v){return (v/10).toFixed(1);});
+  bindRange("guide","guide",function(v){return v+"%";});
+
+  ["mirrorX","mirrorY","countIn","keepAwake"].forEach(function(id){
+    $(id).addEventListener("click", function(){
+      state[id] = !state[id];
+      this.setAttribute("aria-pressed", String(state[id]));
+      applyStageStyle(); save();
+    });
+  });
+  $("modeVoice").addEventListener("click", function(){ if(!voiceSupported) return; setMode("voice"); });
+  $("modeAuto").addEventListener("click", function(){ setMode("auto"); });
+  function setMode(m){
+    state.mode = m;
+    $("modeVoice").setAttribute("aria-pressed", String(m==="voice"));
+    $("modeAuto").setAttribute("aria-pressed", String(m==="auto"));
+    updateCounts(); save();
+  }
+
+  $("start").addEventListener("click", openStage);
+  $("playPause").addEventListener("click", function(){ running ? pause() : play(); });
+  $("slower").addEventListener("click", function(){ nudgeSpeed(-1); });
+  $("faster").addEventListener("click", function(){ nudgeSpeed(1); });
+  $("restart").addEventListener("click", resetPos);
+  $("exit").addEventListener("click", closeStage);
+
+  function resetPos(){
+    offset = 0; target = 0; accum = 0; cursor = -1;
+    for(var i=0;i<words.length;i++){ words[i].el.className = ""; }
+    place(); updateClock();
+  }
+  function nudgeSpeed(d){
+    state.speed = Math.min(15, Math.max(1, state.speed + d));
+    $("speed").value = state.speed; $("speedVal").textContent = state.speed;
+    updateClock(); save();
+  }
+
+  var dragging=false, startY=0, startOffset=0;
+  viewport.addEventListener("pointerdown", function(e){
+    if(!countdown.hidden) return;
+    dragging = true; startY = e.clientY; startOffset = offset;
+    try{ viewport.setPointerCapture(e.pointerId); }catch(err){}
+  });
+  viewport.addEventListener("pointermove", function(e){
+    if(!dragging) return;
+    var dy = e.clientY - startY;
+    offset = Math.max(0, startOffset - dy*(state.mirrorY?-1:1));
+    target = offset;
+    place(); updateClock();
+  });
+  viewport.addEventListener("pointerup", function(){ dragging=false; });
+  viewport.addEventListener("pointercancel", function(){ dragging=false; });
+
+  document.addEventListener("keydown", function(e){
+    if(stage.hidden){
+      if(e.key==="Enter" && (e.metaKey||e.ctrlKey)){ e.preventDefault(); openStage(); }
+      return;
+    }
+    if(e.key===" "){ e.preventDefault(); running?pause():play(); }
+    else if(e.key==="ArrowUp"){ e.preventDefault(); nudgeSpeed(1); }
+    else if(e.key==="ArrowDown"){ e.preventDefault(); nudgeSpeed(-1); }
+    else if(e.key==="ArrowRight"){ e.preventDefault(); offset += pxPerSec()*10; target = offset; place(); updateClock(); }
+    else if(e.key==="ArrowLeft"){ e.preventDefault(); offset = Math.max(0, offset - pxPerSec()*10); target = offset; place(); updateClock(); }
+    else if(e.key==="r"||e.key==="R"){ resetPos(); }
+    else if(e.key==="Escape"){ closeStage(); }
+  });
+
+  window.addEventListener("resize", function(){
+    if(!stage.hidden){ measure(); aimAtCursor(); updateClock(); }
+    else updateCounts();
+  });
+  document.addEventListener("visibilitychange", function(){
+    if(document.visibilityState==="visible" && running) requestWake();
+  });
+})();
+</script>
+</body>
+</html>
