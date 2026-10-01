@@ -615,6 +615,10 @@
         var blob = new Blob(chunks, { type:type });
         var ext = type.indexOf("mp4") >= 0 ? "mp4" : "webm";
         var mb = (blob.size/1048576).toFixed(1);
+        if(!blob.size){
+          stick("녹화된 내용이 없습니다. 카메라를 켜고 녹화를 누른 뒤 몇 초 기다렸다가 멈춰 주세요.");
+          return;
+        }
         var fname = "설교프롬프터_" + stamp() + "." + ext;
         var file = null;
         try{ file = new File([blob], fname, { type:type }); }catch(e){}
@@ -633,7 +637,10 @@
           sb.onclick = function(){
             navigator.share({ files:[file] }).then(function(){
               label.textContent = "저장 창을 띄웠습니다 — 비디오 저장을 누르세요";
-            }).catch(function(){});
+            }).catch(function(e){
+              if(e && e.name === "AbortError") return;
+              label.textContent = "저장 창을 열지 못했습니다 (" + (e && e.name ? e.name : "오류") + ") — 파일로 받기를 쓰세요";
+            });
           };
           saveline.appendChild(sb);
         }
@@ -654,14 +661,15 @@
       recStart = performance.now();
       $("record").textContent = "녹화 중지";
       $("record").classList.add("recording");
+      showNotice("녹화를 시작했습니다. 멈추면 저장 줄이 뜹니다.");
     }catch(e){
-      showNotice("이 기기에서는 녹화를 지원하지 않습니다. 카메라 앱으로 따로 찍어 주세요.");
+      stick("녹화를 시작하지 못했습니다 (" + (e && e.name ? e.name : "오류") + "). 이 기기는 웹 녹화를 지원하지 않습니다 — 카메라 앱으로 따로 찍어 주세요.");
     }
   }
   function stopRecording(){
     try{
-      if(mediaRec && mediaRec.state === "recording") mediaRec.stop();
-    }catch(e){}
+      if(mediaRec && mediaRec.state === "recording"){ mediaRec.stop(); showNotice("녹화를 멈췄습니다. 아래 저장 줄을 보세요."); }
+    }catch(e){ stick("녹화를 멈추는 중 오류 (" + (e && e.name ? e.name : "오류") + ")"); }
     $("record").textContent = "녹화";
     $("record").classList.remove("recording");
   }
@@ -717,73 +725,28 @@
   $("selftest").addEventListener("click", function(){
     var out = $("checkResult");
     out.textContent = "확인 중…"; out.className = "sub";
+    var lines = [];
+    lines.push("주소 보안: " + (window.isSecureContext ? "정상(https)" : "아님 — 카메라 불가"));
+    lines.push("음성 인식: " + (voiceSupported ? "있음" : "없음"));
+    var mrOk = (typeof MediaRecorder !== "undefined");
+    lines.push("녹화 기능: " + (mrOk ? "있음 (" + (pickMime() || "기본 형식") + ")" : "없음 — 이 기기/브라우저는 녹화를 못 합니다"));
+    var shareOk = !!(navigator.share && navigator.canShare);
+    lines.push("사진첩 저장(공유): " + (shareOk ? "있음" : "없음 — 파일로 받기만 됩니다"));
     if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-      out.textContent = "카메라·마이크를 쓸 수 없는 화면입니다 (사파리나 크롬에서 열어 주세요)";
-      out.className = "sub bad"; return;
+      lines.push("카메라·마이크: 쓸 수 없는 화면입니다 (사파리나 크롬에서 열어 주세요)");
+      out.textContent = lines.join(" / "); out.className = "sub bad"; return;
     }
-    navigator.mediaDevices.getUserMedia({ video:true, audio:true }).then(function(s){
-      var v = s.getVideoTracks().length, a = s.getAudioTracks().length;
-      s.getTracks().forEach(function(t){ t.stop(); });
-      out.textContent = "카메라 " + (v?"정상":"없음") + " · 마이크 " + (a?"정상":"없음") + " · 음성 인식 " + (voiceSupported?"정상":"미지원");
-      out.className = "sub " + (v&&a&&voiceSupported ? "ok" : "bad");
+    navigator.mediaDevices.getUserMedia({ video:true, audio:true }).then(function(st){
+      var v = st.getVideoTracks().length, a = st.getAudioTracks().length;
+      st.getTracks().forEach(function(t){ t.stop(); });
+      lines.push("카메라: " + (v?"정상":"없음") + " / 마이크: " + (a?"정상":"없음"));
+      out.textContent = lines.join(" / ");
+      out.className = "sub " + (v&&a&&mrOk ? "ok" : "bad");
     }).catch(function(err){
-      out.textContent = "허용되지 않았습니다 (" + (err && err.name ? err.name : "오류") + ") — 브라우저 설정에서 이 주소의 카메라·마이크를 허용해 주세요";
-      out.className = "sub bad";
+      lines.push("카메라·마이크 허용 안 됨 (" + (err && err.name ? err.name : "오류") + ")");
+      out.textContent = lines.join(" / "); out.className = "sub bad";
     });
   });
-
-  script.addEventListener("input", function(){ state.text = script.value; updateCounts(); });
-  script.addEventListener("blur", save);
-
-  $("pickFile").addEventListener("click", function(){ $("fileInput").click(); });
-  $("fileInput").addEventListener("change", function(){
-    var f = this.files && this.files[0];
-    if(!f) return;
-    var name = (f.name||"").toLowerCase();
-    if(name.indexOf(".docx") === name.length-5 && name.length>5){
-      readDocx(f);
-    }else{
-      var r = new FileReader();
-      r.onload = function(){ putText(String(r.result||"")); };
-      r.readAsText(f, "utf-8");
-    }
-    this.value = "";
-  });
-  function putText(t){
-    script.value = t; state.text = t; updateCounts(); save();
-    var note = $("savedNote"); note.textContent = "원고를 불러왔습니다";
-    setTimeout(function(){ if(note.textContent==="원고를 불러왔습니다") note.textContent=""; }, 2500);
-  }
-  function readDocx(f){
-    if(typeof JSZip === "undefined"){
-      alert("워드 파일을 여는 도구를 불러오지 못했습니다. 인터넷 연결을 확인하시거나 텍스트로 저장해 올려 주세요.");
-      return;
-    }
-    f.arrayBuffer().then(function(buf){ return JSZip.loadAsync(buf); })
-     .then(function(zip){
-        var entry = zip.file("word/document.xml");
-        if(!entry) throw new Error("document.xml 없음");
-        return entry.async("string");
-     })
-     .then(function(xml){
-        var paras = xml.split(/<\/w:p>/);
-        var out = [];
-        for(var i=0;i<paras.length;i++){
-          var texts = paras[i].match(/<w:t[^>]*>[\s\S]*?<\/w:t>/g) || [];
-          var line = texts.map(function(t){
-            return t.replace(/<[^>]+>/g, "");
-          }).join("");
-          line = line.replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&apos;/g,"'");
-          out.push(line);
-        }
-        var text = out.join("\n").replace(/\n{3,}/g,"\n\n").trim();
-        if(!text){ alert("이 워드 파일에서 글자를 찾지 못했습니다."); return; }
-        putText(text);
-     })
-     .catch(function(){
-        alert("워드 파일을 읽지 못했습니다. 한글(.hwp)이나 옛 워드(.doc)는 안 됩니다 — 워드에서 .docx 로 저장하거나 텍스트로 붙여넣어 주세요.");
-     });
-  }
 
   function bindRange(id, key, fmtFn){
     $(id).addEventListener("input", function(){
