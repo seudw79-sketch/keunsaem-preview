@@ -74,7 +74,15 @@
 
   .stage{position:fixed;inset:0;background:#000;display:flex;flex-direction:column}
   .viewport{position:relative;flex:1;overflow:hidden;touch-action:none}
-  .scroller{position:absolute;left:0;right:0;top:0;will-change:transform;padding-inline:6vw;font-weight:500;color:var(--ink);white-space:pre-wrap;word-break:keep-all}
+  .cam{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+  .cam.selfie{transform:scaleX(-1)}
+  .scrim{position:absolute;inset:0;background:#000;opacity:.55;pointer-events:none}
+  .scroller{position:absolute;left:0;right:0;top:0;will-change:transform;padding-inline:6vw;font-weight:500;color:var(--ink);white-space:pre-wrap;word-break:keep-all;text-shadow:0 2px 14px rgba(0,0,0,.85)}
+  .rec{display:inline-flex;align-items:center;gap:7px}
+  .rec .dot{width:10px;height:10px;border-radius:50%;background:#E05B4B}
+  .bar button.recording{background:#E05B4B;border-color:#E05B4B;color:#1A0906;font-weight:700}
+  .saveline{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:rgba(13,15,14,.96);border-top:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px}
+  .saveline a{color:var(--accent);font-weight:700}
   .scroller w{display:inline;transition:color .18s}
   .scroller w.past{color:var(--spoken)}
   .scroller w.now{color:var(--accent)}
@@ -151,9 +159,15 @@
       <div class="top"><span class="name">기준선 위치</span><span class="val" id="guideVal">40%</span></div>
       <input type="range" id="guide" min="15" max="75" step="5" value="40" aria-label="기준선 위치">
     </div>
+    <div class="dial">
+      <div class="top"><span class="name">카메라 위 가림막</span><span class="val" id="scrimVal">55%</span></div>
+      <input type="range" id="scrim" min="0" max="90" step="5" value="55" aria-label="카메라 위 가림막">
+    </div>
   </div>
 
   <div class="toggles">
+    <button class="toggle" id="camOn" aria-pressed="false" type="button">카메라 보기</button>
+    <button class="toggle" id="camBack" aria-pressed="false" type="button">후면 카메라</button>
     <button class="toggle" id="mirrorX" aria-pressed="false" type="button">좌우 반전</button>
     <button class="toggle" id="mirrorY" aria-pressed="false" type="button">상하 반전</button>
     <button class="toggle" id="countIn" aria-pressed="true" type="button">3초 카운트</button>
@@ -177,16 +191,22 @@
 
 <section class="stage" id="stage" hidden>
   <div class="viewport" id="viewport">
+    <video class="cam" id="cam" playsinline muted autoplay hidden></video>
+    <div class="scrim" id="scrimLayer" hidden></div>
     <div class="scroller" id="scroller"></div>
     <div class="guide" id="guideLine"></div>
     <div class="countdown" id="countdown" hidden>3</div>
     <div class="notice" id="notice" hidden></div>
+    <div class="saveline" id="saveline" hidden></div>
   </div>
   <div class="bar" id="bar">
     <button class="primary" id="playPause" type="button">시작</button>
     <button id="slower" type="button">느리게</button>
     <button id="faster" type="button">빠르게</button>
     <button id="restart" type="button">처음으로</button>
+    <button id="camToggle" type="button">카메라</button>
+    <button id="flip" type="button" hidden>앞뒤</button>
+    <button id="record" type="button" hidden>녹화</button>
     <button id="exit" type="button">나가기</button>
     <div class="clock">
       <span class="micdot" id="micdot" title="마이크"></span>
@@ -209,7 +229,8 @@
   var voiceSupported = !!SR;
 
   var state = { size:52, speed:5, lead:17, guide:40, mirrorX:false, mirrorY:false,
-                countIn:true, keepAwake:true, mode:"auto", text:"" };
+                countIn:true, keepAwake:true, mode:"auto", text:"",
+                camOn:false, camBack:false, scrim:55 };
 
   function load(){
     try{ var raw=localStorage.getItem(KEY); if(raw){ var s=JSON.parse(raw); for(var k in state){ if(k in s) state[k]=s[k]; } } }catch(e){}
@@ -240,7 +261,8 @@
     $("speed").value=state.speed; $("speedVal").textContent=state.speed;
     $("lead").value=state.lead;  $("leadVal").textContent=(state.lead/10).toFixed(1);
     $("guide").value=state.guide; $("guideVal").textContent=state.guide+"%";
-    ["mirrorX","mirrorY","countIn","keepAwake"].forEach(function(id){ $(id).setAttribute("aria-pressed", String(state[id])); });
+    $("scrim").value=state.scrim; $("scrimVal").textContent=state.scrim+"%";
+    ["mirrorX","mirrorY","countIn","keepAwake","camOn","camBack"].forEach(function(id){ $(id).setAttribute("aria-pressed", String(state[id])); });
     $("modeVoice").setAttribute("aria-pressed", String(state.mode==="voice"));
     $("modeAuto").setAttribute("aria-pressed", String(state.mode==="auto"));
     if(!voiceSupported){
@@ -453,6 +475,111 @@
     setTimeout(function(){ notice.hidden = true; }, 6000);
   }
 
+  /* ---------- 카메라 ---------- */
+  var camStream=null, mediaRec=null, chunks=[], recStart=0;
+  var camEl=$("cam"), scrimLayer=$("scrimLayer"), saveline=$("saveline");
+
+  function applyScrim(){
+    scrimLayer.style.opacity = (state.scrim/100);
+    scrimLayer.hidden = !state.camOn;
+  }
+
+  function startCam(){
+    if(camStream) return Promise.resolve();
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      showNotice("이 브라우저에서는 카메라를 쓸 수 없습니다.");
+      return Promise.reject();
+    }
+    var want = { video:{ facingMode: state.camBack ? "environment" : "user", width:{ideal:1920}, height:{ideal:1080} }, audio:true };
+    return navigator.mediaDevices.getUserMedia(want).then(function(s){
+      camStream = s;
+      camEl.srcObject = s;
+      camEl.hidden = false;
+      camEl.classList.toggle("selfie", !state.camBack);
+      applyScrim();
+      $("flip").hidden = false;
+      $("record").hidden = !recSupported();
+      return camEl.play().catch(function(){});
+    }).catch(function(err){
+      state.camOn = false; applyScrim();
+      showNotice("카메라를 쓸 수 없습니다. 브라우저에서 카메라 권한을 허용해 주세요.");
+      throw err;
+    });
+  }
+
+  function stopCam(){
+    stopRecording();
+    if(camStream){ camStream.getTracks().forEach(function(t){ t.stop(); }); camStream = null; }
+    camEl.srcObject = null; camEl.hidden = true;
+    scrimLayer.hidden = true;
+    $("flip").hidden = true; $("record").hidden = true;
+  }
+
+  function flipCam(){
+    state.camBack = !state.camBack;
+    $("camBack").setAttribute("aria-pressed", String(state.camBack));
+    save();
+    if(!camStream) return;
+    var wasRecording = !!(mediaRec && mediaRec.state === "recording");
+    stopCam();
+    state.camOn = true;
+    startCam().then(function(){ if(wasRecording) startRecording(); }).catch(function(){});
+  }
+
+  function recSupported(){
+    return typeof MediaRecorder !== "undefined";
+  }
+  function pickMime(){
+    var want = ["video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
+    for(var i=0;i<want.length;i++){
+      try{ if(MediaRecorder.isTypeSupported(want[i])) return want[i]; }catch(e){}
+    }
+    return "";
+  }
+  function startRecording(){
+    if(!camStream || !recSupported()) return;
+    if(mediaRec && mediaRec.state === "recording") return;
+    try{
+      var mime = pickMime();
+      mediaRec = mime ? new MediaRecorder(camStream, { mimeType: mime }) : new MediaRecorder(camStream);
+      chunks = [];
+      mediaRec.ondataavailable = function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+      mediaRec.onstop = function(){
+        var type = (mediaRec && mediaRec.mimeType) || "video/mp4";
+        var blob = new Blob(chunks, { type:type });
+        var ext = type.indexOf("mp4") >= 0 ? "mp4" : "webm";
+        var url = URL.createObjectURL(blob);
+        var mb = (blob.size/1048576).toFixed(1);
+        saveline.innerHTML = "";
+        var a = document.createElement("a");
+        a.href = url; a.download = "프롬프터_녹화." + ext;
+        a.textContent = "녹화 파일 받기 (" + mb + "MB)";
+        var t = document.createElement("span");
+        t.textContent = "길게 눌러 사진에 저장하거나 받기를 누르세요.";
+        t.style.color = "var(--muted)";
+        var x = document.createElement("button");
+        x.textContent = "닫기"; x.type = "button";
+        x.style.cssText = "margin-left:auto;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;color:var(--ink)";
+        x.onclick = function(){ saveline.hidden = true; URL.revokeObjectURL(url); };
+        saveline.appendChild(a); saveline.appendChild(t); saveline.appendChild(x);
+        saveline.hidden = false;
+      };
+      mediaRec.start(1000);
+      recStart = performance.now();
+      $("record").textContent = "녹화 중지";
+      $("record").classList.add("recording");
+    }catch(e){
+      showNotice("이 기기에서는 녹화를 지원하지 않습니다. 카메라 앱으로 따로 찍어 주세요.");
+    }
+  }
+  function stopRecording(){
+    try{
+      if(mediaRec && mediaRec.state === "recording") mediaRec.stop();
+    }catch(e){}
+    $("record").textContent = "녹화";
+    $("record").classList.remove("recording");
+  }
+
   /* ---------- 화면 전환 ---------- */
   function openStage(){
     state.text = script.value; save();
@@ -461,7 +588,9 @@
     requestAnimationFrame(measure);
     offset = 0; target = 0; accum = 0; cursor = -1;
     place(); setup.hidden = true; stage.hidden = false;
+    saveline.hidden = true;
     requestAnimationFrame(function(){ measure(); updateClock(); });
+    if(state.camOn){ startCam().catch(function(){}); } else { applyScrim(); }
     if(state.mode === "voice") showNotice("마이크 사용을 물으면 허용해 주세요. 말하는 대로 따라갑니다.");
     if(state.countIn) runCountIn(); else play();
   }
@@ -475,13 +604,14 @@
     }, 1000);
   }
   function closeStage(){
-    pause(); releaseWake();
+    pause(); releaseWake(); stopCam();
     stage.hidden = true; setup.hidden = false;
     updateCounts();
   }
 
   /* ---------- 연결 ---------- */
-  load(); syncSetupUI();
+  load(); syncSetupUI(); applyScrim();
+  if(!recSupported()) $("record").hidden = true;
 
   script.addEventListener("input", function(){ state.text = script.value; updateCounts(); });
   script.addEventListener("blur", save);
@@ -506,6 +636,11 @@
   bindRange("speed","speed",function(v){return String(v);});
   bindRange("lead","lead",function(v){return (v/10).toFixed(1);});
   bindRange("guide","guide",function(v){return v+"%";});
+  $("scrim").addEventListener("input", function(){
+    state.scrim = parseInt(this.value,10);
+    $("scrimVal").textContent = state.scrim+"%";
+    applyScrim(); save();
+  });
 
   ["mirrorX","mirrorY","countIn","keepAwake"].forEach(function(id){
     $(id).addEventListener("click", function(){
@@ -513,6 +648,28 @@
       this.setAttribute("aria-pressed", String(state[id]));
       applyStageStyle(); save();
     });
+  });
+  $("camOn").addEventListener("click", function(){
+    state.camOn = !state.camOn;
+    this.setAttribute("aria-pressed", String(state.camOn));
+    save();
+    if(!stage.hidden){ state.camOn ? startCam().catch(function(){}) : stopCam(); }
+  });
+  $("camBack").addEventListener("click", function(){
+    if(!stage.hidden){ flipCam(); return; }
+    state.camBack = !state.camBack;
+    this.setAttribute("aria-pressed", String(state.camBack));
+    save();
+  });
+  $("camToggle").addEventListener("click", function(){
+    state.camOn = !state.camOn;
+    $("camOn").setAttribute("aria-pressed", String(state.camOn));
+    save();
+    state.camOn ? startCam().catch(function(){}) : stopCam();
+  });
+  $("flip").addEventListener("click", flipCam);
+  $("record").addEventListener("click", function(){
+    (mediaRec && mediaRec.state === "recording") ? stopRecording() : startRecording();
   });
   $("modeVoice").addEventListener("click", function(){ if(!voiceSupported) return; setMode("voice"); });
   $("modeAuto").addEventListener("click", function(){ setMode("auto"); });
