@@ -67,6 +67,21 @@
   .toggle{background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:9px 15px;font-size:13px}
   .toggle[aria-pressed="true"]{background:var(--accent-dim);border-color:var(--accent);color:#FFF4E2}
 
+  .adv{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .adv>summary{list-style:none;cursor:pointer;padding:15px 16px;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .adv>summary::-webkit-details-marker{display:none}
+  .adv>summary::after{content:"펼치기";font-size:12px;font-weight:400;color:var(--muted)}
+  .adv[open]>summary::after{content:"접기"}
+  .adv .inner{padding:0 16px 16px;display:flex;flex-direction:column;gap:14px;border-top:1px solid var(--line)}
+  .adv .inner>*:first-child{margin-top:14px}
+
+  .startbar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(13,15,14,.96);border-top:1px solid var(--line);
+    padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:12px}
+  .startbar .go{flex:1;padding:16px 20px}
+  .startbar .meta{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.45;max-width:46%}
+  .startbar .meta b{color:var(--ink);font-weight:500}
+  .setup{padding-bottom:104px}
+
   .launch{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:2px}
   .go{background:var(--accent);color:#1A1206;border:0;border-radius:10px;padding:15px 30px;font-size:16px;font-weight:700}
   .go:active{transform:translateY(1px)}
@@ -95,6 +110,7 @@
   .guide::before,.guide::after{content:"";position:absolute;top:-9px;border:8px solid transparent;border-top-color:var(--accent)}
   .guide::before{left:0}.guide::after{right:0}
 
+  .more{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:rgba(13,15,14,.94);border-top:1px solid var(--line);padding:10px 16px}
   .bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(13,15,14,.94);border-top:1px solid var(--line);padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
   .bar button{background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:11px 16px;font-size:14px;min-width:52px}
   .bar .primary{background:var(--accent);color:#1A1206;border-color:var(--accent);font-weight:700;min-width:96px}
@@ -154,43 +170,45 @@
     </button>
   </div>
 
-  <div class="dials">
-    <div class="dial">
-      <div class="top"><span class="name">글자 크기</span><span class="val" id="sizeVal">52px</span></div>
-      <input type="range" id="size" min="24" max="110" step="2" value="52" aria-label="글자 크기">
-    </div>
-    <div class="dial">
-      <div class="top"><span class="name">읽기 속도</span><span class="val" id="speedVal">5</span></div>
-      <input type="range" id="speed" min="1" max="15" step="1" value="5" aria-label="읽기 속도">
-    </div>
-    <div class="dial">
-      <div class="top"><span class="name">줄 간격</span><span class="val" id="leadVal">1.7</span></div>
-      <input type="range" id="lead" min="12" max="26" step="1" value="17" aria-label="줄 간격">
-    </div>
-    <div class="dial">
-      <div class="top"><span class="name">기준선 위치</span><span class="val" id="guideVal">40%</span></div>
-      <input type="range" id="guide" min="15" max="75" step="5" value="40" aria-label="기준선 위치">
-    </div>
-    <div class="dial">
-      <div class="top"><span class="name">카메라 위 가림막</span><span class="val" id="scrimVal">30%</span></div>
-      <input type="range" id="scrim" min="0" max="90" step="5" value="30" aria-label="카메라 위 가림막">
-    </div>
-  </div>
+  <details class="adv" id="adv">
+    <summary>세부 설정 — 글자 크기, 속도, 카메라</summary>
+    <div class="inner">
+      <div class="dials">
+        <div class="dial">
+          <div class="top"><span class="name">글자 크기</span><span class="val" id="sizeVal">52px</span></div>
+          <input type="range" id="size" min="24" max="110" step="2" value="52" aria-label="글자 크기">
+        </div>
+        <div class="dial">
+          <div class="top"><span class="name">읽기 속도</span><span class="val" id="speedVal">5</span></div>
+          <input type="range" id="speed" min="1" max="15" step="1" value="5" aria-label="읽기 속도">
+        </div>
+        <div class="dial">
+          <div class="top"><span class="name">줄 간격</span><span class="val" id="leadVal">1.7</span></div>
+          <input type="range" id="lead" min="12" max="26" step="1" value="17" aria-label="줄 간격">
+        </div>
+        <div class="dial">
+          <div class="top"><span class="name">기준선 위치</span><span class="val" id="guideVal">40%</span></div>
+          <input type="range" id="guide" min="15" max="75" step="5" value="40" aria-label="기준선 위치">
+        </div>
+        <div class="dial">
+          <div class="top"><span class="name">카메라 위 가림막</span><span class="val" id="scrimVal">30%</span></div>
+          <input type="range" id="scrim" min="0" max="90" step="5" value="30" aria-label="카메라 위 가림막">
+        </div>
+      </div>
 
-  <div class="toggles">
-    <button class="toggle" id="camOn" aria-pressed="false" type="button">카메라 보기</button>
-    <button class="toggle" id="camBack" aria-pressed="false" type="button">후면 카메라</button>
-    <button class="toggle" id="mirrorX" aria-pressed="false" type="button">좌우 반전</button>
-    <button class="toggle" id="mirrorY" aria-pressed="false" type="button">상하 반전</button>
-    <button class="toggle" id="countIn" aria-pressed="true" type="button">3초 카운트</button>
-    <button class="toggle" id="keepAwake" aria-pressed="true" type="button">화면 꺼짐 방지</button>
-  </div>
+          <div class="toggles">
+        <button class="toggle" id="camOn" aria-pressed="false" type="button">카메라 보기</button>
+        <button class="toggle" id="camBack" aria-pressed="false" type="button">후면 카메라</button>
+        <button class="toggle" id="mirrorX" aria-pressed="false" type="button">좌우 반전</button>
+        <button class="toggle" id="mirrorY" aria-pressed="false" type="button">상하 반전</button>
+        <button class="toggle" id="countIn" aria-pressed="true" type="button">3초 카운트</button>
+        <button class="toggle" id="keepAwake" aria-pressed="true" type="button">화면 꺼짐 방지</button>
+      </div>
 
-  <div class="launch">
-    <button class="go" id="start" type="button">읽기 시작</button>
-    <p class="estimate" id="estimate"></p>
-    <p class="estimate" id="modeNow"></p>
-  </div>
+          
+
+    </div>
+  </details>
 
   <div class="keys">
     <p><kbd>space</kbd> 시작 · 멈춤</p>
@@ -199,6 +217,14 @@
     <p><kbd>R</kbd> 처음으로</p>
     <p><kbd>esc</kbd> 원고로</p>
     <p>화면을 손으로 끌어 위치를 옮길 수 있습니다.</p>
+  </div>
+
+  <div class="startbar">
+    <button class="go" id="start" type="button">읽기 시작</button>
+    <div class="meta">
+      <span id="modeNow">지금 선택 — <b>일정 속도</b></span><br>
+      <span id="estimate"></span>
+    </div>
   </div>
 </main>
 
@@ -212,17 +238,20 @@
     <div class="notice" id="notice" hidden></div>
     <div class="saveline" id="saveline" hidden></div>
   </div>
-  <div class="bar" id="bar">
-    <button class="primary" id="playPause" type="button">시작</button>
-    <button id="slower" type="button">느리게</button>
-    <button id="faster" type="button">빠르게</button>
-    <button id="restart" type="button">처음으로</button>
+  <div class="more" id="moreRow" hidden>
     <button id="modeToggle" type="button">일정 속도</button>
-    <button id="brighter" type="button">밝게</button>
-    <button id="darker" type="button">어둡게</button>
+    <button id="restart" type="button">처음으로</button>
     <button id="camToggle" type="button">카메라</button>
     <button id="flip" type="button" hidden>앞뒤</button>
     <button id="record" type="button" hidden>녹화</button>
+  </div>
+  <div class="bar" id="bar">
+    <button class="primary" id="playPause" type="button">시작</button>
+    <button id="slower" type="button" aria-label="느리게">느리게</button>
+    <button id="faster" type="button" aria-label="빠르게">빠르게</button>
+    <button id="brighter" type="button">밝게</button>
+    <button id="darker" type="button">어둡게</button>
+    <button id="moreBtn" type="button">더보기</button>
     <button id="exit" type="button">나가기</button>
     <div class="clock">
       <span class="micdot" id="micdot" title="마이크"></span>
@@ -763,6 +792,11 @@
     applyScrim(); save();
     showNotice("가림막 " + state.scrim + "%");
   }
+  $("moreBtn").addEventListener("click", function(){
+    var m = $("moreRow");
+    m.hidden = !m.hidden;
+    this.textContent = m.hidden ? "더보기" : "접기";
+  });
   $("brighter").addEventListener("click", function(){ nudgeScrim(-10); });
   $("darker").addEventListener("click", function(){ nudgeScrim(10); });
 
