@@ -116,6 +116,7 @@
   .bar button{background:var(--panel-2);border:1px solid var(--line);border-radius:9px;padding:11px 16px;font-size:14px;min-width:52px}
   .bar .primary{background:var(--accent);color:#1A1206;border-color:var(--accent);font-weight:700;min-width:96px}
   .clock{margin-left:auto;display:flex;align-items:baseline;gap:12px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .diag{background:rgba(13,15,14,.94);border-top:1px solid var(--line);padding:4px 16px 6px;font-size:10.5px;color:var(--muted);font-family:var(--mono);white-space:normal;word-break:break-all}
   .clock .elapsed{font-size:17px}
   .clock .left{font-size:13px;color:var(--muted)}
   .micdot{width:9px;height:9px;border-radius:50%;background:#4B534F}
@@ -247,6 +248,7 @@
     <button id="restart" type="button">처음으로</button>
     <button id="camToggle" type="button">카메라</button>
     <button id="flip" type="button" hidden>앞뒤</button>
+    <button id="diagToggle" type="button" aria-pressed="false">진단 보기</button>
   </div>
   <div class="bar" id="bar">
     <button class="primary" id="playPause" type="button">시작</button>
@@ -263,6 +265,7 @@
       <span class="left" id="left">남은 시간 —</span>
     </div>
   </div>
+  <div class="diag" id="diagLine" hidden></div>
 </section>
 
 <script>
@@ -355,6 +358,7 @@
   /* ---------- 읽기 ---------- */
   var running=false, offset=0, target=0, last=0, raf=0, accum=0, wakeLock=null;
   var words=[], cursor=-1, rec=null, recActive=false, lastHeard=0;
+  var recSessions=0, lastToks=[], diagOn=false, diagTimer=0, onendCount=0, lastErrorName="";
 
   function buildWords(text){
     scroller.textContent = "";
@@ -433,7 +437,10 @@
     $("playPause").textContent = "멈춤";
     raf = requestAnimationFrame(tick);
     requestWake();
-    if(state.mode === "voice") startRec();
+    if(state.mode === "voice"){
+      if(camStream) showNotice("카메라가 켜져 있어 마이크를 녹화가 함께 씁니다. 음성 따라가기가 끊기면 카메라를 끄고 해 보세요.");
+      startRec();
+    }
   }
   function pause(){
     running = false; cancelAnimationFrame(raf); last = 0;
@@ -454,30 +461,62 @@
   function releaseWake(){ try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){} }
 
   /* ---------- 음성 따라가기 ---------- */
+  var CONTINUOUS = false; /* iOS 사파리 대응(가설 F) — 출처 조사 중, 되돌릴 땐 이 값만 true로 */
+  function makeRec(){
+    var r = new SR();
+    r.lang = "ko-KR";
+    r.continuous = CONTINUOUS;
+    r.interimResults = true;
+    r.onresult = onHeard;
+    r.onerror = function(e){
+      var code = e && e.error;
+      lastErrorName = code || "";
+      if(code === "not-allowed" || code === "service-not-allowed"){
+        showNotice("마이크를 쓸 수 없어 일정 속도로 바꿨습니다. 브라우저 주소창의 마이크 권한을 허용해 주세요.");
+        state.mode = "auto"; recActive = false; $("micdot").classList.remove("live");
+      }else if(code === "audio-capture"){
+        stick("녹화가 마이크를 쓰고 있어 음성 따라가기가 멈췄습니다. 카메라를 끄고 음성 모드로 하시거나, 녹화하실 때는 속도 모드를 쓰세요.");
+      }else if(code === "no-speech" || code === "aborted"){
+        /* 조용히 넘긴다 — 재시작은 onend 가 한다. state.mode 는 바꾸지 않는다. */
+      }else{
+        stick("음성 인식 오류: " + code);
+      }
+    };
+    r.onend = function(){
+      onendCount++;
+      $("micdot").classList.remove("live");
+      if(recActive && running){
+        setTimeout(function(){
+          if(!(recActive && running)) return;
+          try{
+            rec = makeRec(); rec.start();
+            lastHeard = performance.now(); recSessions++;
+            $("micdot").classList.add("live");
+          }catch(e){
+            setTimeout(function(){
+              if(!(recActive && running)) return;
+              try{
+                rec = makeRec(); rec.start();
+                lastHeard = performance.now(); recSessions++;
+                $("micdot").classList.add("live");
+              }catch(e2){}
+            }, 600);
+          }
+        }, 250);
+      }
+    };
+    return r;
+  }
   function startRec(){
     if(!voiceSupported || recActive) return;
+    recActive = true;
     try{
-      rec = new SR();
-      rec.lang = "ko-KR";
-      rec.continuous = true;
-      rec.interimResults = true;
-      rec.onresult = onHeard;
-      rec.onerror = function(e){
-        if(e && (e.error === "not-allowed" || e.error === "service-not-allowed")){
-          showNotice("마이크를 쓸 수 없어 일정 속도로 바꿨습니다. 브라우저 주소창의 마이크 권한을 허용해 주세요.");
-          state.mode = "auto"; recActive = false; $("micdot").classList.remove("live");
-        }
-      };
-      rec.onend = function(){
-        $("micdot").classList.remove("live");
-        if(recActive && running){ try{ rec.start(); $("micdot").classList.add("live"); }catch(e){} }
-      };
-      rec.start();
-      recActive = true; lastHeard = performance.now();
+      rec = makeRec(); rec.start();
+      lastHeard = performance.now(); recSessions++;
       $("micdot").classList.add("live");
     }catch(e){
       showNotice("음성 인식을 시작하지 못했습니다. 일정 속도로 읽습니다.");
-      state.mode = "auto";
+      state.mode = "auto"; recActive = false;
     }
   }
   function stopRec(){
@@ -492,6 +531,7 @@
     var toks = heard.split(/\s+/).map(norm).filter(Boolean);
     if(!toks.length) return;
     lastHeard = performance.now();
+    lastToks = lastToks.concat(toks).slice(-3);
 
     var searchFrom = cursor + 1;
     var searchTo = Math.min(words.length, searchFrom + 60);
@@ -614,7 +654,7 @@
         var type = (mediaRec && mediaRec.mimeType) || "video/mp4";
         var blob = new Blob(chunks, { type:type });
         var ext = type.indexOf("mp4") >= 0 ? "mp4" : "webm";
-        var mb = (blob.size/1048576).toFixed(1);
+        var sizeLabel = blob.size < 1048576 ? (Math.round(blob.size/1024) + "KB") : ((blob.size/1048576).toFixed(1) + "MB");
         if(!blob.size){
           stick("녹화된 내용이 없습니다. 카메라를 켜고 녹화를 누른 뒤 몇 초 기다렸다가 멈춰 주세요.");
           return;
@@ -626,13 +666,18 @@
 
         saveline.innerHTML = "";
         var label = document.createElement("span");
-        label.textContent = "녹화 " + fmt((performance.now()-recStart)/1000) + " · " + mb + "MB";
+        label.textContent = "녹화 " + fmt((performance.now()-recStart)/1000) + " · " + sizeLabel;
         label.style.color = "var(--muted)";
         saveline.appendChild(label);
 
         if(canShare){
+          var hint = document.createElement("span");
+          hint.textContent = "공유창이 뜨면 아래쪽 [비디오 저장] 을 누르셔야 사진첩에 들어갑니다.";
+          hint.style.cssText = "flex:1 0 100%;color:var(--muted);font-size:11.5px;white-space:normal";
+          saveline.appendChild(hint);
+
           var sb = document.createElement("button");
-          sb.type = "button"; sb.textContent = "사진첩에 저장";
+          sb.type = "button"; sb.textContent = "사진첩에 저장 (공유창 → 비디오 저장)";
           sb.style.cssText = "background:var(--accent);color:#1A1206;border:0;border-radius:9px;padding:11px 18px;font-weight:700";
           sb.onclick = function(){
             navigator.share({ files:[file] }).then(function(){
@@ -829,6 +874,26 @@
     var m = $("moreRow");
     m.hidden = !m.hidden;
     this.textContent = m.hidden ? "더보기" : "접기";
+  });
+  function updateDiag(){
+    var diagLine = $("diagLine");
+    var sinceHeard = lastHeard ? ((performance.now()-lastHeard)/1000).toFixed(1) : "—";
+    var heardWords = lastToks.length ? lastToks.join(" ") : "—";
+    var micBusy = (camStream && camStream.getAudioTracks()[0] && camStream.getAudioTracks()[0].readyState === "live") ? "녹화중" : "자유";
+    diagLine.textContent = "세션 " + recSessions + " · 종료 " + onendCount + " · 마지막에러 " + (lastErrorName || "—") +
+      " · 마지막들림 " + sinceHeard + "초전 · 들은말 " + heardWords +
+      " · 커서 " + (cursor+1) + "/" + words.length + " · 마이크 " + micBusy;
+  }
+  $("diagToggle").addEventListener("click", function(){
+    diagOn = !diagOn;
+    this.setAttribute("aria-pressed", String(diagOn));
+    $("diagLine").hidden = !diagOn;
+    if(diagOn){
+      updateDiag();
+      diagTimer = setInterval(updateDiag, 500);
+    }else{
+      clearInterval(diagTimer); diagTimer = 0;
+    }
   });
   $("brighter").addEventListener("click", function(){ nudgeScrim(-10); });
   $("darker").addEventListener("click", function(){ nudgeScrim(10); });
