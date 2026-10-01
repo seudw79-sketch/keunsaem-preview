@@ -359,6 +359,7 @@
   var running=false, offset=0, target=0, last=0, raf=0, accum=0, wakeLock=null;
   var words=[], cursor=-1, rec=null, recActive=false, lastHeard=0;
   var recSessions=0, lastToks=[], diagOn=false, diagTimer=0, onendCount=0, lastErrorName="";
+  var reviving=false, reviveCount=0;
 
   function buildWords(text){
     scroller.textContent = "";
@@ -401,9 +402,8 @@
     accum += dt;
 
     if(state.mode === "voice"){
-      if(recActive && lastHeard && (performance.now() - lastHeard) > 9000){
-        stick("소리가 안 잡힙니다. 마이크 허용을 확인하시거나, 아래 더보기 → 모드 버튼으로 속도 모드로 바꾸세요.");
-        lastHeard = 0;
+      if(recActive && running && lastHeard && (performance.now() - lastHeard) > 6000){
+        reviveRec();
       }
       var d = target - offset;
       if(Math.abs(d) > 0.5){
@@ -518,6 +518,33 @@
       showNotice("음성 인식을 시작하지 못했습니다. 일정 속도로 읽습니다.");
       state.mode = "auto"; recActive = false;
     }
+  }
+  /* 애플 음성인식은 세션당 약 1분 제한이 보고된다. */
+  /* 3~5초 침묵이면 조기 종료된다 — 그래서 끊김은 정상이고, 끊긴 뒤 다시 거는 것이 설계의 핵심이다. */
+  function reviveRec(){
+    if(reviving) return;
+    reviving = true;
+    try{ if(rec) rec.abort(); }catch(e){}
+    rec = null;
+    setTimeout(function(){
+      if(!(state.mode === "voice" && recActive && running)){ reviving = false; return; }
+      try{
+        rec = makeRec(); rec.start();
+        recSessions++; reviveCount++; lastHeard = performance.now();
+        reviving = false;
+        if(reviveCount === 4) showNotice("아이폰 음성인식이 자꾸 끊깁니다. 속도 모드로 바꾸시면 안정적입니다.");
+      }catch(e){
+        setTimeout(function(){
+          if(!(state.mode === "voice" && recActive && running)){ reviving = false; return; }
+          try{
+            rec = makeRec(); rec.start();
+            recSessions++; reviveCount++; lastHeard = performance.now();
+            if(reviveCount === 4) showNotice("아이폰 음성인식이 자꾸 끊깁니다. 속도 모드로 바꾸시면 안정적입니다.");
+          }catch(e2){}
+          reviving = false;
+        }, 1000);
+      }
+    }, 300);
   }
   function stopRec(){
     recActive = false;
@@ -880,7 +907,7 @@
     var sinceHeard = lastHeard ? ((performance.now()-lastHeard)/1000).toFixed(1) : "—";
     var heardWords = lastToks.length ? lastToks.join(" ") : "—";
     var micBusy = (camStream && camStream.getAudioTracks()[0] && camStream.getAudioTracks()[0].readyState === "live") ? "녹화중" : "자유";
-    diagLine.textContent = "세션 " + recSessions + " · 종료 " + onendCount + " · 마지막에러 " + (lastErrorName || "—") +
+    diagLine.textContent = "세션 " + recSessions + " · 종료 " + onendCount + " · 되살림 " + reviveCount + " · 마지막에러 " + (lastErrorName || "—") +
       " · 마지막들림 " + sinceHeard + "초전 · 들은말 " + heardWords +
       " · 커서 " + (cursor+1) + "/" + words.length + " · 마이크 " + micBusy;
   }
