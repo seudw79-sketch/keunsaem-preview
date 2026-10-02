@@ -468,9 +468,15 @@ def build_sub(pg, n):
             arts = re.findall(r"<article>.*?</article>", vid, re.S)
             assert len(arts) == 4 and "아동부" in arts[2] and "아동부" in arts[3]
             head_, tail_ = vid.split(arts[0], 1)[0], vid.split(arts[3], 1)[1]          # tail_ = </div> + note + </div></section>
-            grid_open = head_; grid_close_note = tail_
+            grid_open = head_
+            # ★2026-10-02(_티켓_홈페이지_인용문_생성기_20261002) — 02 쇼츠가 세로 격자(shorts-head·shorts-grid)로
+            # 바뀌어 더 이상 .video-grid 2열 틀에 맞지 않는다(ksmc31 커밋 7e69099·edbfae7과 같은 모양 유지).
+            # arts[1] 의 <article> 꺼풀만 벗겨 그대로 쓰고, 트레일 note(쇼츠 안내문)는 r4 원문에서 그대로
+            # 가져온다(창작 0) — tail_ 의 선두 </div>(옛 4열 그리드 닫기)는 더는 필요 없어 note 만 뽑는다.
+            art2_inner = re.match(r"<article>(.*)</article>$", arts[1], re.S).group(1)
+            note2 = re.search(r'<p class="note"[^>]*>.*?</p>', tail_, re.S).group(0)
             sec_a = grid_open + arts[0] + "</div></div></section>"                        # 01 다시보기(그리드 닫기)
-            sec_c = ('<section class="section section--tint" data-block="videos-2"><div class="wrap"><div class="video-grid reveal">' + arts[1] + grid_close_note)  # 02 쇼츠 + 채널 주석
+            sec_c = ('<section class="section section--tint" data-block="videos-2"><div class="wrap">' + art2_inner + note2 + '</div></section>')  # 02 쇼츠(세로 격자) + 채널 주석
             _, hmain, _ = read_r4("index")
             serm = re.search(r"(?:<!--[^\n]*?-->\s*)*<section\b[^>]*data-block=\"sermons\"[^>]*>.*?</section>", hmain, re.S).group(0)
             secs = [sec_a if s is vid else s for s in secs]
