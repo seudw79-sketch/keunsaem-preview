@@ -270,12 +270,12 @@ window.__ytSet=function(img,id){img.setAttribute('data-vid',id);img.setAttribute
 <!-- 근거: 시안E_예배안내.html 블록3 「온라인 예배」 — note·유튜브 재생목록 iframe(src·title 원문) 그대로 · 임베드 프레임=아카데미.html 과 동일 규칙 -->
 <section class="reveal section section--line" data-block="online"><div class="wrap two reveal">
   <div><h2 class="title">온라인 예배</h2><p class="note" style="margin-top:16px">교회에 오시기 어려우면 유튜브로 함께 드릴 수 있습니다.</p></div>
-  <!-- ★2026-10-02(_티켓_홈페이지_인용문_생성기_20261002) — 이 재생목록(PLRKz01U8…)은 RSS 0건(비었거나
-     비공개)이라 2021-08-08 영상에 고정돼 있었다(master 실측 · ksmc31 커밋 6c4c536과 같은 원인·같은
-     수리). 온라인예배.html 과 같은 방식으로 latest.json 의 최신 설교를 직접 embed 한다
+  <!-- ★2026-10-02(_티켓_홈페이지_01칸_예배전체본_20261002) — 이 재생목록(PLRKz01U8…)은 RSS 0건(비었거나
+     비공개)이라 2021-08-08 영상에 고정돼 있었다(master 실측). 온라인예배.html 과 같은 방식으로
+     latest.json 의 예배_링크(주일예배 전체본)를 우선 embed 하고, 없으면 설교_링크로 폴백한다
      (id=latest-sermon-embed · 본문 뒤 JS 가 매주 자동 갱신). -->
-  <div class="video-embed"><iframe id="latest-sermon-embed" src="https://www.youtube.com/embed/4Uw236eEFuk" title="큰샘교회 주일예배 다시보기" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-  <p class="note" style="margin-top:12px">최신 설교 영상으로 매주 자동 갱신됩니다 · <a class="text-link" href="온라인예배.html">설교 쇼츠·지난 예배 보기 &nearr;</a></p>
+  <div class="video-embed"><iframe id="latest-sermon-embed" src="https://www.youtube.com/embed/q3iKaO4XIFc" title="큰샘교회 주일예배 다시보기" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  <p class="note" style="margin-top:12px">주일예배 전체 영상으로 매주 자동 갱신됩니다 · <a class="text-link" href="온라인예배.html">설교 쇼츠·지난 예배 보기 &nearr;</a></p>
 </div></section>
 <!-- 근거: 시안E_예배안내.html 블록4 「함께 들으면 좋은 강의」 — chip 「외부 콘텐츠」·본문·링크 2(href·문안·↗ 원문)·저작권 note 문자 그대로 -->
 <section class="reveal section section--line" data-block="lectures"><div class="wrap two reveal">
@@ -299,7 +299,7 @@ window.__ytSet=function(img,id){img.setAttribute('data-vid',id);img.setAttribute
 </section>
 </main>
 <script>
-var LATEST_URL="https://ksmc31.kr/latest.json";if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){var le=document.getElementById('latest-sermon-embed');if(d.설교_링크&&le){var m=d.설교_링크.match(/[?&]v=([^&]+)/);if(m)le.src='https://www.youtube.com/embed/'+m[1];}}).catch(function(){});
+var LATEST_URL="https://ksmc31.kr/latest.json";if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){var le=document.getElementById('latest-sermon-embed');var wv=d.예배_링크||d.설교_링크;if(wv&&le){var m=wv.match(/[?&]v=([^&]+)/);if(m)le.src='https://www.youtube.com/embed/'+m[1];}}).catch(function(){});
 </script>
 <section class="dark"><div class="wrap reveal">
   <div><h2>기독교대한감리회 큰샘교회</h2></div>

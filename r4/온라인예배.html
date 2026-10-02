@@ -44,13 +44,14 @@
 <section class="section section--tint" data-block="videos"><div class="wrap">
   <div class="video-grid reveal">
     <article><span class="num">01</span>
-      <!-- ★2026-10-02(_티켓_홈페이지_인용문_생성기_20261002) — 재생목록(PLRKz01U8iI5IuYm8JnLfkFt7JzxVyiqZW)
-           RSS 0건이라 2021-08-08 고정 영상에 걸려 있었다(master 실측 · ksmc31 커밋 7e69099과 같은 원인·
-           같은 수리). 빈 재생목록 의존을 끊고 latest.json 의 설교_링크를 직접 embed 한다
-           (id=latest-sermon-embed · 본문 뒤 JS 가 매주 자동 갱신). -->
-      <div class="video-embed"><iframe id="latest-sermon-embed" src="https://www.youtube.com/embed/4Uw236eEFuk" title="주일예배 다시보기" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+      <!-- ★2026-10-02(_티켓_홈페이지_01칸_예배전체본_20261002) — 재생목록(PLRKz01U8iI5IuYm8JnLfkFt7JzxVyiqZW)
+           RSS 0건이라 2021-08-08 고정 영상에 걸려 있었다(master 실측). 빈 재생목록 의존을 끊고
+           latest.json 의 예배_링크(주일예배 전체본 · 축도·중보 포함 · 일부공개)를 우선 embed 하고,
+           없으면 설교_링크(전체공개 설교본)로 폴백한다(id=latest-sermon-embed · 본문 뒤 JS 가 매주
+           자동 갱신). 설교본은 섞지 않는다 — 「최근 설교」 블록은 설교_링크 그대로 둔다. -->
+      <div class="video-embed"><iframe id="latest-sermon-embed" src="https://www.youtube.com/embed/q3iKaO4XIFc" title="주일예배 다시보기" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
       <h3>주일예배 다시보기</h3><p>매주 주일 오전 11시 예배</p>
-      <p class="note" style="margin-top:12px">최신 설교 영상으로 매주 자동 갱신됩니다 · <a class="text-link" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">지난 예배 전체 보기 ↗</a></p>
+      <p class="note" style="margin-top:12px">주일예배 전체 영상으로 매주 자동 갱신됩니다 · <a class="text-link" href="https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw" target="_blank" rel="noopener">지난 예배 전체 보기 ↗</a></p>
       </article>
     <article>
       <!-- ★2026-10-02 — 가로 재생목록(videoseries) 1개 → 세로 9:16 쇼츠 3개 격자로 교체. 쇼츠 id 는
@@ -86,6 +87,6 @@
      (site.json _latest_note)이고, 라이브 배포 시 deploy_cedar_to_live.sh 의 기존 치환표가 상대경로로
      그대로 바꿔준다(이 파일은 그 치환표를 바꾸지 않는다 — 범위 밖). -->
 <script>
-var LATEST_URL="https://ksmc31.kr/latest.json";if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){var le=document.getElementById('latest-sermon-embed');if(d.설교_링크&&le){var m=d.설교_링크.match(/[?&]v=([^&]+)/);if(m)le.src='https://www.youtube.com/embed/'+m[1];}}).catch(function(){});
+var LATEST_URL="https://ksmc31.kr/latest.json";if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){var le=document.getElementById('latest-sermon-embed');var wv=d.예배_링크||d.설교_링크;if(wv&&le){var m=wv.match(/[?&]v=([^&]+)/);if(m)le.src='https://www.youtube.com/embed/'+m[1];}}).catch(function(){});
 </script>
 </body></html>
