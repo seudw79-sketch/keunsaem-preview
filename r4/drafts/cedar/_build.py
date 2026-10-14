@@ -329,13 +329,33 @@ window.__yt=function(img){var steps=(img.getAttribute('data-steps')||'maxresdefa
 window.__ytSet=function(img,id){img.setAttribute('data-vid',id);img.setAttribute('data-i','0');img.src='https://i.ytimg.com/vi/'+id+'/maxresdefault.jpg';};
 </script>'''
 
+# ── SEO-SIGNALS 2026-10-15 (master 지시 · 구사이트_대응 §4): 홈 제목에 「큰샘감리교회」 · 전 페이지 canonical · 홈에만 WebSite+Church JSON-LD. 값은 여기서만 고친다.
+SITE_URL = "https://ksmc31.kr/"
+HOME_TITLE = "큰샘감리교회 · 광명 소하동"
+SEO_ORG = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {"@type": "WebSite", "@id": SITE_URL + "#website", "url": SITE_URL, "name": "큰샘교회",
+         "alternateName": ["큰샘감리교회", "큰샘감리교회 광명"], "inLanguage": "ko"},
+        {"@type": ["Church", "Organization"], "@id": SITE_URL + "#org", "name": "큰샘교회",
+         "alternateName": ["큰샘감리교회", "큰샘감리교회 광명"], "url": SITE_URL,
+         "logo": SITE_URL + "assets/og.jpg", "image": SITE_URL + "assets/og.jpg",
+         "telephone": "0507-1369-0198", "email": "office@ksmc31.kr",
+         "address": {"@type": "PostalAddress", "streetAddress": "기아로 23 4층", "addressLocality": "광명시", "addressRegion": "경기도", "addressCountry": "KR"},
+         "sameAs": ["https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw", "https://map.naver.com/p/entry/place/34542008", "https://www.instagram.com/ksmc140301/"]},
+    ],
+}
+JSONLD = json.dumps(SEO_ORG, ensure_ascii=False, separators=(",", ":"))
+
 page = f'''<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>{esc(SITE["church"])}</title>
+<title>{esc(HOME_TITLE)}</title>
+<link rel="canonical" href="{SITE_URL}">
+<!--SEO-JSONLD--><script type="application/ld+json">{JSONLD}</script><!--/SEO-JSONLD-->
 <!-- T-HOME-CEDAR · 생성: r4/drafts/cedar/_build.py — 손으로 고치지 말 것. 규격=master 실측(cedarcrestchurch.com computed style 2026-09-30) · 내용=site.json·latest.json -->
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Noto+Serif+KR:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -410,7 +430,7 @@ _a3 = A3JS
 
 
 
-SUBPAGES = ["교회소개", "예배안내", "새가족", "아카데미", "온라인예배", "재정", "주보", "칼럼", "기도", "힘들때말씀"]   # 기도·힘들때말씀 = 광고 랜딩 2페이지(T1013-PUBPAGES 2026-10-13 · 오너 승인) · 메인 메뉴(site.json nav) 미등재
+SUBPAGES = ["교회소개", "예배안내", "새가족", "아카데미", "온라인예배", "재정", "주보", "칼럼", "기도", "힘들때말씀", "탈북민", "주기도문", "사도신경", "대표기도문", "시편23편", "사랑장", "기도문", "성경읽기표", "큐티", "교회처음"]   # +4 = ADS-D2 2026-10-15 광고 랜딩(기도문·성경읽기표·큐티·교회처음 · 메인 메뉴 미등재)   # +5 = 광고 랜딩(ADS-PAGES2 2026-10-14 · 메인 메뉴 미등재 · master 검토 전 오너 미전달)   # 탈북민 = 광고 랜딩 초안(T1013-NKDEF-PAGE 2026-10-13 · 미공개 · 오너 검토 전)   # 기도·힘들때말씀 = 광고 랜딩 2페이지(T1013-PUBPAGES 2026-10-13 · 오너 승인) · 메인 메뉴(site.json nav) 미등재
 
 def build_sub(pg, n):
     if pg == "재정":
@@ -489,7 +509,9 @@ def build_sub(pg, n):
         body_html = (f'<main>\n<section class="subhero"><div class="wrap reveal"><p class="label">{eyebrow}</p><h1 class="title">{h1}</h1>'
                      + (f'<p class="lead">{lead}</p>' if lead else "") + f'</div>{WAVE}</section>\n<section class="body">\n{body}\n</section>\n</main>\n'
                      + "".join(repath(s) + "\n" for s in scripts))
-    html_out = _head_html.replace(f"<title>{esc(SITE['church'])}</title>", f"<title>{esc(title)}</title>", 1)
+    html_out = _head_html.replace(f"<title>{esc(HOME_TITLE)}</title>", f"<title>{esc(title)}</title>", 1)
+    html_out = html_out.replace(f'<link rel="canonical" href="{SITE_URL}">', f'<link rel="canonical" href="{SITE_URL}{__import__("urllib.parse").parse.quote(pg + ".html")}">', 1)   # SEO-SIGNALS: 페이지별 canonical
+    html_out = _re.sub(r"<!--SEO-JSONLD-->.*?<!--/SEO-JSONLD-->\n?", "", html_out, count=1, flags=_re.S)   # JSON-LD 는 홈에만
     if pg != "재정": html_out = html_out.replace("</head>", page_css(pg) + "\n</head>", 1)
     latest_sub = ("var LATEST_URL=" + json.dumps(SITE["latest_url"]) + ";if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){var st=document.getElementById('sermon-title'),sd=document.getElementById('sermon-date'),sl=document.getElementById('sermon-link');if(d.설교_제목&&st)st.textContent=d.설교_제목;if(d.설교_날짜&&sd){sd.textContent=d.설교_날짜;sd.dateTime=d.설교_날짜.slice(0,10);}if(d.설교_링크&&sl)sl.href=d.설교_링크;}).catch(function(){});\n") if pg == "온라인예배" else ""
     html_out += "<body>" + _banner_header + body_html + _dark_footer + "<script>\n" + latest_sub + _a3 + "\n</script>\n</body>\n</html>\n"

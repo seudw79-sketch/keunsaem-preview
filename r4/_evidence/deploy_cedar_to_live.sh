@@ -66,8 +66,33 @@ for p in "${PAGES[@]}"; do
     -e "s#'\.\./\.\./\.\./'+d\.#d.#g" \
     -e 's#\.\./\.\./사진/web/#사진/cedar/#g' \
     -e 's#var LATEST_URL="https://ksmc31\.kr/latest\.json"#var LATEST_URL="latest.json"#g' \
+    -e 's#<meta name="robots" content="noindex, nofollow">##g' \
+    -e 's# · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span>##g' \
     "$STAGE/$p"
 done
+
+# 2-b. GA4 태그 주입 — 라이브 전용(미리보기에는 넣지 않는다 · 내부 열람이 교회 통계를 오염시키지 않게)
+#      측정 ID G-HBE29Z8PJJ = 계정 큰샘감리교회 / 속성 큰샘교회 홈페이지(ksmc31.kr) · 2026-09-30 생성
+GA4_ID="G-HBE29Z8PJJ" STAGE="$STAGE" python3 - <<'PYGA'
+import os, io
+from pathlib import Path
+gid=os.environ["GA4_ID"]; STAGE=Path(os.environ["STAGE"])
+snippet=('<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>\n'
+         '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}\n'
+         "gtag('js',new Date());gtag('config','%s');</script>\n") % (gid,gid)
+pages=["index","교회소개","예배안내","새가족","아카데미","온라인예배","재정","주보","칼럼"]
+done=0
+for pg in pages:
+    f=STAGE/(pg+".html")
+    raw=io.open(f,encoding="utf-8").read()
+    if gid in raw:
+        continue
+    if "</head>" not in raw:
+        print("중단: </head> 없음:", pg); raise SystemExit(6)
+    io.open(f,"w",encoding="utf-8").write(raw.replace("</head>", snippet+"</head>", 1))
+    done+=1
+print("GA4 태그 주입: %d/9 페이지 (%s)" % (done,gid))
+PYGA
 
 # 3. 스테이지 검증 — 치환 잔여 0(../ 자체가 0) · 내부 링크 전수 실존(스테이지∪라이브) · 문안 parity+누락 0 · 시더 규칙 전부(꼬리·머리·목적지·../4단·maxres) · 넘침 0(390/1280) · 재정 스크립트 동일
 say "-- 검증 --"
@@ -84,6 +109,16 @@ for pg in pages:
     hits=re.findall(r"\.\./|사진/web/|https://ksmc31\.kr/latest\.json|https://ksmc31\.kr/jubo_",code)
     if hits: residue[pg]=sorted(set(hits))
 if residue: print("중단: 치환 잔여:", residue); sys.exit(5)
+# 3-0b 미리보기 전용 표식 0 — 라이브로 나가면 안 되는 것(2026-09-30 라이브 사고: noindex 가 9페이지에 실려 나감)
+leak=[]
+for pg in pages:
+    raw=(STAGE/f"{pg}.html").read_text(encoding='utf-8')
+    if 'noindex' in raw: leak.append((pg,'noindex'))
+    if '내부 검토용' in raw: leak.append((pg,'내부 검토용'))
+    if 'G-HBE29Z8PJJ' not in raw: leak.append((pg,'GA4 태그 없음'))
+if leak: print('중단: 미리보기 전용 표식이 라이브 산출물에 남음:', leak); sys.exit(5)
+print('미리보기 전용 표식 0 (noindex · 내부 검토용) + GA4 태그 9/9 — 9페이지')
+
 print("치환 잔여 0 (../ · 사진/web · 절대 latest/jubo — 코드 영역 기준)")
 # 3-a 시더 검사기 재사용(R4=스테이지 · 폴더명 cedar 라 시더 규칙 활성): 창작 0 · 누락 0 · 시더 규칙 · 내부 링크(스테이지 없으면 라이브 실존으로 보완)
 spec=importlib.util.spec_from_file_location("v", PREVIEW/"r4"/"drafts"/"c"/"_verify.py"); v=importlib.util.module_from_spec(spec); spec.loader.exec_module(v)
