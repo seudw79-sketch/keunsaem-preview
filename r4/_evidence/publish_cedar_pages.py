@@ -31,7 +31,16 @@ def transform(page):
     # d3aaf5c Open Graph — <title> 바로 뒤
     title = re.search(r"<title>(.*?)</title>", s).group(1)
     path = urllib.parse.quote(f"{page}.html") if page != "index" else ""
-    s = s.replace(f"<title>{title}</title>\n", f"<title>{title}</title>\n" + OG.format(title=title, path=path), 1)
+    # SEO-SIGNALS(130837f) 이후 라이브 머리 순서: title → canonical → meta description → OG. 생성본(856880c)은 title 뒤에 canonical 을 이미 두므로
+    # 그 줄 뒤에 r4 원본의 description 과 OG 를 넣는다(ADS-D3 2026-10-15 · 교회처음 parity 로 검증). canonical 이 없으면 종전대로 title 뒤.
+    canon = f'<link rel="canonical" href="https://ksmc31.kr/{path}">\n'
+    r4raw = (SRC.parent.parent / f"{page}.html").read_text(encoding="utf-8")
+    dm = re.search(r'<meta name="description" content="([^"]*)">', r4raw)
+    desc = (f'<meta name="description" content="{dm.group(1)}">\n' if dm else "")
+    if f"<title>{title}</title>\n" + canon in s:
+        s = s.replace(f"<title>{title}</title>\n" + canon, f"<title>{title}</title>\n" + canon + desc + OG.format(title=title, path=path), 1)
+    else:
+        s = s.replace(f"<title>{title}</title>\n", f"<title>{title}</title>\n" + OG.format(title=title, path=path), 1)
     # §2-b GA4 + 2485766 conversion js — </head> 앞
     assert GA4 not in s and "</head>" in s
     s = s.replace("</head>", GA4_SNIPPET + "</head>", 1)
