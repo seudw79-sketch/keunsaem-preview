@@ -27,7 +27,7 @@ def transform(page):
     s = s.replace("https://ksmc31.kr/jubo_", "jubo_").replace("https://ksmc31.kr/'+esc(", "'+esc(")
     s = s.replace("../../../jubo.html", "jubo.html").replace("fetch('../../../", "fetch('").replace("'../../../'+d.", "d.")
     s = s.replace("../../사진/web/", "사진/cedar/").replace('var LATEST_URL="https://ksmc31.kr/latest.json"', 'var LATEST_URL="latest.json"')
-    s = s.replace('<meta name="robots" content="noindex, nofollow">', "").replace(" · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span>", "")
+    s = s.replace('<meta name="robots" content="noindex, nofollow">\n', "").replace('<meta name="robots" content="noindex, nofollow">', "").replace(" · <span>T-HOME-CEDAR 비교 초안 · 내부 검토용</span>", "")
     # d3aaf5c Open Graph — <title> 바로 뒤
     title = re.search(r"<title>(.*?)</title>", s).group(1)
     path = urllib.parse.quote(f"{page}.html") if page != "index" else ""
