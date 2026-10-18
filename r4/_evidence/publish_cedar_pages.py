@@ -13,8 +13,8 @@ GA4_SNIPPET = ('<script async src="https://www.googletagmanager.com/gtag/js?id=%
                '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}\n'
                "gtag('js',new Date());gtag('config','%s');gtag('config','AW-18487103627');</script>\n"
                '<script src="assets/ga4-conversion-events.js" defer></script>\n') % (GA4, GA4)
-OG = ('<meta property="og:type" content="website">\n<meta property="og:site_name" content="큰샘감리교회">\n<meta property="og:title" content="{title}">\n'
-      '<meta property="og:description" content="광명 소하동 큰샘감리교회 · 하나님의 마음을 시원케 하는 교회 · 주일예배 오전 11시">\n'
+OG = ('<meta property="og:type" content="website">\n<meta property="og:site_name" content="큰샘교회 · 큰샘감리교회">\n<meta property="og:title" content="{title}">\n'   # T1018-SEO-KEUNSAEM-NAME: site_name/description 에 「큰샘교회」
+      '<meta property="og:description" content="광명 소하동 큰샘교회(큰샘감리교회) · 하나님의 마음을 시원케 하는 교회 · 주일예배 오전 11시">\n'
       '<meta property="og:image" content="https://ksmc31.kr/assets/og.jpg">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n'
       '<meta property="og:url" content="https://ksmc31.kr/{path}">\n<meta property="og:locale" content="ko_KR">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="https://ksmc31.kr/assets/og.jpg">\n')
 FOOT_OLD = '<footer class="ft"><span>© 2026 큰샘교회</span></footer>'
@@ -48,7 +48,9 @@ def transform(page):
     assert FOOT_OLD in s, "footer 원형이 다르다"
     s = s.replace(FOOT_OLD, FOOT_NEW, 1)
     code = re.sub(r"<!--.*?-->", "", s, flags=re.S)
-    assert not re.search(r"\.\./|사진/web/|noindex|내부 검토용", code), "치환 잔여"
+    code = re.sub(r"^\s*//.*$", "", code, flags=re.M)   # T1018-SEO-KEUNSAEM-NAME 2026-10-18: JS 줄 주석의 '../' 설명문(아카데미·주보)은 경로가 아니다 — 잔여 검사에서 제외
+    left = re.search(r"\.\./|사진/web/|noindex|내부 검토용", code)
+    assert not left, f"치환 잔여: {code[max(0,left.start()-60):left.end()+40]!r}"
     return s
 
 if __name__ == "__main__":

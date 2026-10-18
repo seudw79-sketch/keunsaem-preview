@@ -389,17 +389,18 @@ window.__ytSet=function(img,id){img.setAttribute('data-vid',id);img.setAttribute
 
 # ── SEO-SIGNALS 2026-10-15 (master 지시 · 구사이트_대응 §4): 홈 제목에 「큰샘감리교회」 · 전 페이지 canonical · 홈에만 WebSite+Church JSON-LD. 값은 여기서만 고친다.
 SITE_URL = "https://ksmc31.kr/"
-HOME_TITLE = "큰샘감리교회 · 광명 소하동"
+HOME_TITLE = "큰샘교회(큰샘감리교회) · 광명 소하동"   # T1018-SEO-KEUNSAEM-NAME 2026-10-18: 검색어 「큰샘교회」 정확 문자열을 제목에
 SEO_ORG = {
     "@context": "https://schema.org",
     "@graph": [
         {"@type": "WebSite", "@id": SITE_URL + "#website", "url": SITE_URL, "name": "큰샘교회",
-         "alternateName": ["큰샘감리교회", "큰샘감리교회 광명"], "inLanguage": "ko"},
-        {"@type": ["Church", "Organization"], "@id": SITE_URL + "#org", "name": "큰샘교회",
-         "alternateName": ["큰샘감리교회", "큰샘감리교회 광명"], "url": SITE_URL,
+         "alternateName": ["큰샘감리교회", "큰샘감리교회 광명"], "inLanguage": "ko", "publisher": {"@id": SITE_URL + "#org"}},
+        {"@type": ["Church", "Organization"], "@id": SITE_URL + "#org", "name": "큰샘교회",   # T1018-SEO-KEUNSAEM-NAME (master 23:0x): 통칭 name · 정식 명칭 legalName
+         "legalName": "큰샘감리교회",
+         "alternateName": ["큰샘감리교회", "큰샘감리교회 광명", "광명 큰샘교회"], "url": SITE_URL,
          "logo": SITE_URL + "assets/og.jpg", "image": SITE_URL + "assets/og.jpg",
          "telephone": "0507-1369-0198", "email": "office@ksmc31.kr",
-         "address": {"@type": "PostalAddress", "streetAddress": "기아로 23 4층", "addressLocality": "광명시", "addressRegion": "경기도", "addressCountry": "KR"},
+         "address": {"@type": "PostalAddress", "streetAddress": "기아로 23 (소하동) 4층", "addressLocality": "광명시", "addressRegion": "경기도", "addressCountry": "KR"},
          "sameAs": ["https://www.youtube.com/channel/UC6kFMamsryfHU6mB61vtttw", "https://map.naver.com/p/entry/place/34542008", "https://www.instagram.com/ksmc140301/"]},
     ],
 }
@@ -588,7 +589,7 @@ def build_sub(pg, n):
                      + "".join(repath(s) + "\n" for s in scripts))
     html_out = _head_html.replace(f"<title>{esc(HOME_TITLE)}</title>", f"<title>{esc(title)}</title>", 1)
     html_out = html_out.replace(f'<link rel="canonical" href="{SITE_URL}">', f'<link rel="canonical" href="{SITE_URL}{__import__("urllib.parse").parse.quote(pg + ".html")}">', 1)   # SEO-SIGNALS: 페이지별 canonical
-    html_out = _re.sub(r"<!--SEO-JSONLD-->.*?<!--/SEO-JSONLD-->\n?", "", html_out, count=1, flags=_re.S)   # JSON-LD 는 홈에만
+    # T1018-SEO-KEUNSAEM-NAME 2026-10-18: Church/Organization JSON-LD 를 모든 주요 페이지에 둔다(종전 홈에만 — @id 동일하니 중복 아님)
     if pg != "재정": html_out = html_out.replace("</head>", page_css(pg) + "\n</head>", 1)
     latest_sub = ("var LATEST_URL=" + json.dumps(SITE["latest_url"]) + ";if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){var st=document.getElementById('sermon-title'),sd=document.getElementById('sermon-date'),sl=document.getElementById('sermon-link');if(d.설교_제목&&st&&window.__smListDate!==String(d.설교_날짜||'').slice(0,10))st.textContent=d.설교_제목;if(d.설교_날짜&&sd){sd.textContent=d.설교_날짜;sd.dateTime=d.설교_날짜.slice(0,10);}if(d.설교_링크&&sl)sl.href=d.설교_링크;}).catch(function(){});\n") if pg == "온라인예배" else ""
     latest_sub += (SERMONS_JS.replace('var SERMONS_URL="설교목록.json";', "var SERMONS_URL=" + json.dumps(SITE["latest_url"].replace("latest.json", "설교목록.json"), ensure_ascii=False) + ";")) if pg == "온라인예배" else ""   # ★설교목록.json 3장(T1018-home-recent-sermons)
