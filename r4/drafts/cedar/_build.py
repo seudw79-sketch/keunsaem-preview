@@ -222,7 +222,7 @@ p{max-width:60ch}
 .lock a{display:inline-block;margin-top:14px;font-size:13px;text-decoration:none;border-bottom:1px solid var(--line)}
 
 
-.body .two--photo .photo img{filter:grayscale(1)}  /* 오너 수정 2: 교회소개 사진 흑백 — 컬러로 되돌리려면 이 줄 삭제 */
+/* 교회소개 사진 흑백(오너 수정 2) 해제 — 오너 2026-10-18 「칼라로 수정해줘」 (T1018-home-apply) */
 .body .two--photo{grid-template-columns:7fr 5fr;align-items:center}
 .body .two--photo .photo{order:2}  /* 오너 원문 「왼쪽에 글씨 · 오른쪽 공간에 사진」 — 마크업(사진 먼저)은 r4 그대로, 화면 순서만 뒤집음(master 검수 2026-09-30: 첫 판은 좌우 반대였음) */
 /* 오너 수정 3: 새가족 안내 첫 카드 — 제목 한 줄 · 문장(lead) 한 줄 · 사이 한 줄 여백. 1280 기준 · 960 아래는 자연 흐름 */
@@ -247,6 +247,44 @@ p{max-width:60ch}
 /* 하위 페이지 반응형 — c/c.css 의 반응형 규칙(도록 스킨 블록 밖에 있어 처음 복사에서 빠짐 · 2026-09-30 주보 390 캡처에서 3열 유지로 낱말 중간 끊김 실측) */
 @media(max-width:960px){.body .two,.body .two--photo,.body .reading,.body .feature{grid-template-columns:1fr}}
 @media(max-width:640px){.body .cols{grid-template-columns:1fr}.body .cols--4{grid-template-columns:1fr}.body .tiles{grid-template-columns:repeat(2,1fr)}.body .reading__now{grid-template-columns:1fr}.body .times .row{grid-template-columns:1fr}.body .section{padding:24px 18px}.subhero h1.title{font-size:40px;line-height:1.15}}
+
+/* ── 이번 주 큰샘교회 카드·통독 패널 (오너 승인 2026-10-18 「좋아 시안대로 진행」 · T1018-home-apply · 시안 _draft/홈_이번주_v1.html) ──
+   원칙: 팔레트·서체 그대로(--teal/--dark/--light/--line · Noto Serif KR/Open Sans) · 카드마다 다른 연한 바탕 + 그림 + 제목 + 단추 하나 ·
+   통독은 진회색 패널로 분리(.dark 와 같은 색) · 대비 실측: 글자 ≥4.5:1(틴트 위 eyebrow 는 #1F6459) · 390px 1열 */
+.wk-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,28px)}
+.wk-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:0;border-top:0;padding:0}
+.wk-card--teal{background:#E9F3F0}.wk-card--sand{background:#F4F1EC}.wk-card--slate{background:#EEF0F2}
+.wk-card figure{margin:0;aspect-ratio:3/2;overflow:hidden;background:var(--light)}
+.wk-card img{display:block;width:100%;height:100%;object-fit:cover}
+.wk-card__body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.wk-card .num{font-family:var(--sans);font-size:12px;letter-spacing:.14em;font-weight:600;color:#1F6459;margin-bottom:10px}
+.wk-card h3{font-family:var(--serif);font-size:clamp(19px,1.7vw,22px);line-height:1.35;color:var(--ink);margin:0 0 8px}
+.wk-card p{font-size:14px;line-height:1.65;color:var(--dark);margin:0 0 18px}
+.wk-card .wk-btn{margin-top:auto;align-self:flex-start;display:inline-block;background:#000;color:#fff;border:1px solid #000;border-radius:9999px;padding:10px 18px;font-size:14px;font-weight:600;text-decoration:none;letter-spacing:.02em}
+.wk-card .wk-btn:hover{background:#fff;color:#000}
+.wk-credit{margin-top:14px;font-size:12px;color:var(--dark);line-height:1.6}
+.td-panel{margin-top:clamp(24px,3vw,36px);display:grid;grid-template-columns:5fr 7fr;border-radius:18px;overflow:hidden;background:var(--dark);color:#fff}
+.td-panel figure{margin:0;min-height:220px;background:var(--light)}
+.td-panel img{display:block;width:100%;height:100%;object-fit:cover}
+.td-panel__body{padding:clamp(24px,3vw,40px)}
+.td-panel .eyebrow{color:#9FD8CC;font-size:12px;letter-spacing:.14em;font-weight:600;margin-bottom:8px}
+.td-panel h3{font-family:var(--serif);font-size:clamp(20px,2vw,24px);font-weight:400;color:#fff;margin:0 0 18px}
+.td-panel .note{color:#CFCBC6;font-size:13px}
+.td-panel .reading__now{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:0}
+.td-panel .reading__now>div{border-top:1px solid rgba(255,255,255,.28);padding-top:12px}
+.td-panel .reading__now span{display:block;font-size:12px;letter-spacing:.12em;color:#CFCBC6;margin-bottom:8px}
+.td-panel .reading__now b{display:block;font-family:var(--serif);font-weight:700;font-size:clamp(34px,3.8vw,52px);line-height:1.1;color:#fff;letter-spacing:-.02em}
+.td-panel .reading__now #td-ref{font-size:clamp(22px,2.2vw,30px);line-height:1.3;font-weight:500;word-break:keep-all;overflow-wrap:normal}
+.td-panel .reading__nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px}
+.td-panel .reading__nav button{background:transparent;border:1px solid #fff;color:#fff;padding:9px 16px;border-radius:9999px;font-size:13.5px;cursor:pointer}
+.td-panel .reading__nav button:hover{background:#fff;color:var(--dark)}
+.td-panel .reading__nav span{font-size:13.5px;color:#CFCBC6;letter-spacing:.06em}
+.td-panel .reading__links{margin-top:20px;display:flex;gap:16px;flex-wrap:wrap}
+.td-panel .text-link{color:#fff;border-bottom:1px solid rgba(255,255,255,.5);font-size:13.5px}
+.td-panel .text-link:hover{border-color:#fff}
+.td-panel .wk-btn{display:inline-block;background:#fff;color:var(--dark);border-radius:9999px;padding:10px 18px;font-size:14px;font-weight:600;text-decoration:none;border:1px solid #fff}
+@media(max-width:960px){.wk-cards{grid-template-columns:1fr 1fr}.td-panel{grid-template-columns:1fr}.td-panel figure{aspect-ratio:16/9;min-height:0}}
+@media(max-width:640px){.wk-cards{grid-template-columns:1fr}.wk-card figure{aspect-ratio:16/9}.td-panel .reading__now{grid-template-columns:1fr}.td-panel .reading__now b{font-size:36px}.td-panel .reading__now #td-ref{font-size:24px}}
 </style>'''
 
 A3JS = r'''// A3 — 라이브러리 0 · IntersectionObserver 하나: ①구역 등장(1회) ②헤더 카드 스크롤 반응(센티널 이탈) · reduced-motion 이면 아무것도 안 함
