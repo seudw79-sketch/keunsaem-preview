@@ -321,6 +321,26 @@ def home_guide():
     iife = _re.search(r"\(function\(\)\{.*?\}\)\(\);", iife, _re.S).group(0)
     return '<section class="body">\n' + body + '\n</section>\n', repath(iife)
 
+SERMONS_JS = r'''/* ★최근 설교 3장 + 첫 화면 = 설교목록.json(영상 링크가 붙은 설교 · 최신 앞) — latest.json 은 이번 주 1건뿐이라 영상이 늦으면 9/27 로 멈춰 보였다(오너 10/18). latest.json 이 유튜브 링크를 가지면 첫 화면은 그쪽이 이긴다(__smLatest). */
+var SERMONS_URL="설교목록.json";
+if(location.protocol!=='file:')fetch(SERMONS_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(list){
+  if(!Array.isArray(list))return;list=list.filter(function(s){return s&&s.날짜&&s.제목&&/^https:\/\/www\.youtube\.com\/watch\?v=/.test(s.링크)});if(!list.length)return;
+  var arts=document.querySelectorAll('#sermons .cols article');
+  list.slice(0,3).forEach(function(s,i){var a=arts[i];if(!a)return;var h=a.querySelector('h3'),p=a.querySelector('p'),g=a.querySelector('a.go');
+    if(h)h.textContent=s.제목;
+    if(p){p.textContent='';var t=document.createElement('time');t.dateTime=s.날짜;t.textContent=s.날짜;p.appendChild(t);if(s.본문)p.appendChild(document.createTextNode(' · '+s.본문));}
+    if(g)g.href=s.링크;});
+  var s0=list[0],smt=document.getElementById('sm-title');
+  if(smt&&(!window.__smLatest||window.__smLatestDate===s0.날짜)){var ymd=s0.날짜.split('-'),md=parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';smt.textContent=s0.제목;
+    var lb=document.getElementById('sm-label');if(lb)lb.textContent=(window.__smLatestDate===s0.날짜?'이번 주일 · ':'최근 설교 · ')+md;
+    var vr=document.getElementById('sm-verse');if(vr)vr.textContent=s0.본문||'';
+    ['sm-link','sm-thumb'].forEach(function(id){var e=document.getElementById(id);if(e)e.href=s0.링크});
+    var img=document.getElementById('sm-thumb-img');if(img&&window.__ytSet)__ytSet(img,s0.링크.split('v=')[1].split('&')[0]);
+    var box=document.querySelector('.light--verse');if(box&&s0.봉독&&s0.봉독.length){box.querySelectorAll('.scripture').forEach(function(n){n.remove()});s0.봉독.slice().reverse().forEach(function(v){var q=document.createElement('p');q.className='scripture';var vn=document.createElement('span');vn.className='vn';vn.textContent=v.절;q.appendChild(vn);q.appendChild(document.createTextNode(v.본문));box.insertBefore(q,box.firstChild)});}
+  }
+}).catch(function(){});
+'''
+
 YTJS = r'''<script>
 /* 유튜브 썸네일 폴백 사슬(오너 수정 5 · 2026-09-30): maxresdefault → sddefault → hqdefault. onerror 뿐 아니라 '없는 썸네일에 200 으로 오는 120x90 회색판'(실측: 9/13 영상 maxres 가 404·120x90)도 naturalWidth<320 으로 걸러 다음 단계. data-i 로 단계를 남겨 무한 루프 없음. */
 window.__yt=function(img){var steps=(img.getAttribute('data-steps')||'maxresdefault,sddefault,hqdefault').split(','),i=parseInt(img.getAttribute('data-i')||'0',10),id=img.getAttribute('data-vid');
@@ -401,6 +421,7 @@ var LATEST_URL={json.dumps(SITE["latest_url"])};
 if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(d){{
   if(d.설교_제목&&d.설교_날짜&&/^https:\\/\\/www.youtube.com\\/watch\\?v=/.test(d.설교_링크)){{
     var p=d.설교_날짜.split('·'),ymd=p[0].trim().split('-');
+    window.__smLatest=true;window.__smLatestDate=p[0].trim();
     document.getElementById('sm-title').textContent=d.설교_제목;
     document.getElementById('sm-label').textContent='이번 주일 · '+parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';
     document.getElementById('sm-verse').textContent=(p[1]||'').trim();
@@ -409,6 +430,24 @@ if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(funct
     var v=d.설교_링크.split('v=')[1].split('&')[0];__ytSet(document.getElementById('sm-thumb-img'),v);
   }}
   var jt=document.getElementById('jb-title'),jl=document.getElementById('jb-link');if(d.주보_제목&&jt)jt.textContent=d.주보_제목;if(d.주보_링크&&jl)jl.href='../../../'+d.주보_링크;
+}}).catch(function(){{}});
+/* ★최근 설교 3장 + 첫 화면 = 설교목록.json(영상 링크가 붙은 설교 · 최신 앞) — latest.json 은 이번 주 1건뿐이라 영상이 늦으면 9/27 로 멈춰 보였다(오너 10/18). latest.json 이 유튜브 링크를 가지면 첫 화면은 그쪽이 이긴다(__smLatest). */
+var SERMONS_URL={json.dumps(SITE["latest_url"].replace("latest.json","설교목록.json"), ensure_ascii=False)};
+if(location.protocol!=='file:')fetch(SERMONS_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(list){{
+  if(!Array.isArray(list))return;list=list.filter(function(s){{return s&&s.날짜&&s.제목&&/^https:\\/\\/www\\.youtube\\.com\\/watch\\?v=/.test(s.링크)}});if(!list.length)return;
+  var arts=document.querySelectorAll('#sermons .cols article');
+  list.slice(0,3).forEach(function(s,i){{var a=arts[i];if(!a)return;var h=a.querySelector('h3'),p=a.querySelector('p'),g=a.querySelector('a.go');
+    if(h)h.textContent=s.제목;
+    if(p){{p.textContent='';var t=document.createElement('time');t.dateTime=s.날짜;t.textContent=s.날짜;p.appendChild(t);if(s.본문)p.appendChild(document.createTextNode(' · '+s.본문));}}
+    if(g)g.href=s.링크;}});
+  var s0=list[0],smt=document.getElementById('sm-title');
+  if(smt&&(!window.__smLatest||window.__smLatestDate===s0.날짜)){{var ymd=s0.날짜.split('-'),md=parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';smt.textContent=s0.제목;
+    var lb=document.getElementById('sm-label');if(lb)lb.textContent=(window.__smLatestDate===s0.날짜?'이번 주일 · ':'최근 설교 · ')+md;
+    var vr=document.getElementById('sm-verse');if(vr)vr.textContent=s0.본문||'';
+    ['sm-link','sm-thumb'].forEach(function(id){{var e=document.getElementById(id);if(e)e.href=s0.링크}});
+    var img=document.getElementById('sm-thumb-img');if(img&&window.__ytSet)__ytSet(img,s0.링크.split('v=')[1].split('&')[0]);
+    var box=document.querySelector('.light--verse');if(box&&s0.봉독&&s0.봉독.length){{box.querySelectorAll('.scripture').forEach(function(n){{n.remove()}});s0.봉독.slice().reverse().forEach(function(v){{var q=document.createElement('p');q.className='scripture';var vn=document.createElement('span');vn.className='vn';vn.textContent=v.절;q.appendChild(vn);q.appendChild(document.createTextNode(v.본문));box.insertBefore(q,box.firstChild)}});}}
+  }}
 }}).catch(function(){{}});
 __TONGDOK__
 </script>
@@ -514,6 +553,7 @@ def build_sub(pg, n):
     html_out = _re.sub(r"<!--SEO-JSONLD-->.*?<!--/SEO-JSONLD-->\n?", "", html_out, count=1, flags=_re.S)   # JSON-LD 는 홈에만
     if pg != "재정": html_out = html_out.replace("</head>", page_css(pg) + "\n</head>", 1)
     latest_sub = ("var LATEST_URL=" + json.dumps(SITE["latest_url"]) + ";if(location.protocol!=='file:')fetch(LATEST_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(d){var st=document.getElementById('sermon-title'),sd=document.getElementById('sermon-date'),sl=document.getElementById('sermon-link');if(d.설교_제목&&st)st.textContent=d.설교_제목;if(d.설교_날짜&&sd){sd.textContent=d.설교_날짜;sd.dateTime=d.설교_날짜.slice(0,10);}if(d.설교_링크&&sl)sl.href=d.설교_링크;}).catch(function(){});\n") if pg == "온라인예배" else ""
+    latest_sub += (SERMONS_JS.replace('var SERMONS_URL="설교목록.json";', "var SERMONS_URL=" + json.dumps(SITE["latest_url"].replace("latest.json", "설교목록.json"), ensure_ascii=False) + ";")) if pg == "온라인예배" else ""   # ★설교목록.json 3장(T1018-home-recent-sermons)
     html_out += "<body>" + _banner_header + body_html + _dark_footer + "<script>\n" + latest_sub + _a3 + "\n</script>\n</body>\n</html>\n"
     return html_out
 
