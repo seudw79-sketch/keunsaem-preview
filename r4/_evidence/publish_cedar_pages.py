@@ -11,7 +11,7 @@ PREVIEW = Path("/Users/sdw79/SDWjavis/_레포/keunsaem-preview"); SRC = PREVIEW/
 GA4 = "G-HBE29Z8PJJ"
 GA4_SNIPPET = ('<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>\n'
                '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}\n'
-               "gtag('js',new Date());gtag('config','%s');</script>\n"
+               "gtag('js',new Date());gtag('config','%s');gtag('config','AW-18487103627');</script>\n"
                '<script src="assets/ga4-conversion-events.js" defer></script>\n') % (GA4, GA4)
 OG = ('<meta property="og:type" content="website">\n<meta property="og:site_name" content="큰샘감리교회">\n<meta property="og:title" content="{title}">\n'
       '<meta property="og:description" content="광명 소하동 큰샘감리교회 · 하나님의 마음을 시원케 하는 교회 · 주일예배 오전 11시">\n'

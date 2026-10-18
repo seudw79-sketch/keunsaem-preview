@@ -79,7 +79,7 @@ from pathlib import Path
 gid=os.environ["GA4_ID"]; STAGE=Path(os.environ["STAGE"])
 snippet=('<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>\n'
          '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}\n'
-         "gtag('js',new Date());gtag('config','%s');</script>\n") % (gid,gid)
+         "gtag('js',new Date());gtag('config','%s');gtag('config','AW-18487103627');</script>\n") % (gid,gid)
 pages=["index","교회소개","예배안내","새가족","아카데미","온라인예배","재정","주보","칼럼"]
 done=0
 for pg in pages:
