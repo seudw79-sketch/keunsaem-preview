@@ -135,6 +135,8 @@ h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.
 .subhero .label{font-size:16px;color:var(--teal-text)}
 .subhero h1.title{font-size:56px;line-height:61.6px}
 .subhero .lead{font-size:18px;line-height:1.7;margin-top:16px;max-width:56ch;color:var(--dark)}  /* 36ch → 56ch: 온라인예배 1280 에서 「…함께 드릴 수 / 있습니다」 어색한 줄 끝(master 실측) */
+.hero .q{font-size:20px;line-height:1.5;margin-top:12px;color:var(--dark);opacity:.85;max-width:40ch}
+#sermons .cols article .q{font-size:15px;line-height:1.5;margin:6px 0 10px;color:var(--teal-text)}
 .body{background-color:var(--light);background-image:linear-gradient(to bottom,#b2aeaa 0% 2%,#b2aeaa8c);padding:3rem 0 4rem}
 .body .section{background:#fff;border-radius:16px;box-shadow:rgba(0,0,0,.2) 0 0 16px;margin:0 auto 24px;width:min(1200px,calc(100% - 40px));border:0;padding:clamp(28px,4vw,48px)}
 .body .section--tint{background:#fff}
@@ -364,12 +366,14 @@ var SERMONS_URL="설교목록.json";
 if(location.protocol!=='file:')fetch(SERMONS_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(list){
   if(!Array.isArray(list))return;list=list.filter(function(s){return s&&s.날짜&&s.제목&&/^https:\/\/www\.youtube\.com\/watch\?v=/.test(s.링크)});if(!list.length)return;
   var arts=document.querySelectorAll('#sermons .cols article');
-  list.slice(0,3).forEach(function(s,i){var a=arts[i];if(!a)return;var h=a.querySelector('h3'),p=a.querySelector('p'),g=a.querySelector('a.go');
+  list.slice(0,3).forEach(function(s,i){var a=arts[i];if(!a)return;var h=a.querySelector('h3'),p=a.querySelector('p:not(.q)'),g=a.querySelector('a.go');
     if(h)h.textContent=s.제목;
+    var qn=a.querySelector('p.q');if(!qn&&h){qn=document.createElement('p');qn.className='q';h.insertAdjacentElement('afterend',qn);}if(qn){qn.textContent=s.질문||'';qn.hidden=!s.질문;}
     if(p){p.textContent='';var t=document.createElement('time');t.dateTime=s.날짜;t.textContent=s.날짜;p.appendChild(t);if(s.본문)p.appendChild(document.createTextNode(' · '+s.본문));}
     if(g)g.href=s.링크;});
   var s0=list[0],smt=document.getElementById('sm-title');
   if(smt&&(!window.__smLatest||window.__smLatestDate===s0.날짜)){var ymd=s0.날짜.split('-'),md=parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';smt.textContent=s0.제목;
+    var sq=document.getElementById('sm-q');if(sq){sq.textContent=s0.질문||'';sq.hidden=!s0.질문;}
     var lb=document.getElementById('sm-label');if(lb)lb.textContent=(window.__smLatestDate===s0.날짜?'이번 주일 · ':'최근 설교 · ')+md;
     var vr=document.getElementById('sm-verse');if(vr)vr.textContent=s0.본문||'';
     ['sm-link','sm-thumb'].forEach(function(id){var e=document.getElementById(id);if(e)e.href=s0.링크});
@@ -437,6 +441,7 @@ __YTJS__
   <div>
     <p class="label" id="sm-label">{esc(label)}</p>
     <h1 class="title" id="sm-title">{esc(LATEST["설교_제목"])}</h1>
+    <p class="q" id="sm-q" hidden></p>
     <a class="btn" id="sm-link" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener">설교 영상 보기</a><a class="more" href="온라인예배.html">지난 설교</a>
   </div>
 </div>
@@ -474,12 +479,14 @@ var SERMONS_URL={json.dumps(SITE["latest_url"].replace("latest.json","설교목�
 if(location.protocol!=='file:')fetch(SERMONS_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(list){{
   if(!Array.isArray(list))return;list=list.filter(function(s){{return s&&s.날짜&&s.제목&&/^https:\\/\\/www\\.youtube\\.com\\/watch\\?v=/.test(s.링크)}});if(!list.length)return;
   var arts=document.querySelectorAll('#sermons .cols article');
-  list.slice(0,3).forEach(function(s,i){{var a=arts[i];if(!a)return;var h=a.querySelector('h3'),p=a.querySelector('p'),g=a.querySelector('a.go');
+  list.slice(0,3).forEach(function(s,i){{var a=arts[i];if(!a)return;var h=a.querySelector('h3'),p=a.querySelector('p:not(.q)'),g=a.querySelector('a.go');
     if(h)h.textContent=s.제목;
+    var qn=a.querySelector('p.q');if(!qn&&h){{qn=document.createElement('p');qn.className='q';h.insertAdjacentElement('afterend',qn);}}if(qn){{qn.textContent=s.질문||'';qn.hidden=!s.질문;}}
     if(p){{p.textContent='';var t=document.createElement('time');t.dateTime=s.날짜;t.textContent=s.날짜;p.appendChild(t);if(s.본문)p.appendChild(document.createTextNode(' · '+s.본문));}}
     if(g)g.href=s.링크;}});
   var s0=list[0],smt=document.getElementById('sm-title');
   if(smt&&(!window.__smLatest||window.__smLatestDate===s0.날짜)){{var ymd=s0.날짜.split('-'),md=parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';smt.textContent=s0.제목;
+    var sq=document.getElementById('sm-q');if(sq){{sq.textContent=s0.질문||'';sq.hidden=!s0.질문;}}
     var lb=document.getElementById('sm-label');if(lb)lb.textContent=(window.__smLatestDate===s0.날짜?'이번 주일 · ':'최근 설교 · ')+md;
     var vr=document.getElementById('sm-verse');if(vr)vr.textContent=s0.본문||'';
     ['sm-link','sm-thumb'].forEach(function(id){{var e=document.getElementById(id);if(e)e.href=s0.링크}});
