@@ -91,6 +91,15 @@ a{color:inherit}img{display:block;max-width:100%;height:auto}
 .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .media::after{content:"";position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:rgba(255,255,255,.92)}
 .media::before{content:"";position:absolute;left:50%;top:50%;z-index:1;margin:-13px 0 0 -9px;border-style:solid;border-width:13px 0 13px 24px;border-color:transparent transparent transparent #000}
+/* ★이번 주 설교 홈 안 재생(T1023 · 오너 10/23 1안 = 누를 때만 · 자동재생 없음): 처음엔 버튼(썸네일+재생 표시)뿐이고 iframe 은 누른 뒤에만 만든다 */
+button.media{width:100%;border:0;padding:56.25% 0 0;cursor:pointer;font:inherit;color:inherit;text-align:left;-webkit-appearance:none;appearance:none}
+.media:focus-visible{outline:3px solid var(--teal-text);outline-offset:4px}
+.media.is-playing,.media.is-playing:hover{transform:none;box-shadow:none}
+.media.is-playing::before,.media.is-playing::after{content:none}
+.media iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.yt-out{margin-top:14px;font-size:13.5px}
+.yt-out a{color:var(--dark);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px}
+.yt-out a:hover{color:var(--ink);border-color:var(--ink)}
 .label{font-size:16px;font-weight:400;color:var(--teal-text)}
 h1.title{font-family:var(--serif);font-weight:700;font-size:56px;line-height:61.6px;text-transform:lowercase;color:#000;margin-top:12px;letter-spacing:-.01em}
 /* 버튼 — §1: 16px · radius 1600px · 투명 · 1px solid #000 · 글자 청록(§7 선언은 #000 — master 답 전 §1) · 자간 §7 .075em · 굵기 600 */
@@ -379,6 +388,24 @@ if(location.protocol!=='file:')fetch(SERMONS_URL,{cache:'no-store'}).then(functi
 }).catch(function(){});
 '''
 
+SMPLAY_JS = r'''
+/* ★이번 주 설교는 홈 안에서 재생(T1023 · 오너 10/23 「1안」 = 누를 때만 재생 · 자동재생 없음): 처음엔 썸네일 버튼만 두고(iframe 0 · 휴대폰 데이터 절약) 누르면 youtube-nocookie iframe 으로 바꾼다. 영상 id = 위 두 fetch(latest.json · 설교목록.json)가 썸네일에 박은 data-vid — 하드코딩 없음. 두 fetch 가 끝나기 전에 눌리면 끝날 때까지(최대 3초) 기다려 지난 주 영상이 재생되지 않게 한다. 「설교 영상 보기」 단추도 같은 재생, 새 탭(⌘·Ctrl·Shift·가운데 단추)은 그대로 유튜브로 간다. */
+window.__smWait=Promise.all([__smA,__smB]);
+(function(){var b=document.getElementById('sm-thumb');if(!b||b.tagName!=='BUTTON')return;
+  function vid(){var i=document.getElementById('sm-thumb-img'),v=i&&i.getAttribute('data-vid');return v&&/^[\w-]{11}$/.test(v)?v:null}
+  function play(){var cur=document.getElementById('sm-thumb');if(!cur||cur.tagName!=='BUTTON')return;var v=vid();
+    if(!v){var y=document.getElementById('sm-yt');if(y)window.open(y.href,'_blank','noopener');return;}
+    var box=document.createElement('div');box.className='media is-playing';box.id='sm-thumb';
+    var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+v+'?autoplay=1&playsinline=1&rel=0';
+    var t=document.getElementById('sm-title');f.title=(t&&t.textContent?t.textContent+' · ':'')+'설교 영상';
+    f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';
+    box.appendChild(f);cur.parentNode.replaceChild(box,cur);
+    if(typeof gtag==='function')gtag('event','sermon_play',{video_id:v});}
+  function go(e){if(e.metaKey||e.ctrlKey||e.shiftKey||e.button===1)return;e.preventDefault();
+    var done=false,run=function(){if(done)return;done=true;play()};setTimeout(run,3000);window.__smWait.then(run,run);
+    if(e.currentTarget.id==='sm-link'){var m=document.getElementById('sm-thumb');if(m&&m.getBoundingClientRect().top<0)m.scrollIntoView({behavior:'smooth',block:'center'});}}
+  b.addEventListener('click',go);var l=document.getElementById('sm-link');if(l)l.addEventListener('click',go);
+})();'''   # T1023-HOME-INLINE-SERMON-PLAY 홈 첫 화면 설교 = 홈 안 재생(누를 때만)
 YTJS = r'''<script>
 /* 유튜브 썸네일 폴백 사슬(오너 수정 5 · 2026-09-30): maxresdefault → sddefault → hqdefault. onerror 뿐 아니라 '없는 썸네일에 200 으로 오는 120x90 회색판'(실측: 9/13 영상 maxres 가 404·120x90)도 naturalWidth<320 으로 걸러 다음 단계. data-i 로 단계를 남겨 무한 루프 없음. */
 window.__yt=function(img){var steps=(img.getAttribute('data-steps')||'maxresdefault,sddefault,hqdefault').split(','),i=parseInt(img.getAttribute('data-i')||'0',10),id=img.getAttribute('data-vid');
@@ -434,11 +461,12 @@ __YTJS__
 </header>
 <main>
 <section class="hero"><div class="wrap reveal">
-  <a class="media" id="sm-thumb" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener" aria-label="설교 영상 보기"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/{esc(vid)}/maxresdefault.jpg" data-vid="{esc(vid)}" data-i="0" data-steps="maxresdefault,sddefault,hqdefault" onerror="__yt(this)" onload="__yt(this)" alt="" loading="eager"></a>
+  <button type="button" class="media" id="sm-thumb" aria-label="설교 영상 재생 (이 페이지에서)"><img id="sm-thumb-img" src="https://i.ytimg.com/vi/{esc(vid)}/maxresdefault.jpg" data-vid="{esc(vid)}" data-i="0" data-steps="maxresdefault,sddefault,hqdefault" onerror="__yt(this)" onload="__yt(this)" alt="" loading="eager"></button>
   <div>
     <p class="label" id="sm-label">{esc(label)}</p>
     <h1 class="title" id="sm-title">{esc(LATEST["설교_제목"])}</h1>
     <a class="btn" id="sm-link" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener">설교 영상 보기</a><a class="more" href="온라인예배.html">지난 설교</a>
+    <p class="yt-out"><a id="sm-yt" href="{esc(LATEST["설교_링크"])}" target="_blank" rel="noopener">유튜브에서 보기 ↗</a></p>
   </div>
 </div>
 {WAVE}</section>
@@ -457,14 +485,14 @@ __HOME_GUIDE__
 <script>
 __A3JS__
 var LATEST_URL={json.dumps(SITE["latest_url"])};
-if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(d){{
+var __smA=location.protocol!=='file:'&&fetch(LATEST_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(d){{
   if(d.설교_제목&&d.설교_날짜&&/^https:\\/\\/www.youtube.com\\/watch\\?v=/.test(d.설교_링크)){{
     var p=d.설교_날짜.split('·'),ymd=p[0].trim().split('-');
     window.__smLatest=true;window.__smLatestDate=p[0].trim();var same=window.__smListDate===p[0].trim();
     if(!same)document.getElementById('sm-title').textContent=d.설교_제목;
     document.getElementById('sm-label').textContent='이번 주일 · '+parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';
     document.getElementById('sm-verse').textContent=(p[1]||'').trim();
-    ['sm-link','sm-thumb'].forEach(function(id){{document.getElementById(id).href=d.설교_링크}});
+    ['sm-link','sm-thumb','sm-yt'].forEach(function(id){{document.getElementById(id).href=d.설교_링크}});
     var st=document.getElementById('sermon-title'),sd=document.getElementById('sermon-date'),sl=document.getElementById('sermon-link');if(st&&!same)st.textContent=d.설교_제목;if(sd){{sd.textContent=d.설교_날짜;sd.dateTime=d.설교_날짜.slice(0,10);}}if(sl)sl.href=d.설교_링크;
     var v=d.설교_링크.split('v=')[1].split('&')[0];__ytSet(document.getElementById('sm-thumb-img'),v);
   }}
@@ -472,7 +500,7 @@ if(location.protocol!=='file:')fetch(LATEST_URL,{{cache:'no-store'}}).then(funct
 }}).catch(function(){{}});
 /* ★최근 설교 3장 + 첫 화면 = 설교목록.json(영상 링크가 붙은 설교 · 최신 앞) — latest.json 은 이번 주 1건뿐이라 영상이 늦으면 9/27 로 멈춰 보였다(오너 10/18). latest.json 이 유튜브 링크를 가지면 첫 화면은 그쪽이 이긴다(__smLatest). ★제목은 질문 하나뿐(설교목록.json 질문 = 유튜브 제목 앞부분 · 오너 10/18 「큰제목 이런거 하지말고 그냥 믿음이 있는데~~로 통일해」) — 질문이 없는 옛 항목만 제목으로. 같은 날짜를 이미 질문으로 그렸으면 latest.json 이 뒤늦게 와도 제목으로 덮지 않는다(__smListDate). */
 var SERMONS_URL={json.dumps(SITE["latest_url"].replace("latest.json","설교목록.json"), ensure_ascii=False)};
-if(location.protocol!=='file:')fetch(SERMONS_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(list){{
+var __smB=location.protocol!=='file:'&&fetch(SERMONS_URL,{{cache:'no-store'}}).then(function(r){{if(!r.ok)throw Error();return r.json()}}).then(function(list){{
   if(!Array.isArray(list))return;list=list.filter(function(s){{return s&&s.날짜&&s.제목&&/^https:\\/\\/www\\.youtube\\.com\\/watch\\?v=/.test(s.링크)}});if(!list.length)return;window.__smListDate=list[0].날짜;
   var arts=document.querySelectorAll('#sermons .cols article');
   list.slice(0,3).forEach(function(s,i){{var a=arts[i];if(!a)return;var h=a.querySelector('h3'),p=a.querySelector('p'),g=a.querySelector('a.go');
@@ -483,18 +511,18 @@ if(location.protocol!=='file:')fetch(SERMONS_URL,{{cache:'no-store'}}).then(func
   if(smt&&(!window.__smLatest||window.__smLatestDate===s0.날짜)){{var ymd=s0.날짜.split('-'),md=parseInt(ymd[1],10)+'월 '+parseInt(ymd[2],10)+'일';smt.textContent=s0.질문||s0.제목;
     var lb=document.getElementById('sm-label');if(lb)lb.textContent=(window.__smLatestDate===s0.날짜?'이번 주일 · ':'최근 설교 · ')+md;
     var vr=document.getElementById('sm-verse');if(vr)vr.textContent=s0.본문||'';
-    ['sm-link','sm-thumb'].forEach(function(id){{var e=document.getElementById(id);if(e)e.href=s0.링크}});
+    ['sm-link','sm-thumb','sm-yt'].forEach(function(id){{var e=document.getElementById(id);if(e)e.href=s0.링크}});
     var img=document.getElementById('sm-thumb-img');if(img&&window.__ytSet)__ytSet(img,s0.링크.split('v=')[1].split('&')[0]);
     var box=document.querySelector('.light--verse');if(box&&s0.봉독&&s0.봉독.length){{box.querySelectorAll('.scripture').forEach(function(n){{n.remove()}});s0.봉독.slice().reverse().forEach(function(v){{var q=document.createElement('p');q.className='scripture';var vn=document.createElement('span');vn.className='vn';vn.textContent=v.절;q.appendChild(vn);q.appendChild(document.createTextNode(v.본문));box.insertBefore(q,box.firstChild)}});}}
   }}
-}}).catch(function(){{}});
+}}).catch(function(){{}});__SMPLAY__
 __TONGDOK__
 </script>
 </body>
 </html>
 '''
 _guide, _iife = home_guide()
-page = page.replace('__CSS__', CSS).replace('__A3JS__', A3JS).replace('__YTJS__', YTJS).replace('__HOME_GUIDE__', _guide).replace('__TONGDOK__', _iife)
+page = page.replace('__CSS__', CSS).replace('__A3JS__', A3JS).replace('__YTJS__', YTJS).replace('__HOME_GUIDE__', _guide).replace('__TONGDOK__', _iife).replace('__SMPLAY__', SMPLAY_JS)
 (D / "index.html").write_text(page, encoding="utf-8")
 print("cedar/index.html", len(page), "B")
 
