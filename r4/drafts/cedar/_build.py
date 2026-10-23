@@ -389,21 +389,21 @@ if(location.protocol!=='file:')fetch(SERMONS_URL,{cache:'no-store'}).then(functi
 '''
 
 SMPLAY_JS = r'''
-/* ★이번 주 설교는 홈 안에서 재생(T1023 · 오너 10/23 「1안」 = 누를 때만 재생 · 자동재생 없음): 처음엔 썸네일 버튼만 두고(iframe 0 · 휴대폰 데이터 절약) 누르면 youtube-nocookie iframe 으로 바꾼다. 영상 id = 위 두 fetch(latest.json · 설교목록.json)가 썸네일에 박은 data-vid — 하드코딩 없음. 두 fetch 가 끝나기 전에 눌리면 끝날 때까지(최대 3초) 기다려 지난 주 영상이 재생되지 않게 한다. 「설교 영상 보기」 단추도 같은 재생, 새 탭(⌘·Ctrl·Shift·가운데 단추)은 그대로 유튜브로 간다. */
+/* ★이번 주 설교는 홈 안에서 재생(T1023 · 오너 10/23 「1안」 = 누를 때만 재생 · 자동재생 없음): 처음엔 썸네일 버튼만 두고(iframe 0 · 휴대폰 데이터 절약) 누르면 youtube-nocookie iframe 으로 바꾼다. 영상 id = 위 두 fetch(latest.json · 설교목록.json)가 썸네일에 박은 data-vid — 하드코딩 없음. 두 fetch 가 끝나기 전에 눌리면 끝날 때까지(최대 3초) 기다려 지난 주 영상이 재생되지 않게 한다. 「설교 영상 보기」 단추도 같은 재생, 새 탭(⌘·Ctrl·Shift·가운데 단추)은 그대로 유튜브로 간다. GA: sermon_play 를 새로 보내고, 기존 보고·전환 이력이 끊기지 않게 youtube_click 도 그대로 1회 — 단추(<a href=유튜브>)는 ga4-conversion-events.js 가 이미 보내므로 썸네일일 때만 여기서 보낸다(master 10/23). */
 window.__smWait=Promise.all([__smA,__smB]);
 (function(){var b=document.getElementById('sm-thumb');if(!b||b.tagName!=='BUTTON')return;
   function vid(){var i=document.getElementById('sm-thumb-img'),v=i&&i.getAttribute('data-vid');return v&&/^[\w-]{11}$/.test(v)?v:null}
-  function play(){var cur=document.getElementById('sm-thumb');if(!cur||cur.tagName!=='BUTTON')return;var v=vid();
+  function play(src){var cur=document.getElementById('sm-thumb');if(!cur||cur.tagName!=='BUTTON')return;var v=vid();
     if(!v){var y=document.getElementById('sm-yt');if(y)window.open(y.href,'_blank','noopener');return;}
     var box=document.createElement('div');box.className='media is-playing';box.id='sm-thumb';
     var f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+v+'?autoplay=1&playsinline=1&rel=0';
     var t=document.getElementById('sm-title');f.title=(t&&t.textContent?t.textContent+' · ':'')+'설교 영상';
     f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.referrerPolicy='strict-origin-when-cross-origin';
     box.appendChild(f);cur.parentNode.replaceChild(box,cur);
-    if(typeof gtag==='function')gtag('event','sermon_play',{video_id:v});}
-  function go(e){if(e.metaKey||e.ctrlKey||e.shiftKey||e.button===1)return;e.preventDefault();
-    var done=false,run=function(){if(done)return;done=true;play()};setTimeout(run,3000);window.__smWait.then(run,run);
-    if(e.currentTarget.id==='sm-link'){var m=document.getElementById('sm-thumb');if(m&&m.getBoundingClientRect().top<0)m.scrollIntoView({behavior:'smooth',block:'center'});}}
+    if(typeof gtag==='function'){gtag('event','sermon_play',{video_id:v});if(src==='sm-thumb')gtag('event','youtube_click',{transport_type:'beacon'});}}
+  function go(e){if(e.metaKey||e.ctrlKey||e.shiftKey||e.button===1)return;e.preventDefault();var src=e.currentTarget.id;
+    var done=false,run=function(){if(done)return;done=true;play(src)};setTimeout(run,3000);window.__smWait.then(run,run);
+    if(src==='sm-link'){var m=document.getElementById('sm-thumb');if(m&&m.getBoundingClientRect().top<0)m.scrollIntoView({behavior:'smooth',block:'center'});}}
   b.addEventListener('click',go);var l=document.getElementById('sm-link');if(l)l.addEventListener('click',go);
 })();'''   # T1023-HOME-INLINE-SERMON-PLAY 홈 첫 화면 설교 = 홈 안 재생(누를 때만)
 YTJS = r'''<script>
