@@ -48,30 +48,7 @@
 </main>
 
 <!-- 근거: 시안E_칼럼.html 스크립트(칼럼목록.json 로 목록 갱신·못 읽으면 정적 칼럼 유지)와 동일 취지 · 경로만 r4/ 기준 상위(../) -->
-<script>
-(function(){
-  var box = document.getElementById('col-list');
-  var note = document.getElementById('col-note');
-  if(!box) return;
-  function esc(s){ var d=document.createElement('div'); d.textContent=String(s==null?'':s); return d.innerHTML; }
-  if(location.protocol==='file:')return;
-  fetch('../칼럼목록.json', {cache:'no-store'})
-    .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(d){
-      var list = (d && d.칼럼) || [];
-      if(!list.length) return;
-      box.innerHTML = list.map(function(x){
-        var 문단 = (x.문단 || []).map(function(p){ return '<p>' + esc(p) + '</p>'; }).join('');
-        if(!문단) 문단 = '<p class="note">본문이 아직 없습니다.</p>';
-        return '<article class="column-entry reveal">'
-             + '<p class="note" style="margin:0 0 6px">' + esc(x.표기 || x.날짜) + ' · ' + esc(x.필자 || '') + '</p>'
-             + '<h3>' + esc(x.제목 || '') + '</h3><div class="prose">' + 문단 + '</div></article>';
-      }).join('');
-      if(note) note.textContent = '★새 주보가 나올 때마다 그 주의 칼럼이 맨 위에 쌓입니다. 지금까지 ' + list.length + '편.';
-    })
-    .catch(function(){});
-})();
-</script>
+<!-- T1025-HOME-COLUMN-FINANCE: 늦게 끼우던 fetch 스크립트 제거 — 라이브 칼럼.html 의 #col-list 는 주보_등록.py 가 칼럼목록.json 으로 정적 렌더한다(COLUMNS:START/END) -->
 
 <!-- 근거: 홈(index.html) 푸터와 동일 컴포넌트 -->
 <footer class="footer" data-block="footer"><div class="wrap"><div class="footer__grid">
